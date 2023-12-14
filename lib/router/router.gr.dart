@@ -15,45 +15,145 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    AllergyRoute.name: (routeData) {
+    BottomNavRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const AllergyScreen(),
+        child: const BottomNavPage(),
       );
     },
-    HelloRoute.name: (routeData) {
+    FoodPreferenceRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const HelloScreen(),
+        child: const FoodPreferenceScreen(),
+      );
+    },
+    HomeRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const HomeScreen(),
+      );
+    },
+    ProfileRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ProfileScreen(),
+      );
+    },
+    ScannerRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ScannerScreen(),
+      );
+    },
+    SettingsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SettingsScreen(),
+      );
+    },
+    UserMenuRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const UserMenuScreen(),
       );
     },
   };
 }
 
 /// generated route for
-/// [AllergyScreen]
-class AllergyRoute extends PageRouteInfo<void> {
-  const AllergyRoute({List<PageRouteInfo>? children})
+/// [BottomNavPage]
+class BottomNavRoute extends PageRouteInfo<void> {
+  const BottomNavRoute({List<PageRouteInfo>? children})
       : super(
-          AllergyRoute.name,
+          BottomNavRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'AllergyRoute';
+  static const String name = 'BottomNavRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
-/// [HelloScreen]
-class HelloRoute extends PageRouteInfo<void> {
-  const HelloRoute({List<PageRouteInfo>? children})
+/// [FoodPreferenceScreen]
+class FoodPreferenceRoute extends PageRouteInfo<void> {
+  const FoodPreferenceRoute({List<PageRouteInfo>? children})
       : super(
-          HelloRoute.name,
+          FoodPreferenceRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'HelloRoute';
+  static const String name = 'FoodPreferenceRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [HomeScreen]
+class HomeRoute extends PageRouteInfo<void> {
+  const HomeRoute({List<PageRouteInfo>? children})
+      : super(
+          HomeRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'HomeRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ProfileScreen]
+class ProfileRoute extends PageRouteInfo<void> {
+  const ProfileRoute({List<PageRouteInfo>? children})
+      : super(
+          ProfileRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfileRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ScannerScreen]
+class ScannerRoute extends PageRouteInfo<void> {
+  const ScannerRoute({List<PageRouteInfo>? children})
+      : super(
+          ScannerRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ScannerRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SettingsScreen]
+class SettingsRoute extends PageRouteInfo<void> {
+  const SettingsRoute({List<PageRouteInfo>? children})
+      : super(
+          SettingsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SettingsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [UserMenuScreen]
+class UserMenuRoute extends PageRouteInfo<void> {
+  const UserMenuRoute({List<PageRouteInfo>? children})
+      : super(
+          UserMenuRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'UserMenuRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
