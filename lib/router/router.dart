@@ -1,7 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:ingredients_scanner/pages/bottom_nav_page.dart';
 import '../pages/food_preference_screen/view/food_preference_screen.dart';
-import '../pages/hello_screen/view/home_screen.dart';
+
+import '../pages/home_screen/view/home_screen.dart';
 import '../pages/profile_screen/view/profile_screen.dart';
 import '../pages/scanner_screen/view/scanner_screen.dart';
 import '../pages/settings_screen/view/settings_screen.dart';

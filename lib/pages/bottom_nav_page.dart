@@ -14,21 +14,25 @@ class BottomNavPage extends StatefulWidget {
 class _BottomNavPageState extends State<BottomNavPage> {
   final items = const [
     Icon(
-      Icons.person,
+      Icons.menu,
       size: 30,
+      color: Colors.white,
     ),
     Icon(
       Icons.home,
       size: 30,
+      color: Colors.white,
     ),
     Icon(
       Icons.qr_code_scanner,
       size: 30,
+      color: Colors.white,
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return AutoTabsRouter.pageView(
       routes: const [
         UserMenuRoute(),
@@ -38,16 +42,14 @@ class _BottomNavPageState extends State<BottomNavPage> {
       builder: (context, child, _) {
         final tabsRouter = AutoTabsRouter.of(context);
         return Scaffold(
-          appBar: AppBar(
-              title: Text(context.topRoute.name),
-              leading: const AutoLeadingButton()),
           body: child,
           bottomNavigationBar: CurvedNavigationBar(
             index: tabsRouter.activeIndex,
             onTap: tabsRouter.setActiveIndex,
             items: items,
             height: 70,
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.white,
+            color: const Color(0xFF6D8B6E),
             animationDuration: const Duration(milliseconds: 300),
           ),
         );

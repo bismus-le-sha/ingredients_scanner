@@ -69,15 +69,24 @@ class _UserMenuScreenState extends State<UserMenuScreen> {
     final theme = Theme.of(context);
     // final UserParams userParams = context.watch<UserParams>();
     return Scaffold(
-      body: Center(
+      body: SafeArea(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            Image.asset(
+              'assets/images/head_page.jpg',
+              width: double.infinity,
+              height: 350,
+              fit: BoxFit.cover,
+            ),
             TextButton(
-                onPressed: () {
-                  AutoRouter.of(context).push(const ProfileRoute());
-                },
-                child: const Text('Profil')),
+              onPressed: () {
+                AutoRouter.of(context).push(const ProfileRoute());
+              },
+              child: const Text(
+                'Profil',
+              ),
+            ),
             TextButton(
                 onPressed: () {
                   AutoRouter.of(context).push(const FoodPreferenceRoute());

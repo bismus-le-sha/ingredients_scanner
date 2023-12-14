@@ -18,7 +18,7 @@ class _IngredientsSannerAppState extends State<IngredientsSannerApp> {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Ingredients Scanner',
-      theme: darkTheme,
+      theme: mainTheme,
       routerConfig: _appRouter.config(
         navigatorObservers: () => [
           TalkerRouteObserver(GetIt.I<Talker>()),
