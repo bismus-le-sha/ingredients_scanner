@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ingredients_scanner/pages/food_preference_screen/bloc/food_preference_screen_bloc.dart';
 import 'package:ingredients_scanner/widgets/lable_switcher.dart';
+import 'package:ingredients_scanner/widgets/visible_list.dart';
 
 @RoutePage()
 class FoodPreferenceScreen extends StatefulWidget {
@@ -27,14 +28,7 @@ class _FoodPreferenceScreenState extends State<FoodPreferenceScreen> {
         title: const Text('Food Preference Screen'),
       ),
       body: ListView(
-        children: const [
-          LableSwitcher(
-            lable: 'milk',
-          ),
-          LableSwitcher(
-            lable: 'peanut',
-          ),
-        ],
+        children: const [VisibleList(lable: 'allergy')],
       ),
     );
   }

@@ -11,11 +11,10 @@ final mainTheme = ThemeData(
       fontWeight: FontWeight.w700,
     ),
   ),
-  buttonTheme: const ButtonThemeData(
-    textTheme: ButtonTextTheme.normal,
-  ),
   textButtonTheme: TextButtonThemeData(
-    style: TextButton.styleFrom(foregroundColor: Colors.black),
+    style: TextButton.styleFrom(
+        foregroundColor: Colors.black,
+        textStyle: const TextStyle(fontSize: 20)),
   ),
   listTileTheme: const ListTileThemeData(iconColor: Colors.white),
   textTheme: const TextTheme(

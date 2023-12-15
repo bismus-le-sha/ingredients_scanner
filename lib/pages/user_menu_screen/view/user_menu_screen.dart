@@ -66,7 +66,6 @@ class UserMenuScreen extends StatefulWidget {
 class _UserMenuScreenState extends State<UserMenuScreen> {
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     // final UserParams userParams = context.watch<UserParams>();
     return Scaffold(
       body: SafeArea(
