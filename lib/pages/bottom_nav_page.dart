@@ -49,7 +49,7 @@ class _BottomNavPageState extends State<BottomNavPage> {
             items: items,
             height: 70,
             backgroundColor: Colors.white,
-            color: const Color(0xFF6D8B6E),
+            color: theme.primaryColor,
             animationDuration: const Duration(milliseconds: 300),
           ),
         );

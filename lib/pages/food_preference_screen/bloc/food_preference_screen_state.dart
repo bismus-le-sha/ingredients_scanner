@@ -4,12 +4,20 @@ sealed class FoodPreferenceScreenState extends Equatable {}
 
 final class FoodPreferenceScreenInitial extends FoodPreferenceScreenState {
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
+}
+
+class FoodPreferenceScreenLoading extends FoodPreferenceScreenState {
+  @override
+  List<Object?> get props => [];
 }
 
 final class FoodPreferenceScreenLoaded extends FoodPreferenceScreenState {
+  FoodPreferenceScreenLoaded({required this.productPreferences});
+  final ProductPreferences productPreferences;
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [productPreferences];
 }
 
 final class FoodPreferenceScreenLoadingFailure

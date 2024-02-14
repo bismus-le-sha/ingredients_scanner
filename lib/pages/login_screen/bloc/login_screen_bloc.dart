@@ -6,27 +6,26 @@ import 'package:get_it/get_it.dart';
 import 'package:ingredients_scanner/models/settings/user_pereference.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
-part 'settings_screen_event.dart';
-part 'settings_screen_state.dart';
+part 'login_screen_event.dart';
+part 'login_screen_state.dart';
 
-class SettingsScreenBloc
-    extends Bloc<SettingsScreenEvent, SettingsScreenState> {
-  SettingsScreenBloc() : super(SettingsScreenInitial()) {
-    on<LoadSettingScreen>(_load);
+class LoginScreenBloc extends Bloc<LoginScreenEvent, LoginScreenState> {
+  LoginScreenBloc() : super(LoginScreenInitial()) {
+    on<LoadUserData>(_load);
   }
 
   Future<void> _load(
-    LoadSettingScreen event,
-    Emitter<SettingsScreenState> emit,
+    LoadUserData event,
+    Emitter<LoginScreenState> emit,
   ) async {
     try {
-      if (state is! SettingsScreenLoaded) {
-        emit(SettingsScreenLoading());
+      if (state is! UserDataLoaded) {
+        emit(UserDataLoading());
       }
       final preferences = await UserPreferences.getUserPreferences();
-      emit(SettingsScreenLoaded(userPreferences: preferences));
+      emit(UserDataLoaded(preferences: preferences));
     } catch (e, st) {
-      emit(SettingsScreenLoadingFailure(exception: e));
+      emit(UserDataLoadingFailure(exception: e));
       GetIt.I<Talker>().handle(e, st);
     } finally {
       event.completer?.complete();
