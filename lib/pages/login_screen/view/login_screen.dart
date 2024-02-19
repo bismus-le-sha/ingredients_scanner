@@ -1,11 +1,9 @@
-// ignore_for_file: prefer_const_constructors
-
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:ingredients_scanner/models/auth_data/user_auth_storage.dart';
+import 'package:ingredients_scanner/router/router.dart';
 import 'package:local_auth/local_auth.dart';
 import '../bloc/login_screen_bloc.dart';
 import '../widgets/enable_local_auth_modal_bottom_sheet.dart';
@@ -66,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: size.height * .052,
                         ),
                         SizedBox(
-                            height: size.height * .5,
+                            height: size.height * .48,
                             child: Image.asset('assets/images/3.jpg')),
                         SizedBox(
                           height: size.height * .04,
@@ -89,14 +87,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                   decoration: InputDecoration(
                                     labelText: 'Email',
                                     hintText: 'Email',
-                                    prefixIcon: Icon(
+                                    prefixIcon: const Icon(
                                       Iconsax.user,
                                       color: Colors.black,
                                       size: 18,
                                     ),
                                     suffixIcon: IconButton(
                                       onPressed: _emailController.clear,
-                                      icon: Icon(Icons.clear),
+                                      icon: const Icon(Icons.clear),
                                     ),
                                   ),
                                 ),
@@ -121,8 +119,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     suffixIcon: IconButton(
                                       icon: Icon(
                                         _obscureText
-                                            ? Icons.visibility_off
-                                            : Icons.visibility,
+                                            ? Iconsax.eye4
+                                            : Iconsax.eye_slash4,
                                       ),
                                       onPressed: () {
                                         setState(() {
@@ -132,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                     labelText: 'Password',
                                     hintText: 'Password',
-                                    prefixIcon: Icon(
+                                    prefixIcon: const Icon(
                                       Iconsax.key,
                                       color: Colors.black,
                                       size: 18,
@@ -173,7 +171,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: size.height * .03,
                         ),
                         MaterialButton(
-                          onPressed: () => _onFormSubmit(state),
+                          onPressed: () {
+                            _onFormSubmit(state);
+                            _routOnSubmit();
+                            },
                           height: size.height * .045,
                           color: Colors.black,
                           padding: const EdgeInsets.symmetric(
@@ -201,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fontWeight: FontWeight.w400),
                             ),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () => AutoRouter.of(context).push(const SignRoute()),
                               child: const Text(
                                 'Register',
                                 style: TextStyle(
@@ -250,20 +251,21 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _readFromStorage() async {
-    _emailController.text = await authStorage.getEmail() as String;
-    _passwordController.text = await authStorage.getPassword() as String;
+    var enableLocalAuth = await authStorage.getEnableLocalAuth();
+  _emailController.text = await authStorage.getEmail() ?? '';
+  _passwordController.text = await authStorage.getPassword() ?? '';
 
-    if ("true" == await authStorage.getEnableLocalAuth() as String) {
-      if (await authenticateIsAvailable()) {
-        bool didAuthenticate = await localAuth.authenticate(
-            localizedReason: 'Please authenticate to sign in');
-        if (!didAuthenticate) {
-          _emailController.text = '';
-          _passwordController.text = '';
-        }
+  if (enableLocalAuth != null && "true" == enableLocalAuth) {
+    if (await authenticateIsAvailable()) {
+      bool didAuthenticate = await localAuth.authenticate(
+          localizedReason: 'Please authenticate to sign in');
+      if (!didAuthenticate) {
+        _emailController.text = '';
+        _passwordController.text = '';
       }
     }
   }
+}
 
   _onFormSubmit(UserDataLoaded state) async {
     if (_formKey.currentState?.validate() ?? false) {
@@ -297,5 +299,9 @@ class _LoginScreenState extends State<LoginScreen> {
       content: Text(
           "Fingerprint authentication enabled.\nClose the app and restart it again"),
     ));
+  }
+
+  _routOnSubmit(){
+    AutoRouter.of(context).push(const BottomNavRoute());
   }
 }

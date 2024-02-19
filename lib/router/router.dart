@@ -7,6 +7,7 @@ import '../pages/home_screen/view/home_screen.dart';
 import '../pages/profile_screen/view/profile_screen.dart';
 import '../pages/scanner_screen/view/scanner_screen.dart';
 import '../pages/settings_screen/view/settings_screen.dart';
+import '../pages/sign_screen/view/sign_screen.dart';
 import '../pages/user_menu_screen/view/user_menu_screen.dart';
 
 part 'router.gr.dart';
@@ -25,6 +26,7 @@ class AppRouter extends _$AppRouter {
           ],
         ),
         AutoRoute(path: '/', page: LoginRoute.page),
+        AutoRoute(page: SignRoute.page),
         AutoRoute(page: FoodPreferenceRoute.page),
         AutoRoute(page: SettingsRoute.page),
         AutoRoute(page: ProfileRoute.page),

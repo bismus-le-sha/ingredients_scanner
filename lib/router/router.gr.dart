@@ -57,6 +57,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const SettingsScreen(),
       );
     },
+    SignRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SignScreen(),
+      );
+    },
     UserMenuRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -160,6 +166,20 @@ class SettingsRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SettingsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SignScreen]
+class SignRoute extends PageRouteInfo<void> {
+  const SignRoute({List<PageRouteInfo>? children})
+      : super(
+          SignRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SignRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
