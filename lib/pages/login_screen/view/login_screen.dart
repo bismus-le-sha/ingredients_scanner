@@ -1,10 +1,14 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:ingredients_scanner/models/auth_data/user_auth_storage.dart';
 import 'package:ingredients_scanner/router/router.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:talker_flutter/talker_flutter.dart';
+import '../../../user_auth/firebase_auth/firebase_auth_service.dart';
 import '../bloc/login_screen_bloc.dart';
 import '../widgets/enable_local_auth_modal_bottom_sheet.dart';
 
@@ -17,6 +21,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _loginScreenBloc = LoginScreenBloc();
+  final FirebaseAuthService _authService = FirebaseAuthService();
 
   @override
   void initState() {
@@ -173,8 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         MaterialButton(
                           onPressed: () {
                             _onFormSubmit(state);
-                            _routOnSubmit();
-                            },
+                          },
                           height: size.height * .045,
                           color: Colors.black,
                           padding: const EdgeInsets.symmetric(
@@ -202,7 +206,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fontWeight: FontWeight.w400),
                             ),
                             TextButton(
-                              onPressed: () => AutoRouter.of(context).push(const SignRoute()),
+                              onPressed: () => AutoRouter.of(context)
+                                  .push(const SignRoute()),
                               child: const Text(
                                 'Register',
                                 style: TextStyle(
@@ -252,35 +257,27 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _readFromStorage() async {
     var enableLocalAuth = await authStorage.getEnableLocalAuth();
-  _emailController.text = await authStorage.getEmail() ?? '';
-  _passwordController.text = await authStorage.getPassword() ?? '';
+    _emailController.text = await authStorage.getEmail() ?? '';
+    _passwordController.text = await authStorage.getPassword() ?? '';
 
-  if (enableLocalAuth != null && "true" == enableLocalAuth) {
-    if (await authenticateIsAvailable()) {
-      bool didAuthenticate = await localAuth.authenticate(
-          localizedReason: 'Please authenticate to sign in');
-      if (!didAuthenticate) {
-        _emailController.text = '';
-        _passwordController.text = '';
+    if (enableLocalAuth != null && "true" == enableLocalAuth) {
+      if (await authenticateIsAvailable()) {
+        bool didAuthenticate = await localAuth.authenticate(
+            localizedReason: 'Please authenticate to sign in');
+        if (!didAuthenticate) {
+          _emailController.text = '';
+          _passwordController.text = '';
+        }
       }
     }
   }
-}
 
   _onFormSubmit(UserDataLoaded state) async {
     if (_formKey.currentState?.validate() ?? false) {
       if (state.preferences.getRememberMe() ?? false) {
         authStorage.setEmail(_emailController.text);
         authStorage.setPassword(_passwordController.text);
-        if (await localAuth.canCheckBiometrics) {
-          showModalBottomSheet<void>(
-            context: _scaffoldKey.currentContext!,
-            builder: (BuildContext context) {
-              return EnableLocalAuthModalBottomSheet(
-                  action: _onEnableLocalAuth);
-            },
-          );
-        }
+        _signIn();
       }
     }
   }
@@ -301,7 +298,33 @@ class _LoginScreenState extends State<LoginScreen> {
     ));
   }
 
-  _routOnSubmit(){
-    AutoRouter.of(context).push(const BottomNavRoute());
+  Future<void> _signIn() async {
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    try {
+      User? user =
+          await _authService.signInWithEmailAndPassword(email, password);
+
+      if (user != null) {
+        GetIt.I<Talker>().debug('successful user login');
+        if (await localAuth.canCheckBiometrics) {
+          showModalBottomSheet<void>(
+            context: _scaffoldKey.currentContext!,
+            builder: (BuildContext context) {
+              return EnableLocalAuthModalBottomSheet(
+                  action: _onEnableLocalAuth);
+            },
+          ).then(
+              (value) => AutoRouter.of(context).push(const BottomNavRoute()));
+        } else {
+          AutoRouter.of(context).push(const BottomNavRoute());
+        }
+      } else {
+        GetIt.I<Talker>().debug('user null');
+      }
+    } catch (e, st) {
+      GetIt.I<Talker>().handle(e, st);
+    }
   }
 }
