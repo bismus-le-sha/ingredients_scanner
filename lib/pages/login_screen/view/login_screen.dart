@@ -111,9 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   validator: (String? value) {
                                     return value == null || value.isEmpty
                                         ? 'Please enter your password'
-                                        : value.length < 8
-                                            ? 'Password must be at least 8 characters'
-                                            : null;
+                                        : null;
                                   },
                                   obscureText: _obscureText,
                                   textInputAction: TextInputAction.next,
@@ -277,8 +275,8 @@ class _LoginScreenState extends State<LoginScreen> {
       if (state.preferences.getRememberMe() ?? false) {
         authStorage.setEmail(_emailController.text);
         authStorage.setPassword(_passwordController.text);
-        _signIn();
       }
+      _signIn();
     }
   }
 
