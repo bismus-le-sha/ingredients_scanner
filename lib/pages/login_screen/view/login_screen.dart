@@ -301,8 +301,8 @@ class _LoginScreenState extends State<LoginScreen> {
     String password = _passwordController.text;
 
     try {
-      User? user =
-          await _authService.signInWithEmailAndPassword(email, password);
+      User? user = await _authService.signInWithEmailAndPassword(
+          email, password, _scaffoldKey);
 
       if (user != null) {
         GetIt.I<Talker>().debug('successful user login');

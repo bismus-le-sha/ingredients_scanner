@@ -19,6 +19,7 @@ class SignScreen extends StatefulWidget {
 class _SignScreenState extends State<SignScreen> {
   final FirebaseAuthService _authService = FirebaseAuthService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final TextEditingController _usernameController =
       TextEditingController(text: "");
@@ -40,6 +41,7 @@ class _SignScreenState extends State<SignScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      key: _scaffoldKey,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -202,7 +204,8 @@ class _SignScreenState extends State<SignScreen> {
     String email = _emailController.text;
     String password = _passwordController.text;
 
-    User? user = await _authService.signUpWithEmailAndPassword(email, password);
+    User? user = await _authService.signUpWithEmailAndPassword(
+        email, password, _scaffoldKey);
 
     if (user != null) {
       GetIt.I<Talker>().debug('successful user registration');
