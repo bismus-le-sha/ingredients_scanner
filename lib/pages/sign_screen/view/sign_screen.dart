@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 import 'package:get_it/get_it.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:ingredients_scanner/user_auth/firebase_auth/firebase_auth_service.dart';
@@ -48,13 +49,10 @@ class _SignScreenState extends State<SignScreen> {
           child: Column(
             children: [
               SizedBox(
-                height: size.height * .052,
-              ),
-              SizedBox(
                   height: size.height * .45,
                   child: Image.asset('assets/images/2.jpg')),
               SizedBox(
-                height: size.height * .04,
+                height: size.height * .02,
               ),
               Form(
                   key: _formKey,
@@ -150,7 +148,7 @@ class _SignScreenState extends State<SignScreen> {
                     ],
                   )),
               SizedBox(
-                height: size.height * .03,
+                height: size.height * .12,
               ),
               MaterialButton(
                 onPressed: _signUp,

@@ -63,6 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '134996633346',
     projectId: 'ingredientsscan',
     storageBucket: 'ingredientsscan.appspot.com',
+    androidClientId: '134996633346-lm4cd3t4ccsvke8qnfup1sbjb60lhkj9.apps.googleusercontent.com',
+    iosClientId: '134996633346-0nlfkjf0faqgmmcseri3u8n9nfagm514.apps.googleusercontent.com',
     iosBundleId: 'com.example.ingredientsScanner',
   );
 }

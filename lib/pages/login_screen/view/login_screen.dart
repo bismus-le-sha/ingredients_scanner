@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:ingredients_scanner/models/auth_data/user_auth_storage.dart';
 import 'package:ingredients_scanner/router/router.dart';
@@ -11,6 +12,7 @@ import 'package:talker_flutter/talker_flutter.dart';
 import '../../../user_auth/firebase_auth/firebase_auth_service.dart';
 import '../bloc/login_screen_bloc.dart';
 import '../widgets/enable_local_auth_modal_bottom_sheet.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 @RoutePage()
 class LoginScreen extends StatefulWidget {
@@ -69,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: size.height * .052,
                         ),
                         SizedBox(
-                            height: size.height * .48,
+                            height: size.height * .4,
                             child: Image.asset('assets/images/3.jpg')),
                         SizedBox(
                           height: size.height * .04,
@@ -171,23 +173,44 @@ class _LoginScreenState extends State<LoginScreen> {
                           ],
                         ),
                         SizedBox(
-                          height: size.height * .03,
+                          height: size.height * .05,
                         ),
-                        MaterialButton(
-                          onPressed: () {
-                            _onFormSubmit(state);
-                          },
-                          height: size.height * .045,
-                          color: Colors.black,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 50),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                        SizedBox(
+                          width: size.width * 0.36,
+                          child: MaterialButton(
+                            onPressed: () {
+                              _onFormSubmit(state);
+                            },
+                            height: size.height * .045,
+                            color: Colors.black,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: const Text(
+                              "Login",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16.0),
+                            ),
                           ),
-                          child: const Text(
-                            "Login",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 16.0),
+                        ),
+                        SizedBox(
+                          height: size.height * .01,
+                        ),
+                        SizedBox(
+                          width: size.width * 0.36,
+                          child: MaterialButton(
+                            onPressed: _signInWithGoogle,
+                            height: size.height * .045,
+                            color: Colors.black,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 10),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: SvgPicture.asset(
+                                'assets/svg/Google__G__logo.svg'),
                           ),
                         ),
                         SizedBox(
@@ -306,23 +329,44 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (user != null) {
         GetIt.I<Talker>().debug('successful user login');
-        if (await localAuth.canCheckBiometrics) {
-          showModalBottomSheet<void>(
-            context: _scaffoldKey.currentContext!,
-            builder: (BuildContext context) {
-              return EnableLocalAuthModalBottomSheet(
-                  action: _onEnableLocalAuth);
-            },
-          ).then(
-              (value) => AutoRouter.of(context).push(const BottomNavRoute()));
-        } else {
-          AutoRouter.of(context).push(const BottomNavRoute());
-        }
+        _checkForEnableLocalAuth();
       } else {
         GetIt.I<Talker>().debug('user null');
       }
     } catch (e, st) {
       GetIt.I<Talker>().handle(e, st);
+    }
+  }
+
+  _signInWithGoogle() async {
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    try {
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignIn.signIn();
+      if (googleSignInAccount != null) {
+        final GoogleSignInAuthentication googleSignInAuthentication =
+            await googleSignInAccount.authentication;
+        final AuthCredential credential = GoogleAuthProvider.credential(
+            idToken: googleSignInAuthentication.idToken,
+            accessToken: googleSignInAuthentication.accessToken);
+        await _authService.signInWithCredential(credential, _scaffoldKey);
+        _checkForEnableLocalAuth();
+      }
+    } catch (e, st) {
+      GetIt.I<Talker>().handle(e, st);
+    }
+  }
+
+  _checkForEnableLocalAuth() async {
+    if (await localAuth.canCheckBiometrics) {
+      showModalBottomSheet<void>(
+        context: _scaffoldKey.currentContext!,
+        builder: (BuildContext context) {
+          return EnableLocalAuthModalBottomSheet(action: _onEnableLocalAuth);
+        },
+      ).then((value) => AutoRouter.of(context).push(const BottomNavRoute()));
+    } else {
+      AutoRouter.of(context).push(const BottomNavRoute());
     }
   }
 }
