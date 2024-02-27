@@ -1,17 +1,12 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:ingredients_scanner/models/auth_data/user_auth_storage.dart';
 import 'package:ingredients_scanner/router/router.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:talker_flutter/talker_flutter.dart';
-import '../../../user_auth/firebase_auth/firebase_auth_service.dart';
+import '../../../user_auth/auth_service/firebase_auth_service.dart';
 import '../bloc/login_screen_bloc.dart';
-import '../widgets/enable_local_auth_modal_bottom_sheet.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 @RoutePage()
@@ -201,7 +196,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(
                           width: size.width * 0.36,
                           child: MaterialButton(
-                            onPressed: _signInWithGoogle,
+                            onPressed: () =>
+                                _authService.signInWithGoogle(_scaffoldKey),
                             height: size.height * .045,
                             color: Colors.black,
                             padding: const EdgeInsets.symmetric(
@@ -299,7 +295,8 @@ class _LoginScreenState extends State<LoginScreen> {
         authStorage.setEmail(_emailController.text);
         authStorage.setPassword(_passwordController.text);
       }
-      _signIn();
+      _authService.signIn(
+          _emailController.text, _passwordController.text, _scaffoldKey);
     }
   }
 
@@ -307,66 +304,5 @@ class _LoginScreenState extends State<LoginScreen> {
     final isAvailable = await localAuth.canCheckBiometrics;
     final isDeviceSupported = await localAuth.isDeviceSupported();
     return isAvailable && isDeviceSupported;
-  }
-
-  _onEnableLocalAuth() async {
-    authStorage.setEnableLocalAuth('true');
-
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text(
-          "Fingerprint authentication enabled.\nClose the app and restart it again"),
-    ));
-  }
-
-  Future<void> _signIn() async {
-    String email = _emailController.text;
-    String password = _passwordController.text;
-
-    try {
-      User? user = await _authService.signInWithEmailAndPassword(
-          email, password, _scaffoldKey);
-
-      if (user != null) {
-        GetIt.I<Talker>().debug('successful user login');
-        _checkForEnableLocalAuth();
-      } else {
-        GetIt.I<Talker>().debug('user null');
-      }
-    } catch (e, st) {
-      GetIt.I<Talker>().handle(e, st);
-    }
-  }
-
-  _signInWithGoogle() async {
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-    try {
-      final GoogleSignInAccount? googleSignInAccount =
-          await googleSignIn.signIn();
-      if (googleSignInAccount != null) {
-        final GoogleSignInAuthentication googleSignInAuthentication =
-            await googleSignInAccount.authentication;
-        final AuthCredential credential = GoogleAuthProvider.credential(
-            idToken: googleSignInAuthentication.idToken,
-            accessToken: googleSignInAuthentication.accessToken);
-        await _authService.signInWithCredential(credential, _scaffoldKey);
-        _checkForEnableLocalAuth();
-      }
-    } catch (e, st) {
-      GetIt.I<Talker>().handle(e, st);
-    }
-  }
-
-  _checkForEnableLocalAuth() async {
-    if (await localAuth.canCheckBiometrics) {
-      showModalBottomSheet<void>(
-        context: _scaffoldKey.currentContext!,
-        builder: (BuildContext context) {
-          return EnableLocalAuthModalBottomSheet(action: _onEnableLocalAuth);
-        },
-      ).then((value) => AutoRouter.of(context).push(const BottomNavRoute()));
-    } else {
-      AutoRouter.of(context).push(const BottomNavRoute());
-    }
   }
 }

@@ -1,12 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'package:get_it/get_it.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:ingredients_scanner/user_auth/firebase_auth/firebase_auth_service.dart';
-import 'package:talker_flutter/talker_flutter.dart';
-
+import 'package:ingredients_scanner/user_auth/auth_service/firebase_auth_service.dart';
 import '../../../router/router.dart';
 
 @RoutePage()
@@ -151,7 +146,8 @@ class _SignScreenState extends State<SignScreen> {
                 height: size.height * .12,
               ),
               MaterialButton(
-                onPressed: _signUp,
+                onPressed: _authService.signUp(_emailController.text,
+                    _passwordController.text, _scaffoldKey),
                 height: size.height * .045,
                 color: Colors.black,
                 padding:
@@ -195,21 +191,5 @@ class _SignScreenState extends State<SignScreen> {
         ),
       ),
     );
-  }
-
-  _signUp() async {
-    String username = _usernameController.text;
-    String email = _emailController.text;
-    String password = _passwordController.text;
-
-    User? user = await _authService.signUpWithEmailAndPassword(
-        email, password, _scaffoldKey);
-
-    if (user != null) {
-      GetIt.I<Talker>().debug('successful user registration');
-      AutoRouter.of(context).push(const BottomNavRoute());
-    } else {
-      GetIt.I<Talker>().debug('user null');
-    }
   }
 }

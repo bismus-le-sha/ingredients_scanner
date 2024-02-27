@@ -1,11 +1,6 @@
-import 'dart:async';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:ingredients_scanner/router/router.dart';
-import 'package:ingredients_scanner/user_auth/firebase_auth/firebase_auth_service.dart';
-import 'package:talker_flutter/talker_flutter.dart';
+import 'package:ingredients_scanner/user_auth/auth_service/firebase_auth_service.dart';
 
 @RoutePage()
 class ProfileScreen extends StatefulWidget {
@@ -17,16 +12,18 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final FirebaseAuthService _authService = FirebaseAuthService();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: const Text('Profile Screen'),
       ),
       body: MaterialButton(
-        onPressed: _signOut,
+        onPressed: () => _authService.signOut(_scaffoldKey),
         height: size.height * .045,
         color: Colors.black,
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
@@ -39,15 +36,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> _signOut() async {
-    try {
-      await _authService.signOut();
-      AutoRouter.of(context).push(const LoginRoute());
-      GetIt.I<Talker>().debug('successful user logout');
-    } catch (e, st) {
-      GetIt.I<Talker>().handle(e, st);
-    }
   }
 }
