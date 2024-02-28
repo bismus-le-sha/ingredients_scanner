@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:ingredients_scanner/user_auth/auth_service/firebase_auth_service.dart';
-import '../../../router/router.dart';
+import '../../../../router/router.dart';
 
 @RoutePage()
 class SignScreen extends StatefulWidget {
@@ -146,7 +146,7 @@ class _SignScreenState extends State<SignScreen> {
                 height: size.height * .12,
               ),
               MaterialButton(
-                onPressed: _authService.signUp(_emailController.text,
+                onPressed: () => _authService.signUp(_emailController.text,
                     _passwordController.text, _scaffoldKey),
                 height: size.height * .045,
                 color: Colors.black,

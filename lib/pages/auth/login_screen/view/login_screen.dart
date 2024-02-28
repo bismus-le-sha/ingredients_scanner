@@ -5,7 +5,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:ingredients_scanner/models/auth_data/user_auth_storage.dart';
 import 'package:ingredients_scanner/router/router.dart';
 import 'package:local_auth/local_auth.dart';
-import '../../../user_auth/auth_service/firebase_auth_service.dart';
+import '../../../../user_auth/auth_service/firebase_auth_service.dart';
 import '../bloc/login_screen_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -159,7 +159,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               ],
                             ),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () => AutoRouter.of(context)
+                                  .push(const ForgotPwRoute()),
                               child: Text(
                                 'Forgot Password?',
                                 style: theme.inputDecorationTheme.labelStyle,
@@ -278,7 +279,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController.text = await authStorage.getPassword() ?? '';
 
     if (enableLocalAuth != null && "true" == enableLocalAuth) {
-      if (await authenticateIsAvailable()) {
+      if (await _authenticateIsAvailable()) {
         bool didAuthenticate = await localAuth.authenticate(
             localizedReason: 'Please authenticate to sign in');
         if (!didAuthenticate) {
@@ -300,7 +301,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Future<bool> authenticateIsAvailable() async {
+  Future<bool> _authenticateIsAvailable() async {
     final isAvailable = await localAuth.canCheckBiometrics;
     final isDeviceSupported = await localAuth.isDeviceSupported();
     return isAvailable && isDeviceSupported;

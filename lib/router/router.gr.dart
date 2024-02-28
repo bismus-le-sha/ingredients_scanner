@@ -27,6 +27,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const FoodPreferenceScreen(),
       );
     },
+    ForgotPwRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ForgotPwScreen(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -96,6 +102,20 @@ class FoodPreferenceRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'FoodPreferenceRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ForgotPwScreen]
+class ForgotPwRoute extends PageRouteInfo<void> {
+  const ForgotPwRoute({List<PageRouteInfo>? children})
+      : super(
+          ForgotPwRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ForgotPwRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

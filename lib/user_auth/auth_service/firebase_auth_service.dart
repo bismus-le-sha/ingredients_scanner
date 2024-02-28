@@ -5,11 +5,12 @@ import 'package:flutter/scheduler.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ingredients_scanner/global/widgets/message_snack_bar.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import '../../models/auth_data/user_auth_storage.dart';
-import '../../pages/login_screen/widgets/enable_local_auth_modal_bottom_sheet.dart';
+import '../../pages/auth/login_screen/widgets/enable_local_auth_modal_bottom_sheet.dart';
 import '../../router/router.dart';
 
 class FirebaseAuthService {
@@ -171,6 +172,27 @@ class FirebaseAuthService {
       AutoRouter.of(scaffoldKey.currentContext!).push(const BottomNavRoute());
     } else {
       GetIt.I<Talker>().debug('user null');
+    }
+  }
+
+  Future resetPassword(email, scaffoldKey) async {
+    showDialog(
+        context: scaffoldKey.currentContext!,
+        barrierDismissible: false,
+        builder: (context) => Center(
+            child: LoadingAnimationWidget.threeRotatingDots(
+                color: Colors.black, size: 100)));
+    final scaffoldMessenger = ScaffoldMessenger.of(scaffoldKey.currentContext!);
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      GetIt.I<Talker>().debug('successful send reset password email');
+      scaffoldMessenger
+          .showSnackBar(_snackBar.popUpSnackBar('Password reset email sent'));
+      AutoRouter.of(scaffoldKey.currentContext!).push(const LoginRoute());
+    } on FirebaseAuthException catch (e, st) {
+      scaffoldMessenger.showSnackBar(
+          _snackBar.popUpSnackBar('An error occurred: ${e.code}'));
+      GetIt.I<Talker>().handle(e, st);
     }
   }
 }

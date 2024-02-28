@@ -30,6 +30,7 @@ dependencies:
   hive_flutter: ^1.1.0
   hive_generator: ^2.0.1
   iconsax: ^0.0.8
+  loading_animation_widget: ^1.2.0+4
   local_auth: ^2.1.8
   settings_ui: ^2.0.2
   shared_preferences: ^2.2.2
