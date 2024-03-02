@@ -3,17 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:ingredients_scanner/models/auth_data/user_auth_storage.dart';
-import 'package:ingredients_scanner/router/router.dart';
 import 'package:local_auth/local_auth.dart';
+import '../../../../router/router.gr.dart';
 import '../../../../user_auth/auth_service/firebase_auth_service.dart';
 import '../bloc/login_screen_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 @RoutePage()
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({super.key, required this.onResult});
   @override
   State<LoginScreen> createState() => _LoginScreenState();
+
+  final Function(bool?) onResult;
 }
 
 class _LoginScreenState extends State<LoginScreen> {

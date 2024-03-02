@@ -1,17 +1,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:ingredients_scanner/router/router.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
+import '../router/router.gr.dart';
+
 @RoutePage()
-class BottomNavPage extends StatefulWidget {
-  const BottomNavPage({super.key});
+class HomeNavigationPage extends StatefulWidget {
+  const HomeNavigationPage({super.key});
 
   @override
-  State<BottomNavPage> createState() => _BottomNavPageState();
+  State<HomeNavigationPage> createState() => _HomeNavigationPageState();
 }
 
-class _BottomNavPageState extends State<BottomNavPage> {
+class _HomeNavigationPageState extends State<HomeNavigationPage> {
   final items = const [
     Icon(
       Icons.menu,

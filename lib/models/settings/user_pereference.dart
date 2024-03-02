@@ -16,17 +16,10 @@ class UserPreferences {
     return _instance!;
   }
 
-  // static const String _TAG_INIT = 'init';
   static const _cameraFlash = 'camera_flash';
   static const _rememberMe = 'remember_me';
-
-  // Future<void> init(final ProductPreferences productPreferences) async {
-  //   if (_sharedPreferences.getBool(_TAG_INIT) != null) {
-  //     return;
-  //   }
-  //   await productPreferences.resetImportances();
-  //   await _sharedPreferences.setBool(_TAG_INIT, true);
-  // }
+  static const _authenticated = 'authenticated';
+  // static const _rememberMe = 'remember_me';
 
   Future<void> setCameraFlash(bool cameraFlash) async {
     await _sharedPreferences.setBool(_cameraFlash, cameraFlash);
@@ -39,4 +32,11 @@ class UserPreferences {
   }
 
   bool? getRememberMe() => _sharedPreferences.getBool(_rememberMe) ?? false;
+
+  Future<void> setAuthenticated(bool authenticated) async {
+    await _sharedPreferences.setBool(_authenticated, authenticated);
+  }
+
+  bool? getAuthenticated() =>
+      _sharedPreferences.getBool(_authenticated) ?? false;
 }

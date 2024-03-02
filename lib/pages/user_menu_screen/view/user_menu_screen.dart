@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../router/router.dart';
+import '../../../router/router.gr.dart';
 
 // enum MenuScreenItems {
 //   ACCOUNT('account'),
@@ -79,16 +79,19 @@ class _UserMenuScreenState extends State<UserMenuScreen> {
               fit: BoxFit.cover,
             ),
             TextButton(
-              onPressed: () => AutoRouter.of(context).push(const ProfileRoute()),
+              onPressed: () =>
+                  AutoRouter.of(context).push(const ProfileRoute()),
               child: const Text(
                 'Profil',
               ),
             ),
             TextButton(
-                onPressed: () => AutoRouter.of(context).push(const FoodPreferenceRoute()),
+                onPressed: () =>
+                    AutoRouter.of(context).push(const FoodPreferenceRoute()),
                 child: const Text('Food Preference')),
             TextButton(
-                onPressed: () => AutoRouter.of(context).push(const SettingsRoute()),
+                onPressed: () =>
+                    AutoRouter.of(context).push(const SettingsRoute()),
                 child: const Text('Settings'))
           ],
         ),

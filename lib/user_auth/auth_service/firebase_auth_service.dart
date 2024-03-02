@@ -5,13 +5,14 @@ import 'package:flutter/scheduler.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ingredients_scanner/global/widgets/message_snack_bar.dart';
+import 'package:ingredients_scanner/models/settings/user_pereference.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import '../../models/auth_data/user_auth_storage.dart';
 import '../../pages/auth/login_screen/widgets/enable_local_auth_modal_bottom_sheet.dart';
-import '../../router/router.dart';
+import '../../router/router.gr.dart';
 
 class FirebaseAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -20,10 +21,10 @@ class FirebaseAuthService {
 
   User? _user;
 
-  final UserAuthStorage authStorage = UserAuthStorage();
+  final UserAuthStorage _authStorage = UserAuthStorage();
   var localAuth = LocalAuthentication();
 
-  Future<User?> signUpWithEmailAndPassword(
+  Future<User?> _signUpWithEmailAndPassword(
       String email, String password, GlobalKey scaffoldKey) async {
     final scaffoldMessenger = ScaffoldMessenger.of(scaffoldKey.currentContext!);
     try {
@@ -50,7 +51,7 @@ class FirebaseAuthService {
     return null;
   }
 
-  Future<User?> signInWithEmailAndPassword(
+  Future<User?> _signInWithEmailAndPassword(
       String email, String password, GlobalKey scaffoldKey) async {
     final scaffoldMessenger = ScaffoldMessenger.of(scaffoldKey.currentContext!);
     try {
@@ -112,23 +113,25 @@ class FirebaseAuthService {
     }
   }
 
+  //TODO: redesign the logic to go to another page
   _checkForEnableLocalAuth(scaffoldKey) async {
     if (await localAuth.canCheckBiometrics) {
       showModalBottomSheet<void>(
-        context: scaffoldKey.currentContext!,
+        context: scaffoldKey.currentContext,
         builder: (BuildContext context) {
           return EnableLocalAuthModalBottomSheet(
               action: () => _onEnableLocalAuth(scaffoldKey));
         },
       ).then((value) => AutoRouter.of(scaffoldKey.currentContext!)
-          .push(const BottomNavRoute()));
+          .push(const HomeNavigationRoute()));
     } else {
-      AutoRouter.of(scaffoldKey.currentContext!).push(const BottomNavRoute());
+      AutoRouter.of(scaffoldKey.currentContext!)
+          .push(const HomeNavigationRoute());
     }
   }
 
   _onEnableLocalAuth(scaffoldKey) async {
-    authStorage.setEnableLocalAuth('true');
+    _authStorage.setEnableLocalAuth('true');
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
       ScaffoldMessenger.of(scaffoldKey.currentContext!)
@@ -141,11 +144,12 @@ class FirebaseAuthService {
 
   Future<void> signIn(email, password, scaffoldKey) async {
     try {
-      _user = await signInWithEmailAndPassword(email, password, scaffoldKey);
+      _user = await _signInWithEmailAndPassword(email, password, scaffoldKey);
 
       if (_user != null) {
         GetIt.I<Talker>().debug('successful user login');
         _checkForEnableLocalAuth(scaffoldKey);
+        _loggedIn();
       } else {
         GetIt.I<Talker>().debug('user null');
       }
@@ -157,7 +161,9 @@ class FirebaseAuthService {
   Future<void> signOut(scaffoldKey) async {
     try {
       await _signOutHandler();
-      AutoRouter.of(scaffoldKey.currentContext!).push(const LoginRoute());
+      _loggedOut();
+      AutoRouter.of(scaffoldKey.currentContext!)
+          .push(LoginRoute(onResult: (bool) {}));
       GetIt.I<Talker>().debug('successful user logout');
     } catch (e, st) {
       GetIt.I<Talker>().handle(e, st);
@@ -165,11 +171,12 @@ class FirebaseAuthService {
   }
 
   signUp(email, password, scaffoldKey) async {
-    _user = await signUpWithEmailAndPassword(email, password, scaffoldKey);
+    _user = await _signUpWithEmailAndPassword(email, password, scaffoldKey);
 
     if (_user != null) {
       GetIt.I<Talker>().debug('successful user registration');
-      AutoRouter.of(scaffoldKey.currentContext!).push(const BottomNavRoute());
+      AutoRouter.of(scaffoldKey.currentContext!)
+          .push(const HomeNavigationRoute());
     } else {
       GetIt.I<Talker>().debug('user null');
     }
@@ -188,11 +195,27 @@ class FirebaseAuthService {
       GetIt.I<Talker>().debug('successful send reset password email');
       scaffoldMessenger
           .showSnackBar(_snackBar.popUpSnackBar('Password reset email sent'));
-      AutoRouter.of(scaffoldKey.currentContext!).push(const LoginRoute());
+      AutoRouter.of(scaffoldKey.currentContext!)
+          .push(LoginRoute(onResult: (bool) {}));
     } on FirebaseAuthException catch (e, st) {
       scaffoldMessenger.showSnackBar(
           _snackBar.popUpSnackBar('An error occurred: ${e.code}'));
       GetIt.I<Talker>().handle(e, st);
     }
+  }
+
+  _loggedIn() async {
+    final preferences = await UserPreferences.getUserPreferences();
+    preferences.setAuthenticated(true);
+  }
+
+  _loggedOut() async {
+    final preferences = await UserPreferences.getUserPreferences();
+    preferences.setAuthenticated(false);
+  }
+
+  Future<bool> isAuthenticate() async {
+    final preferences = await UserPreferences.getUserPreferences();
+    return preferences.getAuthenticated() ?? false;
   }
 }
