@@ -39,11 +39,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       onPressed: (context) {},
                     ),
                     SettingsTile.switchTile(
-                      title: const Text('Camera Flash'),
+                      title: const Text('Camera flash'),
                       initialValue: state.userPreferences.getCameraFlash(),
                       onToggle: (value) {
                         setState(() {
                           state.userPreferences.setCameraFlash(value);
+                        });
+                      },
+                    ),
+                    SettingsTile.switchTile(
+                      title: const Text('Biometric authentication'),
+                      initialValue: state.userPreferences.getUseBiometrics(),
+                      onToggle: (value) {
+                        setState(() {
+                          state.userPreferences.setUseBiometrics(value);
                         });
                       },
                     ),

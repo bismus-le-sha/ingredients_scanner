@@ -19,7 +19,8 @@ class UserPreferences {
   static const _cameraFlash = 'camera_flash';
   static const _rememberMe = 'remember_me';
   static const _authenticated = 'authenticated';
-  // static const _rememberMe = 'remember_me';
+  static const _useBiometrics = 'use_biometrics';
+  static const _showAskBiometrics = 'show_ask_biometrics';
 
   Future<void> setCameraFlash(bool cameraFlash) async {
     await _sharedPreferences.setBool(_cameraFlash, cameraFlash);
@@ -39,4 +40,18 @@ class UserPreferences {
 
   bool? getAuthenticated() =>
       _sharedPreferences.getBool(_authenticated) ?? false;
+
+  Future<void> setUseBiometrics(bool useBiometrics) async {
+    await _sharedPreferences.setBool(_useBiometrics, useBiometrics);
+  }
+
+  bool? getUseBiometrics() =>
+      _sharedPreferences.getBool(_useBiometrics) ?? false;
+
+  Future<void> setShowAskBiometrics(bool showAskBiometrics) async {
+    await _sharedPreferences.setBool(_showAskBiometrics, showAskBiometrics);
+  }
+
+  bool? getShowAskBiometrics() =>
+      _sharedPreferences.getBool(_showAskBiometrics) ?? true;
 }

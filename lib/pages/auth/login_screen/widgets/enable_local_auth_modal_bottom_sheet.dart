@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class EnableLocalAuthModalBottomSheet extends StatelessWidget {
-  final void Function() action;
+  final void Function() actionOnYes;
+  final void Function() actionOnNo;
 
-  const EnableLocalAuthModalBottomSheet({super.key, required this.action});
+  const EnableLocalAuthModalBottomSheet(
+      {super.key, required this.actionOnYes, required this.actionOnNo});
 
   static const Color primaryColor = Color(0xFF13B5A2);
 
@@ -40,7 +42,7 @@ class EnableLocalAuthModalBottomSheet extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              action();
+              actionOnYes();
               Navigator.pop(context);
             },
             style: ElevatedButton.styleFrom(
@@ -50,7 +52,10 @@ class EnableLocalAuthModalBottomSheet extends StatelessWidget {
             child: const Text("Yes, cool!"),
           ),
           ElevatedButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                actionOnNo();
+                Navigator.pop(context);
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.grey[200],
                 textStyle: const TextStyle(fontSize: 18),

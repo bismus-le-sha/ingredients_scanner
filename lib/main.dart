@@ -9,9 +9,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 import 'ingredients_scanner_app.dart';
+import 'models/settings/user_pereference.dart';
 
 void main() async {
   final talker = TalkerFlutter.init();
+
   GetIt.I.registerSingleton(talker);
 
   Bloc.observer = TalkerBlocObserver(
@@ -30,6 +32,8 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+    final preferences = await UserPreferences.getUserPreferences();
+    GetIt.I.registerSingleton(preferences);
     runApp(const IngredientsSannerApp());
   }, (e, st) {
     GetIt.I<Talker>().handle(e, st);
