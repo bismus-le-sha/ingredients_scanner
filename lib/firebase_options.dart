@@ -54,6 +54,7 @@ class DefaultFirebaseOptions {
     appId: '1:134996633346:android:fb10a97e6951c81850c41b',
     messagingSenderId: '134996633346',
     projectId: 'ingredientsscan',
+    databaseURL: 'https://ingredientsscan-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'ingredientsscan.appspot.com',
   );
 
@@ -62,6 +63,7 @@ class DefaultFirebaseOptions {
     appId: '1:134996633346:ios:62e5d161eaa9ef0850c41b',
     messagingSenderId: '134996633346',
     projectId: 'ingredientsscan',
+    databaseURL: 'https://ingredientsscan-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'ingredientsscan.appspot.com',
     androidClientId: '134996633346-lm4cd3t4ccsvke8qnfup1sbjb60lhkj9.apps.googleusercontent.com',
     iosClientId: '134996633346-0nlfkjf0faqgmmcseri3u8n9nfagm514.apps.googleusercontent.com',

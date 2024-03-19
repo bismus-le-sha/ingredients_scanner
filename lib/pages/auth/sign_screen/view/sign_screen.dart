@@ -1,9 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:ingredients_scanner/user_auth/auth_service/firebase_auth_service.dart';
 
-import '../../../../router/router.gr.dart';
+import '../../../../user_auth/auth_service/firebase_auth_service.dart';
 
 @RoutePage()
 class SignScreen extends StatefulWidget {
@@ -176,8 +175,8 @@ class _SignScreenState extends State<SignScreen> {
                   ),
                   TextButton(
                     onPressed: () {
-                      AutoRouter.of(context)
-                          .push(LoginRoute(onResult: (bool) {}));
+                      // AutoRouter.of(context)
+                      //     .push(LoginRoute(onResult: (bool) {}));
                     },
                     child: const Text(
                       'Login',

@@ -1,15 +1,16 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger.dart';
 import 'package:talker_flutter/talker_flutter.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 
+import 'features/other/domain/models/settings/user_pereference.dart';
+import 'firebase_options.dart';
 import 'ingredients_scanner_app.dart';
-import 'models/settings/user_pereference.dart';
+import 'injection_container.dart' as di;
 
 void main() async {
   final talker = TalkerFlutter.init();
@@ -29,6 +30,7 @@ void main() async {
 
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
+    await di.init();
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );

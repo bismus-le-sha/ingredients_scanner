@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:ingredients_scanner/global/widgets/message_snack_bar.dart';
-import 'package:ingredients_scanner/models/settings/user_pereference.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
-import '../../pages/auth/login_screen/widgets/enable_local_auth_modal_bottom_sheet.dart';
-import '../../router/router.gr.dart';
+import '../../config/router/router.dart';
+import '../../core/util/enable_local_auth_modal_bottom_sheet.dart';
+import '../../features/other/domain/models/settings/user_pereference.dart';
+import '../../global/widgets/message_snack_bar.dart';
 
 class FirebaseAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -182,8 +182,8 @@ class FirebaseAuthService {
     try {
       await _signOutHandler();
       _loggedOut();
-      AutoRouter.of(scaffoldKey.currentContext!)
-          .push(LoginRoute(onResult: (bool) {}));
+      // AutoRouter.of(scaffoldKey.currentContext!)
+      //     .push(LoginRoute(onResult: (bool) {}));
       _talker.debug('successful user logout');
     } catch (e, st) {
       _talker.handle(e, st);
@@ -215,8 +215,8 @@ class FirebaseAuthService {
       _talker.debug('successful send reset password email');
       scaffoldMessenger
           .showSnackBar(_snackBar.popUpSnackBar('Password reset email sent'));
-      AutoRouter.of(scaffoldKey.currentContext!)
-          .push(LoginRoute(onResult: (bool) {}));
+      // AutoRouter.of(scaffoldKey.currentContext!)
+      //     .push(LoginRoute(onResult: (bool) {}));
     } on FirebaseAuthException catch (e, st) {
       scaffoldMessenger.showSnackBar(
           _snackBar.popUpSnackBar('An error occurred: ${e.code}'));

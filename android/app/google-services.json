@@ -1,10 +1,47 @@
 {
   "project_info": {
     "project_number": "134996633346",
+    "firebase_url": "https://ingredientsscan-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "ingredientsscan",
     "storage_bucket": "ingredientsscan.appspot.com"
   },
   "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134996633346:android:54d82317dc83019e50c41b",
+        "android_client_info": {
+          "package_name": "com.example.authentication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "134996633346-apnmuar1hlh6kt5egnmom47pcr2f1dh7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxfbetLHT3qRJ9-ZpHgMKGJS_S3E81Wh8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "134996633346-apnmuar1hlh6kt5egnmom47pcr2f1dh7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "134996633346-0nlfkjf0faqgmmcseri3u8n9nfagm514.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ingredientsScanner"
+              }
+            }
+          ]
+        }
+      }
+    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:134996633346:android:fb10a97e6951c81850c41b",
