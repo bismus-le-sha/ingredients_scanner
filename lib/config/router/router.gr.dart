@@ -27,12 +27,6 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const FoodPreferencePage(),
       );
     },
-    ForgotPwRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const ForgotPwScreen(),
-      );
-    },
     HomeNavigationRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -67,12 +61,6 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const SignInPage(),
-      );
-    },
-    SignRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const SignScreen(),
       );
     },
     SignUpRoute.name: (routeData) {
@@ -120,20 +108,6 @@ class FoodPreferenceRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'FoodPreferenceRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [ForgotPwScreen]
-class ForgotPwRoute extends PageRouteInfo<void> {
-  const ForgotPwRoute({List<PageRouteInfo>? children})
-      : super(
-          ForgotPwRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'ForgotPwRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -218,20 +192,6 @@ class SignInRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SignInRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [SignScreen]
-class SignRoute extends PageRouteInfo<void> {
-  const SignRoute({List<PageRouteInfo>? children})
-      : super(
-          SignRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'SignRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

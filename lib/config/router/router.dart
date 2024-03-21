@@ -4,8 +4,6 @@ import '../../features/authentication/presentation/pages/auth/sign_in_page.dart'
 import '../../features/authentication/presentation/pages/auth/sign_up_page.dart';
 import '../../features/authentication/presentation/pages/auth/verify_email.dart';
 import '../../features/authentication/presentation/pages/auth/auth_navigation_screen.dart';
-import '../../pages/auth/forgot_pw_screen/forgot_pw_screen.dart';
-import '../../pages/auth/sign_screen/view/sign_screen.dart';
 import '../../features/other/presentation/page/food_preference_page.dart';
 import '../../features/other/presentation/page/start_floor/home_navigation_page.dart';
 import '../../features/other/presentation/page/start_floor/home_screen.dart';
@@ -38,7 +36,6 @@ class AppRouter extends _$AppRouter {
             AutoRoute(page: SignUpRoute.page),
           ],
         ),
-        // AutoRoute(page: ForgotPwRoute.page),
         AutoRoute(page: VerifyEmailRoute.page),
         AutoRoute(page: SignInRoute.page),
         AutoRoute(page: SignUpRoute.page),
