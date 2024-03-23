@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../../config/router/router.dart';
@@ -196,27 +197,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   ],
                 );
               }
-              return ElevatedButton(
-                onPressed: () {
-                  BlocProvider.of<AuthBloc>(context).add(SignUpEvent(
-                      signUpEntity: SignUpEntity(
-                    email: _emailController.text,
-                    password: _passwordController.text,
-                    repeatedPassword: _confirmPasswordController.text,
-                    name: _usernameController.text,
-                  )));
-                },
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  )),
-                  minimumSize: MaterialStateProperty.all(const Size(500, 50)),
-                  textStyle:
-                      MaterialStateProperty.all(const TextStyle(fontSize: 18)),
-                ),
-                child: const Text('Signup'),
-              );
+              return _loginButton(context, const Text('Signup'), _onFormSubmit);
             }),
             Container(
                 margin: const EdgeInsets.all(20),
@@ -245,25 +226,11 @@ class _SignUpFormState extends State<SignUpForm> {
                     )
                   ],
                 )),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                optionsBox(
-                    color: Colors.blue,
-                    imagePath: "assets/icons/facebook_icon.png",
-                    onPressed: () {}),
-                optionsBox(
-                    color: Colors.red,
-                    imagePath: "assets/icons/google_icon.png",
-                    onPressed: () {
-                      BlocProvider.of<AuthBloc>(context)
-                          .add(SignInWithGoogleEvent());
-                    }),
-                optionsBox(
-                    color: Colors.blue,
-                    imagePath: "assets/icons/twitter_icon.png",
-                    onPressed: () {}),
-              ],
+            SizedBox(
+              child: _loginButton(
+                  context,
+                  SvgPicture.asset('assets/svg/Google__G__logo.svg'),
+                  _onGoogleAuth),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -281,29 +248,32 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
-  Widget optionsBox(
-      {Color? color,
-      required String? imagePath,
-      required Function? onPressed}) {
-    return InkWell(
-      onTap: () {
-        onPressed!();
-      },
-      child: Container(
-          height: 50,
-          margin:
-              const EdgeInsets.only(top: 0, bottom: 20, left: 10, right: 10),
-          width: 50,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.blue),
-            borderRadius: BorderRadius.circular(50),
-          ),
-          child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Image.asset(
-                imagePath!,
-                color: color,
-              ))),
-    );
+  Widget _loginButton(
+      BuildContext context, Widget child, VoidCallback onPress) {
+    return ElevatedButton(
+        onPressed: onPress,
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          )),
+          minimumSize: MaterialStateProperty.all(const Size(500, 50)),
+          textStyle: MaterialStateProperty.all(const TextStyle(fontSize: 18)),
+        ),
+        child: child);
+  }
+
+  _onFormSubmit() {
+    BlocProvider.of<AuthBloc>(context).add(SignUpEvent(
+        signUpEntity: SignUpEntity(
+      email: _emailController.text,
+      password: _passwordController.text,
+      repeatedPassword: _confirmPasswordController.text,
+      name: _usernameController.text,
+    )));
+  }
+
+  _onGoogleAuth() {
+    BlocProvider.of<AuthBloc>(context).add(SignInWithGoogleEvent());
   }
 }

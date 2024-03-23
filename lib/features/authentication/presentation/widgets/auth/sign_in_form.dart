@@ -124,17 +124,11 @@ class _LoginFormState extends State<LoginForm> {
                     Center(
                       child: Text(state.message),
                     ),
-                    _loginButton(
-                      context,
-                      const Text('Login'),
-                    ),
+                    _loginButton(context, const Text('Login'), _onFormSubmit),
                   ],
                 );
               }
-              return _loginButton(
-                context,
-                const Text('Login'),
-              );
+              return _loginButton(context, const Text('Login'), _onFormSubmit);
             }),
             Container(
                 margin: const EdgeInsets.all(20),
@@ -165,7 +159,9 @@ class _LoginFormState extends State<LoginForm> {
                 )),
             SizedBox(
               child: _loginButton(
-                  context, SvgPicture.asset('assets/svg/Google__G__logo.svg')),
+                  context,
+                  SvgPicture.asset('assets/svg/Google__G__logo.svg'),
+                  _onGoogleAuth),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -183,9 +179,10 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  Widget _loginButton(BuildContext context, Widget child) {
+  Widget _loginButton(
+      BuildContext context, Widget child, VoidCallback onPress) {
     return ElevatedButton(
-        onPressed: _onFormSubmit,
+        onPressed: onPress,
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
@@ -201,5 +198,9 @@ class _LoginFormState extends State<LoginForm> {
     BlocProvider.of<AuthBloc>(context).add(SignInEvent(
         signInEntity: SignInEntity(
             password: _passwordController.text, email: _emailController.text)));
+  }
+
+  _onGoogleAuth() {
+    BlocProvider.of<AuthBloc>(context).add(SignInWithGoogleEvent());
   }
 }

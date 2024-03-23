@@ -23,7 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
         child: BlocListener<AuthBloc, AuthState>(
             listener: (context, state) {
               if (state is LoggedOutState) {
-                AutoRouter.of(context).replace(const AuthNavigationRoute());
+                context.replaceRoute(const AuthNavigationRoute());
               }
             },
             child: Scaffold(

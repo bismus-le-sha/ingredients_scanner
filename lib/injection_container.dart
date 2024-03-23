@@ -14,6 +14,9 @@ import 'features/authentication/domain/usecases/sign_in_usecase.dart';
 import 'features/authentication/domain/usecases/sign_up_usecase.dart';
 import 'features/authentication/domain/usecases/verifiy_email_usecase.dart';
 import 'features/authentication/presentation/bloc/authentication/auth_bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'features/other/domain/models/settings/user_pereference.dart';
 
 final sl = GetIt.instance;
 
@@ -63,4 +66,10 @@ Future<void> init() async {
   //! Config
 
   sl.registerSingleton<AppRouter>(AppRouter());
+
+  //FirebaseAuth
+  sl.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);
+
+  //UserPreferences
+  sl.registerSingleton(UserPreferences.getUserPreferences());
 }
