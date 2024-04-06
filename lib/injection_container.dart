@@ -1,5 +1,13 @@
 import 'package:get_it/get_it.dart';
+import 'package:ingredients_scanner/features/user_preferences/data/data_sources/user_preferences_data_source.dart';
+import 'package:ingredients_scanner/features/user_preferences/data/repositories/user_preferences_repository_imp.dart';
+import 'package:ingredients_scanner/features/user_preferences/domain/repositories/user_preferences_repositiory.dart';
+import 'package:ingredients_scanner/features/user_preferences/domain/usecases/get_user_preference.dart';
+import 'package:ingredients_scanner/features/user_preferences/domain/usecases/update_use_biometrics.dart';
+import 'package:ingredients_scanner/features/user_preferences/presentation/bloc/user_preferences_bloc.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 import 'config/router/router.dart';
 import 'core/network/network_info.dart';
@@ -16,14 +24,14 @@ import 'features/authentication/domain/usecases/verifiy_email_usecase.dart';
 import 'features/authentication/presentation/bloc/authentication/auth_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'features/other/domain/models/settings/user_pereference.dart';
+import 'features/user_preferences/domain/usecases/update_camera_flash.dart';
 
 final sl = GetIt.instance;
 
 Future<void> init() async {
-//! Features - posts
+//! Features - Auth
 
-// Bloc
+  // Bloc
 
   sl.registerFactory(() => AuthBloc(
       signInUseCase: sl(),
@@ -34,7 +42,7 @@ Future<void> init() async {
       logOutUseCase: sl(),
       googleAuthUseCase: sl()));
 
-// Usecases
+  // Usecases
 
   sl.registerLazySingleton(() => SignInUseCase(sl()));
   sl.registerLazySingleton(() => SignUpUseCase(sl()));
@@ -44,32 +52,57 @@ Future<void> init() async {
   sl.registerLazySingleton(() => LogOutUseCase(sl()));
   sl.registerLazySingleton(() => GoogleAuthUseCase(sl()));
 
-// Repository
+  // Repository
 
   sl.registerLazySingleton<AuthenticationRepository>(() =>
       AuthenticationRepositoryImp(
           networkInfo: sl(), authRemoteDataSource: sl()));
 
-// Datasources
+  // Datasources
 
   sl.registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl());
+
+  //FirebaseAuth
+  sl.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);
+
+//! Features - UserPreferences
+
+  // Bloc
+
+  sl.registerFactory(() => UserPreferencesBloc(
+      getUserPreferences: sl(),
+      updateUseBiometrics: sl(),
+      updateCameraFlash: sl()));
+
+  // Usecases
+  sl.registerLazySingleton(() => GetUserPreferences(sl()));
+  sl.registerLazySingleton(() => UpdateCameraFlash(sl()));
+  sl.registerLazySingleton(() => UpdateUseBiometrics(sl()));
+
+  // Repository
+
+  sl.registerLazySingleton<UserPreferencesRepository>(
+      () => UserPreferencesRepositoryImpl(dataSource: sl()));
+
+  // Datasources
+  sl.registerLazySingleton<UserPreferencesDataSource>(
+      () => UserPreferencesDataSourceImpl(sharedPreferences: sl()));
 
 //! Core
 
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
 
 //! External
+  final sharedPreferences = await SharedPreferences.getInstance();
 
-  sl.registerLazySingleton(() => InternetConnection());
+  sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
+  sl.registerLazySingleton<InternetConnection>(() => InternetConnection());
 
-  //! Config
+//! Config
 
   sl.registerSingleton<AppRouter>(AppRouter());
 
-  //FirebaseAuth
-  sl.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);
-
-  //UserPreferences
-  sl.registerSingleton(UserPreferences.getUserPreferences());
+  //Debug Talker
+  sl.registerSingleton<Talker>(TalkerFlutter.init());
 }

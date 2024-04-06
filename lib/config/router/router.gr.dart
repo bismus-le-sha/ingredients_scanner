@@ -57,12 +57,6 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ScannerScreen(),
       );
     },
-    SettingsRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const SettingsPage(),
-      );
-    },
     SignInRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -79,6 +73,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const UserMenuPage(),
+      );
+    },
+    UserPreferencesRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const UserPreferencesPage(),
       );
     },
     VerifyEmailRoute.name: (routeData) {
@@ -189,20 +189,6 @@ class ScannerRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [SettingsPage]
-class SettingsRoute extends PageRouteInfo<void> {
-  const SettingsRoute({List<PageRouteInfo>? children})
-      : super(
-          SettingsRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'SettingsRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
 /// [SignInPage]
 class SignInRoute extends PageRouteInfo<void> {
   const SignInRoute({List<PageRouteInfo>? children})
@@ -240,6 +226,20 @@ class UserMenuRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'UserMenuRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [UserPreferencesPage]
+class UserPreferencesRoute extends PageRouteInfo<void> {
+  const UserPreferencesRoute({List<PageRouteInfo>? children})
+      : super(
+          UserPreferencesRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'UserPreferencesRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

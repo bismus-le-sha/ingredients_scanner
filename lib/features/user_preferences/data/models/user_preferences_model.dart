@@ -1,4 +1,9 @@
-import '../../domain/entities/user_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../domain/entities/user_preferences_entity.dart';
+
+const CAMERA_FLASH = 'cameraFlash';
+const USE_BIOMETRICS = 'useBiometrics';
 
 class UserPreferencesModel extends UserPreferencesEntity {
   const UserPreferencesModel({
@@ -6,12 +11,15 @@ class UserPreferencesModel extends UserPreferencesEntity {
     required super.useBiometrics,
   });
 
-  factory UserPreferencesModel.fromJson(Map<String, dynamic> json) {
+  factory UserPreferencesModel.fromSharedPreferences(
+      SharedPreferences preferences) {
     return UserPreferencesModel(
-        cameraFlash: json['cameraFlash'], useBiometrics: json['useBiometrics']);
+        cameraFlash: preferences.getBool(CAMERA_FLASH) ?? false,
+        useBiometrics: preferences.getBool(USE_BIOMETRICS) ?? false);
   }
 
-  Map<String, dynamic> toJson() {
-    return {"cameraFlash": cameraFlash, "useBiometrics": useBiometrics};
+  void toSharedPreferences(SharedPreferences preferences) {
+    preferences.setBool(CAMERA_FLASH, cameraFlash);
+    preferences.setBool(USE_BIOMETRICS, useBiometrics);
   }
 }

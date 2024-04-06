@@ -1,36 +1,45 @@
-import 'dart:convert';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ingredients_scanner/features/user_preferences/data/models/user_preferences_model.dart';
-import 'package:ingredients_scanner/features/user_preferences/domain/entities/user_preferences.dart';
+import 'package:ingredients_scanner/features/user_preferences/domain/entities/user_preferences_entity.dart';
+import 'package:mockito/mockito.dart';
 
-import '../../../../fixtures/fixture_reader.dart';
+import '../../../../helper/test_helper.mocks.dart';
 
 void main() {
+  late MockSharedPreferences preferences;
   const testUserPreferencesModel =
       UserPreferencesModel(cameraFlash: true, useBiometrics: false);
 
-  test('should be a subclass of weather entity', () async {
+  setUp(() {
+    preferences = MockSharedPreferences();
+  });
+
+  test('should be a subclass of user preference entity', () async {
     expect(testUserPreferencesModel, isA<UserPreferencesEntity>());
   });
 
   group('from/toJson', () {
-    test('should return a valid modele from JSON', () async {
+    test('should return a valid model from SharedPreferences', () async {
       //arrange
-      final Map<String, dynamic> jsonMap =
-          json.decode(fixture('user_preferences.json'));
+      when(preferences.getBool(CAMERA_FLASH)).thenReturn(true);
+      when(preferences.getBool(USE_BIOMETRICS)).thenReturn(false);
       //act
-      final result = UserPreferencesModel.fromJson(jsonMap);
+      final result = UserPreferencesModel.fromSharedPreferences(preferences);
       //assert
       expect(result, testUserPreferencesModel);
     });
 
-    test('should return JSON map containing the proper data', () async {
+    test('should set SharedPreferences correctly', () async {
+      //arrange
+      when(preferences.setBool(CAMERA_FLASH, true))
+          .thenAnswer(((_) => Future.value(true)));
+      when(preferences.setBool(USE_BIOMETRICS, false))
+          .thenAnswer(((_) => Future.value(false)));
       //act
-      final result = testUserPreferencesModel.toJson();
+      testUserPreferencesModel.toSharedPreferences(preferences);
       //assert
-      final expectedMap = {"cameraFlash": true, "useBiometrics": false};
-      expect(result, expectedMap);
+      verify(preferences.setBool(CAMERA_FLASH, true));
+      verify(preferences.setBool(USE_BIOMETRICS, false));
     });
   });
 }

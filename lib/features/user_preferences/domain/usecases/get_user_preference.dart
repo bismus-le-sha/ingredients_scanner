@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:ingredients_scanner/core/usecase/usecase.dart';
 
 import '../../../../core/error/failures.dart';
-import '../entities/user_preferences.dart';
+import '../entities/user_preferences_entity.dart';
 import '../repositories/user_preferences_repositiory.dart';
 
 class GetUserPreferences implements UseCase<UserPreferencesEntity, NoParams> {

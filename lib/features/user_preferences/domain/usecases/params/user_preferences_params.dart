@@ -1,12 +1,10 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../data/models/user_preferences_model.dart';
-
 class UserPreferencesParams extends Equatable {
-  final UserPreferencesModel userPreferencesEntity;
+  final bool value;
 
-  const UserPreferencesParams({required this.userPreferencesEntity});
+  const UserPreferencesParams({required this.value});
 
   @override
-  List<Object?> get props => [userPreferencesEntity];
+  List<Object?> get props => [value];
 }

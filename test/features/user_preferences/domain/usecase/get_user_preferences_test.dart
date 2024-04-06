@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:ingredients_scanner/core/usecase/usecase.dart';
-import 'package:ingredients_scanner/features/user_preferences/domain/entities/user_preferences.dart';
+import 'package:ingredients_scanner/features/user_preferences/domain/entities/user_preferences_entity.dart';
 import 'package:ingredients_scanner/features/user_preferences/domain/usecases/get_user_preference.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';

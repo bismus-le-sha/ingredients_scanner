@@ -4,226 +4,97 @@ import 'package:ingredients_scanner/core/error/failures.dart';
 import 'package:ingredients_scanner/features/user_preferences/data/models/user_preferences_model.dart';
 import 'package:ingredients_scanner/features/user_preferences/data/repositories/user_preferences_repository_imp.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ingredients_scanner/features/user_preferences/domain/entities/user_preferences.dart';
+import 'package:ingredients_scanner/features/user_preferences/domain/entities/user_preferences_entity.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../../helper/test_helper.mocks.dart';
 
 void main() {
   late UserPreferencesRepositoryImpl repositoryImpl;
-  late MockUserPreferencesLocalDataSource localDataSource;
-  late MockUserPreferencesRemoteDataSource remoteDataSource;
-  late MockNetworkInfo networkInfo;
+  late MockUserPreferencesDataSource dataSource;
 
   setUp(() {
-    localDataSource = MockUserPreferencesLocalDataSource();
-    remoteDataSource = MockUserPreferencesRemoteDataSource();
-    networkInfo = MockNetworkInfo();
+    dataSource = MockUserPreferencesDataSource();
     repositoryImpl = UserPreferencesRepositoryImpl(
-        localDataSource: localDataSource,
-        remoteDataSource: remoteDataSource,
-        networkInfo: networkInfo);
+      dataSource: dataSource,
+    );
   });
 
-  void runTestOnline(Function body) {
-    group('device is online', () {
-      setUp(() => when(networkInfo.isConnected).thenAnswer((_) async => true));
-      body();
-    });
-  }
-
-  void runTestOffline(Function body) {
-    group('device is offline', () {
-      setUp(() => when(networkInfo.isConnected).thenAnswer((_) async => false));
-      body();
-    });
-  }
-
-  group('getUserPreferences', () {
+  group('get userPreferences', () {
     const testUserPreferencesModel =
         UserPreferencesModel(cameraFlash: true, useBiometrics: false);
     const UserPreferencesEntity testUserPreferences = testUserPreferencesModel;
 
-    test('should check if the device online', () async {
+    test('should return data from data source', () async {
       //arrange
-      when(networkInfo.isConnected).thenAnswer((_) async => true);
-      when(remoteDataSource.getUserPreferences())
+      when(dataSource.getUserPreferences())
           .thenAnswer((_) async => testUserPreferencesModel);
-      when(localDataSource.setUserPreferences(testUserPreferencesModel))
-          .thenAnswer((_) async => unit);
       //act
       final result = await repositoryImpl.getUserPreferences();
       //assert
-      verify(networkInfo.isConnected);
-      verify(remoteDataSource.getUserPreferences());
+      verify(dataSource.getUserPreferences());
       expect(result, equals(const Right(testUserPreferences)));
     });
 
-    runTestOnline(() {
-      setUp(() {
-        when(remoteDataSource.getUserPreferences())
-            .thenAnswer((_) async => testUserPreferencesModel);
-        when(localDataSource.setUserPreferences(testUserPreferencesModel))
-            .thenAnswer((_) async => unit);
-      });
-
-      test(
-          'should return remote data when the call to remote data source is successful',
-          () async {
-        //arrange
-        when(remoteDataSource.getUserPreferences())
-            .thenAnswer((_) async => testUserPreferencesModel);
-        //act
-        final result = await repositoryImpl.getUserPreferences();
-        //assert
-        verify(remoteDataSource.getUserPreferences());
-        expect(result, equals(const Right(testUserPreferences)));
-      });
-
-      test(
-          'should cache the data locally when the call to remote data source is successful',
-          () async {
-        //act
-        await repositoryImpl.getUserPreferences();
-        //assert
-        verify(remoteDataSource.getUserPreferences());
-        verify(localDataSource.setUserPreferences(testUserPreferencesModel));
-      });
-
-      test(
-          'should return server failure when the call to remote data source is unsuccessful',
-          () async {
-        //arrange
-        when(remoteDataSource.getUserPreferences())
-            .thenThrow(ServerException());
-        //act
-        final result = await repositoryImpl.getUserPreferences();
-        //assert
-        verify(remoteDataSource.getUserPreferences());
-        verifyZeroInteractions(localDataSource);
-        expect(result, equals(Left(ServerFailure())));
-      });
-    });
-
-    runTestOffline(() {
-      test(
-          'should return last locally cached data when the cached data is present',
-          () async {
-        //arrange
-        when(localDataSource.getUserPreferences())
-            .thenAnswer((_) async => testUserPreferencesModel);
-        //act
-        final result = await repositoryImpl.getUserPreferences();
-        //assert
-        verifyZeroInteractions(remoteDataSource);
-        verify(localDataSource.getUserPreferences());
-        expect(result, equals(const Right(testUserPreferences)));
-      });
-
-      test('should return CacheFailure when there is no cached data present',
-          () async {
-        //arrange
-        when(localDataSource.getUserPreferences()).thenThrow(CacheException());
-        //act
-        final result = await repositoryImpl.getUserPreferences();
-        //assert
-        verifyZeroInteractions(remoteDataSource);
-        verify(localDataSource.getUserPreferences());
-        expect(result, equals(Left(CacheFailure())));
-      });
+    test('should return DatabaseFailure if cath DatabaseException', () async {
+      //arrange
+      when(dataSource.getUserPreferences()).thenThrow(DatabaseException());
+      //act
+      final result = await repositoryImpl.getUserPreferences();
+      //assert
+      verify(dataSource.getUserPreferences());
+      expect(result, Left(DatabaseFailure()));
     });
   });
 
-//SetUserPreferences
+  group('update userPreferences', () {
+    const bool cameraFlash = true;
+    const bool useBiometrics = false;
 
-  group('setUserPreference', () {
-    const testUserPreferencesModel =
-        UserPreferencesModel(cameraFlash: true, useBiometrics: false);
-
-    test('should check if the device online', () async {
+    test('should update cameraFlash value in data source', () async {
       //arrange
-      when(networkInfo.isConnected).thenAnswer((_) async => true);
-      when(remoteDataSource.setUserPreferences(testUserPreferencesModel))
-          .thenAnswer((_) async => unit);
-      when(localDataSource.setUserPreferences(testUserPreferencesModel))
+      when(dataSource.updateCameraFlash(cameraFlash))
           .thenAnswer((_) async => unit);
       //act
-      final result =
-          await repositoryImpl.setUserPreferences(testUserPreferencesModel);
+      final result = await repositoryImpl.updateCameraFlash(cameraFlash);
       //assert
-      verify(networkInfo.isConnected);
-      verify(remoteDataSource.setUserPreferences(testUserPreferencesModel));
+      verify(dataSource.updateCameraFlash(cameraFlash));
       expect(result, equals(const Right(unit)));
     });
 
-    runTestOnline(() {
-      setUp(() {
-        when(remoteDataSource.setUserPreferences(testUserPreferencesModel))
-            .thenAnswer((_) async => unit);
-        when(localDataSource.setUserPreferences(testUserPreferencesModel))
-            .thenAnswer((_) async => unit);
-      });
-
-      test(
-          'should set data to remote when the call to remote data source is successful',
-          () async {
-        //arrange
-        when(remoteDataSource.setUserPreferences(testUserPreferencesModel))
-            .thenAnswer((_) async => unit);
-        //act
-        final result =
-            await repositoryImpl.setUserPreferences(testUserPreferencesModel);
-        //assert
-        verify(remoteDataSource.setUserPreferences(testUserPreferencesModel));
-        verify(localDataSource.setUserPreferences(testUserPreferencesModel));
-        expect(result, equals(const Right(unit)));
-      });
-
-      test(
-          'should return server failure when the call to remote data source is unsuccessful',
-          () async {
-        //arrange
-        when(remoteDataSource.setUserPreferences(testUserPreferencesModel))
-            .thenThrow(ServerException());
-        //act
-        final result =
-            await repositoryImpl.setUserPreferences(testUserPreferencesModel);
-        //assert
-        verify(remoteDataSource.setUserPreferences(testUserPreferencesModel));
-        verifyZeroInteractions(localDataSource);
-        expect(result, equals(Left(ServerFailure())));
-      });
+    test('should update useBiometrics value in data source', () async {
+      //arrange
+      when(dataSource.updateUseBiometrics(useBiometrics))
+          .thenAnswer((_) async => unit);
+      //act
+      final result = await repositoryImpl.updateUseBiometrics(useBiometrics);
+      //assert
+      verify(dataSource.updateUseBiometrics(useBiometrics));
+      expect(result, equals(const Right(unit)));
     });
 
-    runTestOffline(() {
-      test(
-          'should get locally data when the call to remote data source is unsuccessful',
-          () async {
-        //arrange
-        when(localDataSource.setUserPreferences(testUserPreferencesModel))
-            .thenAnswer((_) async => unit);
-        //act
-        final result =
-            await repositoryImpl.setUserPreferences(testUserPreferencesModel);
-        //assert
-        verifyZeroInteractions(remoteDataSource);
-        verify(localDataSource.setUserPreferences(testUserPreferencesModel));
-        expect(result, equals(const Right(unit)));
-      });
+    test(
+        'should return DatabaseFailure if update cameraFlash cath DatabaseException',
+        () async {
+      //arrange
+      when(dataSource.updateCameraFlash(any)).thenThrow(DatabaseException());
+      //act
+      final result = await repositoryImpl.updateCameraFlash(cameraFlash);
+      //assert
+      verify(dataSource.updateCameraFlash(any));
+      expect(result, Left(DatabaseFailure()));
+    });
 
-      test('should return CacheFailure when there is no cached data present',
-          () async {
-        //arrange
-        when(localDataSource.setUserPreferences(testUserPreferencesModel))
-            .thenThrow(CacheException());
-        //act
-        final result =
-            await repositoryImpl.setUserPreferences(testUserPreferencesModel);
-        //assert
-        verifyZeroInteractions(remoteDataSource);
-        verify(localDataSource.setUserPreferences(testUserPreferencesModel));
-        expect(result, equals(Left(CacheFailure())));
-      });
+    test(
+        'should return DatabaseFailure if update useBiometrics cath DatabaseException',
+        () async {
+      //arrange
+      when(dataSource.updateUseBiometrics(any)).thenThrow(DatabaseException());
+      //act
+      final result = await repositoryImpl.updateUseBiometrics(cameraFlash);
+      //assert
+      verify(dataSource.updateUseBiometrics(any));
+      expect(result, Left(DatabaseFailure()));
     });
   });
 }

@@ -4,9 +4,11 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:ingredients_scanner/core/usecase/usecase.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 import '../../../../../core/error/failures.dart';
 import '../../../../../core/strings/failures.dart';
+import '../../../../../injection_container.dart';
 import '../../../domain/entities/sign_in_entity.dart';
 import '../../../domain/entities/sign_up_entity.dart';
 import '../../../domain/usecases/check_verification_usecase.dart';
@@ -40,45 +42,47 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       required this.logOutUseCase,
       required this.googleAuthUseCase})
       : super(AuthInitial()) {
-    on<AuthEvent>((event, emit) async {
-      if (event is CheckLoggingInEvent) {
-        final theFirstPage = firstPage();
-        if (theFirstPage.isLoggedIn) {
-          emit(SignedInPageState());
-        } else if (theFirstPage.isVerifyingEmail) {
-          emit(VerifyEmailPageState());
-        }
-      } else if (event is SignInEvent) {
-        emit(LoadingState());
-        final failureOrUserCredential = await signInUseCase(event.signInEntity);
-        emit(eitherToState(failureOrUserCredential, SignedInState()));
-      } else if (event is SignUpEvent) {
-        emit(LoadingState());
-        final failureOrUserCredential = await signUpUseCase(event.signUpEntity);
-        emit(eitherToState(failureOrUserCredential, SignedUpState()));
-      } else if (event is SendEmailVerificationEvent) {
-        final failureOrSentEmail = await verifyEmailUseCase(NoParams());
-        emit(eitherToState(failureOrSentEmail, EmailIsSentState()));
-      } else if (event is CheckEmailVerificationEvent) {
-        if (!completer.isCompleted) {
-          completer.complete();
-          completer = Completer<void>();
-        }
-        final failureOrEmailVerified =
-            await checkVerificationUseCase(completer);
-        emit(eitherToState(failureOrEmailVerified, EmailIsVerifiedState()));
-      } else if (event is LogOutEvent) {
-        final failureOrLogOut = await logOutUseCase(NoParams());
-        emit(eitherToState(failureOrLogOut, LoggedOutState()));
-      } else if (event is SignInWithGoogleEvent) {
-        emit(LoadingState());
-        final failureOrUserCredential = await googleAuthUseCase(NoParams());
-        emit(eitherToState(failureOrUserCredential, GoogleSignInState()));
-      }
-    });
+    on<AuthEvent>((event, emit) => _authMapEventToState(event, emit));
   }
 
-  AuthState eitherToState(Either either, AuthState state) {
+  Future<void> _authMapEventToState(
+      AuthEvent event, Emitter<AuthState> emit) async {
+    if (event is CheckLoggingInEvent) {
+      final theFirstPage = firstPage();
+      if (theFirstPage.isLoggedIn) {
+        emit(SignedInPageState());
+      } else if (theFirstPage.isVerifyingEmail) {
+        emit(VerifyEmailPageState());
+      }
+    } else if (event is SignInEvent) {
+      emit(LoadingState());
+      final failureOrUserCredential = await signInUseCase(event.signInEntity);
+      emit(_eitherToState(failureOrUserCredential, SignedInState()));
+    } else if (event is SignUpEvent) {
+      emit(LoadingState());
+      final failureOrUserCredential = await signUpUseCase(event.signUpEntity);
+      emit(_eitherToState(failureOrUserCredential, SignedUpState()));
+    } else if (event is SendEmailVerificationEvent) {
+      final failureOrSentEmail = await verifyEmailUseCase(NoParams());
+      emit(_eitherToState(failureOrSentEmail, EmailIsSentState()));
+    } else if (event is CheckEmailVerificationEvent) {
+      if (!completer.isCompleted) {
+        completer.complete();
+        completer = Completer<void>();
+      }
+      final failureOrEmailVerified = await checkVerificationUseCase(completer);
+      emit(_eitherToState(failureOrEmailVerified, EmailIsVerifiedState()));
+    } else if (event is LogOutEvent) {
+      final failureOrLogOut = await logOutUseCase(NoParams());
+      emit(_eitherToState(failureOrLogOut, LoggedOutState()));
+    } else if (event is SignInWithGoogleEvent) {
+      emit(LoadingState());
+      final failureOrUserCredential = await googleAuthUseCase(NoParams());
+      emit(_eitherToState(failureOrUserCredential, GoogleSignInState()));
+    }
+  }
+
+  AuthState _eitherToState(Either either, AuthState state) {
     return either.fold(
       (failure) => ErrorAuthState(message: _mapFailureToMessage(failure)),
       (_) => state,
@@ -108,5 +112,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       default:
         return "Unexpected Error , Please try again later .";
     }
+  }
+
+  @override
+  void onError(Object error, StackTrace stackTrace) {
+    super.onError(error, stackTrace);
+    sl<Talker>().handle(error, stackTrace);
   }
 }

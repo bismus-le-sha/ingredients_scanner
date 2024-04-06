@@ -1,3 +1,3 @@
 part of '../exceptions.dart';
 
-class CacheException implements Exception {}
+class DatabaseException implements Exception {}
