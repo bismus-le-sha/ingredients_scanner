@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class FoodPreferencesEntity extends Equatable {
-  final bool shugarFree;
+  final bool sugarFree;
   final bool lactoseFree;
   final bool glutenFree;
   final bool withoutNuts;
@@ -10,7 +10,7 @@ class FoodPreferencesEntity extends Equatable {
   final int version;
 
   const FoodPreferencesEntity(
-      {required this.shugarFree,
+      {required this.sugarFree,
       required this.lactoseFree,
       required this.glutenFree,
       required this.withoutNuts,
@@ -20,7 +20,7 @@ class FoodPreferencesEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-        shugarFree,
+        sugarFree,
         lactoseFree,
         glutenFree,
         withoutNuts,

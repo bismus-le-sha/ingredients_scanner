@@ -1,20 +1,19 @@
 import 'package:dartz/dartz.dart';
 import 'package:ingredients_scanner/features/food_preferences/data/models/food_preferences_model.dart';
 
-abstract class FoodPreferencesDataSource {
-  Future<FoodPreferencesModel> getFoodPreference();
-  Future<Unit> setFoodPreference(FoodPreferencesModel foodPreferencesModel);
-}
+import '../abstract_food_preferences_data_source.dart';
 
 class RemoteFoodPreferencesDataSource implements FoodPreferencesDataSource {
+  //TODO: need to write code for firebase remote datasource
   @override
-  Future<FoodPreferencesModel> getFoodPreference() {
+  Future<FoodPreferencesModel> getFoodPreferences() {
     // TODO: implement getFoodPreference
     throw UnimplementedError();
   }
 
   @override
-  Future<Unit> setFoodPreference(FoodPreferencesModel foodPreferencesModel) {
+  Future<Unit> updateFoodPreferences(
+      FoodPreferencesModel foodPreferencesModel) {
     // TODO: implement setFoodPreference
     throw UnimplementedError();
   }

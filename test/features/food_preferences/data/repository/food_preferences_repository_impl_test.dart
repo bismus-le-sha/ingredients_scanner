@@ -1,25 +1,32 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ingredients_scanner/core/error/exceptions.dart';
 import 'package:ingredients_scanner/core/error/failures.dart';
 import 'package:ingredients_scanner/features/food_preferences/data/models/food_preferences_model.dart';
 import 'package:ingredients_scanner/features/food_preferences/data/repositories/food_preferences_repository_impl.dart';
-import 'package:ingredients_scanner/features/food_preferences/domain/entities/food_preferences_entity.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../../../fixtures/fixture_reader.dart';
 import '../../../../helper/test_helper.mocks.dart';
 
 void main() {
   late FoodPreferencesRepositoryImpl repository;
   late MockRemoteFoodPreferencesDataSource remoteDataSource;
   late MockNetworkInfo networkInfo;
+  late FoodPreferencesModel testFoodPreferencesModel;
 
   setUp(() {
     remoteDataSource = MockRemoteFoodPreferencesDataSource();
     networkInfo = MockNetworkInfo();
     repository = FoodPreferencesRepositoryImpl(
         remoteDataSource: remoteDataSource, networkInfo: networkInfo);
+    testFoodPreferencesModel = FoodPreferencesModel.fromJson(
+        const JsonDecoder().convert(fixture('food_preferences.json')));
   });
+
+//TODO:continue with the tests, don't forget about TDD
 
   void runTestOnline(Function body) {
     group('device is online', () {
@@ -29,22 +36,10 @@ void main() {
   }
 
   group("getFoodPreferences", () {
-    const testFoodPreferencesModel = FoodPreferencesModel(
-        shugarFree: true,
-        lactoseFree: false,
-        glutenFree: false,
-        withoutSoybeans: false,
-        withoutNuts: false,
-        withoutPeanuts: false,
-        version: 1);
-
-    const FoodPreferencesEntity testFoodPreferenceEntity =
-        testFoodPreferencesModel;
-
     test('should check if the device connected', () async {
       //arrange
       when(networkInfo.isConnected).thenAnswer((_) async => true);
-      when(remoteDataSource.getFoodPreference())
+      when(remoteDataSource.getFoodPreferences())
           .thenAnswer((_) async => testFoodPreferencesModel);
       //act
       repository.getFoodPreference();
@@ -58,22 +53,13 @@ void main() {
   //SET
 
   group("setFoodPreferences", () {
-    const testFoodPreferencesModel = FoodPreferencesModel(
-        shugarFree: true,
-        lactoseFree: false,
-        glutenFree: false,
-        withoutSoybeans: false,
-        withoutNuts: false,
-        withoutPeanuts: false,
-        version: 1);
-
     test('should check if the device online', () async {
       //arrange
       when(networkInfo.isConnected).thenAnswer((_) async => true);
-      when(remoteDataSource.setFoodPreference(testFoodPreferencesModel))
+      when(remoteDataSource.updateFoodPreferences(testFoodPreferencesModel))
           .thenAnswer((_) async => unit);
       //act
-      await repository.setFoodPreference(testFoodPreferencesModel);
+      await repository.updateFoodPreference(testFoodPreferencesModel);
       //assert
       verify(networkInfo.isConnected);
     });
@@ -81,13 +67,14 @@ void main() {
     runTestOnline(() {
       test('should set to remote data source when connection true', () async {
         //arrange
-        when(remoteDataSource.setFoodPreference(testFoodPreferencesModel))
+        when(remoteDataSource.updateFoodPreferences(testFoodPreferencesModel))
             .thenAnswer((_) async => unit);
         //act
         final result =
-            await repository.setFoodPreference(testFoodPreferencesModel);
+            await repository.updateFoodPreference(testFoodPreferencesModel);
         //assert
-        verify(remoteDataSource.setFoodPreference(testFoodPreferencesModel));
+        verify(
+            remoteDataSource.updateFoodPreferences(testFoodPreferencesModel));
         expect(result, const Right(unit));
       });
 
@@ -96,13 +83,14 @@ void main() {
           () async {
         //arrange
 
-        when(remoteDataSource.setFoodPreference(testFoodPreferencesModel))
+        when(remoteDataSource.updateFoodPreferences(testFoodPreferencesModel))
             .thenThrow(ServerException());
         //act
         final result =
-            await repository.setFoodPreference(testFoodPreferencesModel);
+            await repository.updateFoodPreference(testFoodPreferencesModel);
         //assert
-        verify(remoteDataSource.setFoodPreference(testFoodPreferencesModel));
+        verify(
+            remoteDataSource.updateFoodPreferences(testFoodPreferencesModel));
         expect(result, Left(ServerFailure()));
       });
     });

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 part 'auth/failures_auth.dart';
-part 'user_preferences/failures_user_preferences.dart';
+part 'food_preferences/failures_user_preferences.dart';
 
 abstract class Failure extends Equatable {
   const Failure([List properties = const <dynamic>[]]);
@@ -13,3 +13,5 @@ abstract class Failure extends Equatable {
 class OfflineFailure extends Failure {}
 
 class ServerFailure extends Failure {}
+
+class DatabaseFailure extends Failure {}

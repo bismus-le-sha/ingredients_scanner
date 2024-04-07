@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hive/hive.dart';
 import 'package:ingredients_scanner/core/network/network_info.dart';
 import 'package:ingredients_scanner/features/authentication/data/data_sources/auth_remote_data_source.dart';
 import 'package:ingredients_scanner/features/authentication/domain/repositories/authentication_repository.dart';
@@ -9,7 +10,8 @@ import 'package:ingredients_scanner/features/authentication/domain/usecases/logo
 import 'package:ingredients_scanner/features/authentication/domain/usecases/sign_in_usecase.dart';
 import 'package:ingredients_scanner/features/authentication/domain/usecases/sign_up_usecase.dart';
 import 'package:ingredients_scanner/features/authentication/domain/usecases/verifiy_email_usecase.dart';
-import 'package:ingredients_scanner/features/food_preferences/data/datasources/food_preference_data_source.dart';
+import 'package:ingredients_scanner/features/food_preferences/data/datasources/local/local_food_preferences_data_source.dart';
+import 'package:ingredients_scanner/features/food_preferences/data/datasources/remote/remote_food_preference_data_source.dart';
 import 'package:ingredients_scanner/features/food_preferences/domain/repositories/food_preferences_repository.dart';
 import 'package:ingredients_scanner/features/user_preferences/data/data_sources/user_preferences_data_source.dart';
 import 'package:ingredients_scanner/features/user_preferences/domain/usecases/get_user_preference.dart';
@@ -44,6 +46,8 @@ import 'package:shared_preferences/shared_preferences.dart';
   FoodPreferencesRepository,
   RemoteFoodPreferencesDataSource,
   NetworkInfo,
+  LocalFoodPreferencesDataSource,
+  Box,
   //internet_connection_checker_plus
   InternetConnection
 ])

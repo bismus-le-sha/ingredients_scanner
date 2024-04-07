@@ -17,7 +17,7 @@ void main() {
       });
 
   const foodPreference = FoodPreferencesEntity(
-      shugarFree: true,
+      sugarFree: true,
       lactoseFree: false,
       glutenFree: false,
       withoutSoybeans: false,

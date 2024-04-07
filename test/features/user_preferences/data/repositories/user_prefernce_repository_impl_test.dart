@@ -38,7 +38,7 @@ void main() {
 
     test('should return DatabaseFailure if cath DatabaseException', () async {
       //arrange
-      when(dataSource.getUserPreferences()).thenThrow(DatabaseException());
+      when(dataSource.getUserPreferences()).thenThrow(LocalDatabaseException());
       //act
       final result = await repositoryImpl.getUserPreferences();
       //assert
@@ -77,7 +77,8 @@ void main() {
         'should return DatabaseFailure if update cameraFlash cath DatabaseException',
         () async {
       //arrange
-      when(dataSource.updateCameraFlash(any)).thenThrow(DatabaseException());
+      when(dataSource.updateCameraFlash(any))
+          .thenThrow(LocalDatabaseException());
       //act
       final result = await repositoryImpl.updateCameraFlash(cameraFlash);
       //assert
@@ -89,7 +90,8 @@ void main() {
         'should return DatabaseFailure if update useBiometrics cath DatabaseException',
         () async {
       //arrange
-      when(dataSource.updateUseBiometrics(any)).thenThrow(DatabaseException());
+      when(dataSource.updateUseBiometrics(any))
+          .thenThrow(LocalDatabaseException());
       //act
       final result = await repositoryImpl.updateUseBiometrics(cameraFlash);
       //assert

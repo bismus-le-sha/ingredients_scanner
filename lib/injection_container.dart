@@ -23,7 +23,6 @@ import 'features/authentication/domain/usecases/sign_up_usecase.dart';
 import 'features/authentication/domain/usecases/verifiy_email_usecase.dart';
 import 'features/authentication/presentation/bloc/authentication/auth_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'features/user_preferences/domain/usecases/update_camera_flash.dart';
 
 final sl = GetIt.instance;
@@ -88,6 +87,10 @@ Future<void> init() async {
   // Datasources
   sl.registerLazySingleton<UserPreferencesDataSource>(
       () => UserPreferencesDataSourceImpl(sharedPreferences: sl()));
+
+//! Features - FoodPreferences
+
+  //Datasources
 
 //! Core
 

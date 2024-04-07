@@ -8,7 +8,7 @@ import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
   const testFoodPreferencesModel = FoodPreferencesModel(
-      shugarFree: true,
+      sugarFree: true,
       lactoseFree: false,
       glutenFree: false,
       withoutSoybeans: false,

@@ -18,7 +18,7 @@ class UserPreferencesRepositoryImpl implements UserPreferencesRepository {
     try {
       final userPreferences = await dataSource.getUserPreferences();
       return Right(userPreferences);
-    } on DatabaseException {
+    } on LocalDatabaseException {
       return Left(DatabaseFailure());
     }
   }
@@ -28,7 +28,7 @@ class UserPreferencesRepositoryImpl implements UserPreferencesRepository {
     try {
       await dataSource.updateCameraFlash(value);
       return const Right(unit);
-    } on DatabaseException {
+    } on LocalDatabaseException {
       return Left(DatabaseFailure());
     }
   }
@@ -38,7 +38,7 @@ class UserPreferencesRepositoryImpl implements UserPreferencesRepository {
     try {
       await dataSource.updateUseBiometrics(value);
       return const Right(unit);
-    } on DatabaseException {
+    } on LocalDatabaseException {
       return Left(DatabaseFailure());
     }
   }

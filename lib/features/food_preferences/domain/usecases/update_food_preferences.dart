@@ -5,13 +5,13 @@ import 'package:ingredients_scanner/features/food_preferences/domain/repositorie
 
 import 'params/food_preferences_params.dart';
 
-class SetFoodPreference implements UseCase<Unit, FoodPreferencesParams> {
+class UpdateFoodPreference implements UseCase<Unit, FoodPreferencesParams> {
   final FoodPreferencesRepository repository;
 
-  SetFoodPreference(this.repository);
+  UpdateFoodPreference(this.repository);
 
   @override
   Future<Either<Failure, Unit>> call(FoodPreferencesParams params) async {
-    return await repository.setFoodPreference(params.foodPreferencesModel);
+    return await repository.updateFoodPreference(params.foodPreferencesModel);
   }
 }

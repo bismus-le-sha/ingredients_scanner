@@ -2,7 +2,7 @@ import '../../domain/entities/food_preferences_entity.dart';
 
 class FoodPreferencesModel extends FoodPreferencesEntity {
   const FoodPreferencesModel({
-    required super.shugarFree,
+    required super.sugarFree,
     required super.lactoseFree,
     required super.glutenFree,
     required super.withoutNuts,
@@ -13,7 +13,7 @@ class FoodPreferencesModel extends FoodPreferencesEntity {
 
   factory FoodPreferencesModel.fromJson(Map<String, dynamic> json) {
     return FoodPreferencesModel(
-        shugarFree: json['shugarFree'],
+        sugarFree: json['sugarFree'],
         lactoseFree: json['lactoseFree'],
         glutenFree: json['glutenFree'],
         withoutNuts: json['withoutNuts'],
@@ -24,7 +24,7 @@ class FoodPreferencesModel extends FoodPreferencesEntity {
 
   Map<String, dynamic> toJson() {
     return {
-      "shugarFree": shugarFree,
+      "sugarFree": sugarFree,
       "lactoseFree": lactoseFree,
       "glutenFree": glutenFree,
       "withoutNuts": withoutNuts,
@@ -32,5 +32,24 @@ class FoodPreferencesModel extends FoodPreferencesEntity {
       "withoutSoybeans": withoutSoybeans,
       "version": version
     };
+  }
+
+  FoodPreferencesModel copyWith({
+    bool? sugarFree,
+    bool? lactoseFree,
+    bool? glutenFree,
+    bool? withoutNuts,
+    bool? withoutPeanuts,
+    bool? withoutSoybeans,
+    int? version,
+  }) {
+    return FoodPreferencesModel(
+        sugarFree: sugarFree ?? this.sugarFree,
+        lactoseFree: lactoseFree ?? this.lactoseFree,
+        glutenFree: glutenFree ?? this.glutenFree,
+        withoutNuts: withoutNuts ?? this.withoutNuts,
+        withoutPeanuts: withoutPeanuts ?? this.withoutPeanuts,
+        withoutSoybeans: withoutSoybeans ?? this.withoutSoybeans,
+        version: version ?? this.version);
   }
 }

@@ -5,6 +5,6 @@ import 'package:ingredients_scanner/features/food_preferences/domain/entities/fo
 
 abstract class FoodPreferencesRepository {
   Future<Either<Failure, FoodPreferencesEntity>> getFoodPreference();
-  Future<Either<Failure, Unit>> setFoodPreference(
+  Future<Either<Failure, Unit>> updateFoodPreference(
       FoodPreferencesModel foodPreferencesModel);
 }
