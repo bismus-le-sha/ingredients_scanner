@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:ingredients_scanner/core/strings/user_preferences_list.dart';
 import 'package:ingredients_scanner/features/user_preferences/data/models/user_preferences_model.dart';
 import 'package:ingredients_scanner/features/user_preferences/domain/entities/user_preferences_entity.dart';
 import 'package:mockito/mockito.dart';
@@ -18,7 +19,7 @@ void main() {
     expect(testUserPreferencesModel, isA<UserPreferencesEntity>());
   });
 
-  group('from/toJson', () {
+  group('from/toSharedPreferences', () {
     test('should return a valid model from SharedPreferences', () async {
       //arrange
       when(preferences.getBool(CAMERA_FLASH)).thenReturn(true);

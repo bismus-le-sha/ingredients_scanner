@@ -1,10 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
-import 'package:ingredients_scanner/features/user_preferences/data/data_sources/user_preferences_data_source.dart';
-import 'package:ingredients_scanner/features/user_preferences/data/repositories/user_preferences_repository_imp.dart';
-import 'package:ingredients_scanner/features/user_preferences/domain/repositories/user_preferences_repositiory.dart';
-import 'package:ingredients_scanner/features/user_preferences/domain/usecases/get_user_preference.dart';
-import 'package:ingredients_scanner/features/user_preferences/domain/usecases/update_use_biometrics.dart';
-import 'package:ingredients_scanner/features/user_preferences/presentation/bloc/user_preferences_bloc.dart';
+import 'features/food_preferences/data/datasources/local/local_food_preferences_data_source.dart';
+import 'features/food_preferences/data/datasources/remote/remote_food_preference_data_source.dart';
+import 'features/food_preferences/data/repositories/food_preferences_repository_impl.dart';
+import 'features/food_preferences/domain/repositories/food_preferences_repository.dart';
+import 'features/food_preferences/domain/usecases/get_food_preferences_usecase.dart';
+import 'features/food_preferences/domain/usecases/update_food_preferences.dart';
+import 'features/food_preferences/presentation/bloc/food_preferences_bloc.dart';
+import 'features/user_preferences/data/data_sources/user_preferences_data_source.dart';
+import 'features/user_preferences/data/repositories/user_preferences_repository_imp.dart';
+import 'features/user_preferences/domain/repositories/user_preferences_repositiory.dart';
+import 'features/user_preferences/domain/usecases/get_user_preference.dart';
+import 'features/user_preferences/presentation/bloc/user_preferences_bloc.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -23,7 +30,7 @@ import 'features/authentication/domain/usecases/sign_up_usecase.dart';
 import 'features/authentication/domain/usecases/verifiy_email_usecase.dart';
 import 'features/authentication/presentation/bloc/authentication/auth_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'features/user_preferences/domain/usecases/update_camera_flash.dart';
+import 'features/user_preferences/domain/usecases/update_user_preferences.dart';
 
 final sl = GetIt.instance;
 
@@ -31,7 +38,6 @@ Future<void> init() async {
 //! Features - Auth
 
   // Bloc
-
   sl.registerFactory(() => AuthBloc(
       signInUseCase: sl(),
       signUpUseCase: sl(),
@@ -42,7 +48,6 @@ Future<void> init() async {
       googleAuthUseCase: sl()));
 
   // Usecases
-
   sl.registerLazySingleton(() => SignInUseCase(sl()));
   sl.registerLazySingleton(() => SignUpUseCase(sl()));
   sl.registerLazySingleton(() => FirstPageUseCase(sl()));
@@ -52,13 +57,11 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GoogleAuthUseCase(sl()));
 
   // Repository
-
   sl.registerLazySingleton<AuthenticationRepository>(() =>
       AuthenticationRepositoryImp(
           networkInfo: sl(), authRemoteDataSource: sl()));
 
   // Datasources
-
   sl.registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl());
 
@@ -68,19 +71,14 @@ Future<void> init() async {
 //! Features - UserPreferences
 
   // Bloc
-
   sl.registerFactory(() => UserPreferencesBloc(
-      getUserPreferences: sl(),
-      updateUseBiometrics: sl(),
-      updateCameraFlash: sl()));
+      getUserPreferences: sl(), updateUserPreferences: sl()));
 
   // Usecases
   sl.registerLazySingleton(() => GetUserPreferences(sl()));
-  sl.registerLazySingleton(() => UpdateCameraFlash(sl()));
-  sl.registerLazySingleton(() => UpdateUseBiometrics(sl()));
+  sl.registerLazySingleton(() => UpdateUserPreferences(sl()));
 
   // Repository
-
   sl.registerLazySingleton<UserPreferencesRepository>(
       () => UserPreferencesRepositoryImpl(dataSource: sl()));
 
@@ -90,16 +88,38 @@ Future<void> init() async {
 
 //! Features - FoodPreferences
 
+  //Bloc
+  sl.registerFactory(() => FoodPreferencesBloc(
+      getFoodPreferences: sl(), updateFoodPreferences: sl()));
+
+  //Usecases
+  sl.registerLazySingleton(() => GetFoodPreferences(sl()));
+  sl.registerLazySingleton(() => UpdateFoodPreferences(sl()));
+
+  //Repository
+  sl.registerLazySingleton<FoodPreferencesRepository>(() =>
+      FoodPreferencesRepositoryImpl(
+          remoteDataSource: sl(), localDataSource: sl(), networkInfo: sl()));
+
   //Datasources
+  sl.registerLazySingleton<RemoteFoodPreferencesDataSource>(
+      () => RemoteFoodPreferencesDataSourceImpl(instance: sl()));
+  sl.registerLazySingleton<LocalFoodPreferencesDataSource>(
+      () => LocalFoodPreferencesDataSourceImpl(sharedPreferences: sl()));
+
+  //FirebaseFirestore
+  sl.registerSingleton<FirebaseFirestore>(FirebaseFirestore.instance);
 
 //! Core
 
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
 
 //! External
-  final sharedPreferences = await SharedPreferences.getInstance();
 
+  //SharedPreferences
+  final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
+
   sl.registerLazySingleton<InternetConnection>(() => InternetConnection());
 
 //! Config

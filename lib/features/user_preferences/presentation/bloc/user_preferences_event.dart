@@ -1,6 +1,6 @@
 part of 'user_preferences_bloc.dart';
 
-sealed class UserPreferencesEvent extends Equatable {
+abstract class UserPreferencesEvent extends Equatable {
   const UserPreferencesEvent();
 
   @override
@@ -16,19 +16,10 @@ class UserPreferencesLoad extends UserPreferencesEvent {
   List<Object?> get props => [completer];
 }
 
-class ChangeCameraFlash extends UserPreferencesEvent {
-  final bool value;
+class ChangeUserPreferences extends UserPreferencesEvent {
+  final UserPreferencesModel value;
 
-  const ChangeCameraFlash(this.value);
-
-  @override
-  List<Object?> get props => [value];
-}
-
-class ChangeUseBiometrics extends UserPreferencesEvent {
-  final bool value;
-
-  const ChangeUseBiometrics(this.value);
+  const ChangeUserPreferences(this.value);
 
   @override
   List<Object?> get props => [value];

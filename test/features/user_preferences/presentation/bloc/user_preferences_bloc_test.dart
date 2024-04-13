@@ -5,6 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ingredients_scanner/core/error/failures.dart';
 import 'package:ingredients_scanner/core/usecase/usecase.dart';
+import 'package:ingredients_scanner/features/user_preferences/data/models/user_preferences_model.dart';
 import 'package:ingredients_scanner/features/user_preferences/domain/entities/user_preferences_entity.dart';
 import 'package:ingredients_scanner/features/user_preferences/domain/usecases/params/user_preferences_params.dart';
 import 'package:ingredients_scanner/features/user_preferences/presentation/bloc/user_preferences_bloc.dart';
@@ -15,18 +16,21 @@ import '../../../../helper/test_helper.mocks.dart';
 void main() {
   late UserPreferencesBloc bloc;
   late MockGetUserPreferences getUserPreferences;
-  late MockUpdateCameraFlash updateCameraFlash;
-  late MockUpdateUseBiometrics updateUseBiometrics;
+  late MockUpdateUserPreferences updateUserPreferences;
+  late UserPreferencesEntity testPreferences;
+  late UserPreferencesModel testUserPreferencesModel;
 
   setUp(() {
     getUserPreferences = MockGetUserPreferences();
-    updateCameraFlash = MockUpdateCameraFlash();
-    updateUseBiometrics = MockUpdateUseBiometrics();
+    updateUserPreferences = MockUpdateUserPreferences();
+    testPreferences =
+        const UserPreferencesEntity(cameraFlash: false, useBiometrics: true);
 
     bloc = UserPreferencesBloc(
         getUserPreferences: getUserPreferences,
-        updateCameraFlash: updateCameraFlash,
-        updateUseBiometrics: updateUseBiometrics);
+        updateUserPreferences: updateUserPreferences);
+    testUserPreferencesModel =
+        const UserPreferencesModel(cameraFlash: true, useBiometrics: false);
   });
 
   test('initial State should be initial', () async {
@@ -35,14 +39,11 @@ void main() {
   });
 
   group('GetPreferences', () {
-    const testPreferences =
-        UserPreferencesEntity(cameraFlash: false, useBiometrics: true);
-
     blocTest<UserPreferencesBloc, UserPreferencesState>(
         'should get data from the get use case',
         build: () {
           when(getUserPreferences(any))
-              .thenAnswer((_) async => const Right(testPreferences));
+              .thenAnswer((_) async => Right(testPreferences));
           return bloc..on<UserPreferencesLoad>((event, emit) {});
         },
         act: (bloc) => bloc.add(UserPreferencesLoad(completer: Completer())),
@@ -53,13 +54,13 @@ void main() {
         'should emit [UserPreferencesLoaded] when data is gotten successfully',
         build: () {
           when(getUserPreferences(any))
-              .thenAnswer((_) async => const Right(testPreferences));
+              .thenAnswer((_) async => Right(testPreferences));
           return bloc..on<UserPreferencesLoad>((event, emit) {});
         },
         act: (bloc) => bloc.add(UserPreferencesLoad(completer: Completer())),
         wait: const Duration(milliseconds: 500),
         expect: () =>
-            [const UserPreferencesLoaded(userPreferences: testPreferences)]);
+            [UserPreferencesLoaded(userPreferences: testPreferences)]);
 
     blocTest(
       'should emit [UserPreferencesFailure] when data is get unsuccessfull',
@@ -75,82 +76,42 @@ void main() {
   });
 
   group('Update UserPreferences', () {
-    const testPreferences =
-        UserPreferencesEntity(cameraFlash: false, useBiometrics: true);
-    const cameraFlash = true;
-    const useBiometrics = false;
-
-    blocTest('should update cameraFlash to the update camera flash usecase',
+    blocTest(
+        'should update user preferences to the update user preferences usecase',
         build: () {
-          when(updateCameraFlash(any))
+          when(updateUserPreferences(any))
               .thenAnswer((_) async => const Right(unit));
-          return bloc..on<ChangeCameraFlash>((event, emit) {});
+          return bloc..on<ChangeUserPreferences>((event, emit) {});
         },
-        act: (bloc) => bloc.add(const ChangeCameraFlash(cameraFlash)),
+        act: (bloc) =>
+            bloc.add(ChangeUserPreferences(testUserPreferencesModel)),
         wait: const Duration(milliseconds: 500),
-        verify: (_) => verify(updateCameraFlash(
-                const UserPreferencesParams(value: cameraFlash)))
-            .called(1));
-
-    blocTest('should update useBiometrics to the update use biometrics usecase',
-        build: () {
-          when(updateUseBiometrics(any))
-              .thenAnswer((_) async => const Right(unit));
-          return bloc..on<ChangeUseBiometrics>((event, emit) {});
-        },
-        act: (bloc) => bloc.add(const ChangeUseBiometrics(useBiometrics)),
-        wait: const Duration(milliseconds: 500),
-        verify: (_) => verify(updateUseBiometrics(
-                const UserPreferencesParams(value: useBiometrics)))
+        verify: (_) => verify(updateUserPreferences(UserPreferencesParams(
+                userPrefernces: testUserPreferencesModel)))
             .called(1));
 
     blocTest<UserPreferencesBloc, UserPreferencesState>(
-      'should emit [UserPreferencesLoading, UserPreferencesLoaded] when ChangeCameraFlash event is added',
+      'should emit [UserPreferencesLoading, UserPreferencesLoaded] when ChangeUserPreferences event is added',
       build: () {
-        when(updateCameraFlash(any)).thenAnswer((_) async => const Right(unit));
-        when(getUserPreferences(any))
-            .thenAnswer((_) async => const Right(testPreferences));
-        return bloc..on<ChangeCameraFlash>((event, emit) {});
-      },
-      act: (bloc) => bloc.add(const ChangeCameraFlash(cameraFlash)),
-      expect: () =>
-          [isA<UserPreferencesLoading>(), isA<UserPreferencesLoaded>()],
-    );
-
-    blocTest<UserPreferencesBloc, UserPreferencesState>(
-      'should emit [UserPreferencesLoading, UserPreferencesLoaded] when ChangeUseBiometrics event is added',
-      build: () {
-        when(updateUseBiometrics(any))
+        when(updateUserPreferences(any))
             .thenAnswer((_) async => const Right(unit));
         when(getUserPreferences(any))
-            .thenAnswer((_) async => const Right(testPreferences));
-        return bloc..on<ChangeUseBiometrics>((event, emit) {});
+            .thenAnswer((_) async => Right(testPreferences));
+        return bloc..on<ChangeUserPreferences>((event, emit) {});
       },
-      act: (bloc) => bloc.add(const ChangeUseBiometrics(useBiometrics)),
+      act: (bloc) => bloc.add(ChangeUserPreferences(testUserPreferencesModel)),
       expect: () =>
           [isA<UserPreferencesLoading>(), isA<UserPreferencesLoaded>()],
     );
 
     blocTest<UserPreferencesBloc, UserPreferencesState>(
-      'should emit [UserPreferencesFailure] when update camera flash error occurs',
+      'should emit [UserPreferencesFailure] when update user preferences error occurs',
       build: () {
-        when(updateCameraFlash(any))
+        when(updateUserPreferences(any))
             .thenAnswer((_) async => Left(DatabaseFailure()));
-        return bloc..on<ChangeCameraFlash>((event, emit) {});
+        return bloc..on<ChangeUserPreferences>((event, emit) {});
       },
-      act: (bloc) => bloc.add(const ChangeCameraFlash(cameraFlash)),
-      wait: const Duration(milliseconds: 500),
-      expect: () => [isA<UserPreferencesFailure>()],
-    );
-
-    blocTest<UserPreferencesBloc, UserPreferencesState>(
-      'should emit [UserPreferencesFailure] when update use biometrics error occurs',
-      build: () {
-        when(updateUseBiometrics(any))
-            .thenAnswer((_) async => Left(DatabaseFailure()));
-        return bloc..on<ChangeUseBiometrics>((event, emit) {});
-      },
-      act: (bloc) => bloc.add(const ChangeUseBiometrics(useBiometrics)),
+      act: (bloc) => bloc.add(ChangeUserPreferences(testUserPreferencesModel)),
       wait: const Duration(milliseconds: 500),
       expect: () => [isA<UserPreferencesFailure>()],
     );

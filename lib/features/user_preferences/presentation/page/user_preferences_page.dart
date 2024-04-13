@@ -1,11 +1,11 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ingredients_scanner/core/widgets/loading_widget.dart';
-import 'package:ingredients_scanner/features/user_preferences/presentation/bloc/user_preferences_bloc.dart';
-import 'package:ingredients_scanner/features/user_preferences/presentation/widgets/failure_message.dart';
-import 'package:ingredients_scanner/features/user_preferences/presentation/widgets/user_preferences_widget.dart';
-import 'package:ingredients_scanner/injection_container.dart';
+import '../../../../core/widgets/loading_widget.dart';
+import '../bloc/user_preferences_bloc.dart';
+import '../widgets/failure_message.dart';
+import '../widgets/user_preferences_list_view.dart';
+import '../../../../injection_container.dart';
 
 @RoutePage()
 class UserPreferencesPage extends StatelessWidget {

@@ -1,25 +1,29 @@
 import 'package:dartz/dartz.dart';
-import 'package:hive/hive.dart';
-import 'package:ingredients_scanner/features/food_preferences/data/datasources/abstract_food_preferences_data_source.dart';
-import 'package:ingredients_scanner/features/food_preferences/data/models/food_preferences_model.dart';
 
-const idFoodPreferences = 0;
+import '../../models/food_preferences_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class LocalFoodPreferencesDataSource implements FoodPreferencesDataSource {
-  final Box foodPreferencesBox;
+abstract class LocalFoodPreferencesDataSource {
+  Future<FoodPreferencesModel> getFoodPreferences();
+  Future<Unit> updateFoodPreferences(FoodPreferencesModel foodPreferencesModel);
+}
 
-  LocalFoodPreferencesDataSource({required this.foodPreferencesBox});
+class LocalFoodPreferencesDataSourceImpl
+    implements LocalFoodPreferencesDataSource {
+  final SharedPreferences sharedPreferences;
+
+  LocalFoodPreferencesDataSourceImpl({required this.sharedPreferences});
 
   @override
   Future<FoodPreferencesModel> getFoodPreferences() {
-    return Future.value(FoodPreferencesModel.fromJson(
-        foodPreferencesBox.get(idFoodPreferences)));
+    return Future.value(
+        FoodPreferencesModel.fromSharedPreferences(sharedPreferences));
   }
 
   @override
   Future<Unit> updateFoodPreferences(
       FoodPreferencesModel foodPreferencesModel) {
-    foodPreferencesBox.put(idFoodPreferences, foodPreferencesModel.toJson());
+    foodPreferencesModel.toSharedPreferences(sharedPreferences);
     return Future.value(unit);
   }
 }

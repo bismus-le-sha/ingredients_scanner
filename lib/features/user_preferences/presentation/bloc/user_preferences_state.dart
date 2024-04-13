@@ -1,6 +1,6 @@
 part of 'user_preferences_bloc.dart';
 
-sealed class UserPreferencesState extends Equatable {
+abstract class UserPreferencesState extends Equatable {
   const UserPreferencesState();
 
   @override

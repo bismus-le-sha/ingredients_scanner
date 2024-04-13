@@ -9,3 +9,4 @@ const String WRONG_PASSWORD_FAILURE_MESSAGE =
 const String UNMATCHED_PASSWORD_FAILURE_MESSAGE = "Password doesn't match.";
 const String TOO_MANY_REQUESTS_FAILURE_MESSAGE =
     "Too many requests, please try again later.";
+const String DATABASE_FAILURE_MESSAGE = 'Local data failure.';

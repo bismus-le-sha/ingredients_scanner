@@ -21,10 +21,10 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AuthNavigationPage(),
       );
     },
-    FoodPreferenceRoute.name: (routeData) {
+    FoodPreferencesRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const FoodPreferencePage(),
+        child: const FoodPreferencesPage(),
       );
     },
     HomeNavigationRoute.name: (routeData) {
@@ -105,15 +105,15 @@ class AuthNavigationRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [FoodPreferencePage]
-class FoodPreferenceRoute extends PageRouteInfo<void> {
-  const FoodPreferenceRoute({List<PageRouteInfo>? children})
+/// [FoodPreferencesPage]
+class FoodPreferencesRoute extends PageRouteInfo<void> {
+  const FoodPreferencesRoute({List<PageRouteInfo>? children})
       : super(
-          FoodPreferenceRoute.name,
+          FoodPreferencesRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'FoodPreferenceRoute';
+  static const String name = 'FoodPreferencesRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

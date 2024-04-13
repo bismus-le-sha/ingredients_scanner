@@ -5,13 +5,8 @@ import '../models/user_preferences_model.dart';
 
 abstract class UserPreferencesDataSource {
   Future<UserPreferencesModel> getUserPreferences();
-  Future<Unit> updateCameraFlash(bool value);
-  Future<Unit> updateUseBiometrics(bool value);
+  Future<Unit> updateUserPreferences(UserPreferencesModel userPreferencesModel);
 }
-
-const cameraFlash = 'cameraFlash';
-const useBiometrics = 'useBiometrics';
-
 class UserPreferencesDataSourceImpl implements UserPreferencesDataSource {
   final SharedPreferences sharedPreferences;
 
@@ -24,14 +19,9 @@ class UserPreferencesDataSourceImpl implements UserPreferencesDataSource {
   }
 
   @override
-  Future<Unit> updateCameraFlash(bool value) {
-    sharedPreferences.setBool(cameraFlash, value);
-    return Future.value(unit);
-  }
-
-  @override
-  Future<Unit> updateUseBiometrics(bool value) {
-    sharedPreferences.setBool(useBiometrics, value);
+  Future<Unit> updateUserPreferences(
+      UserPreferencesModel userPreferencesModel) {
+    userPreferencesModel.toSharedPreferences(sharedPreferences);
     return Future.value(unit);
   }
 }

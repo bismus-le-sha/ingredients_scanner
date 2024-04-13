@@ -1,9 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../core/strings/user_preferences_list.dart';
 import '../../domain/entities/user_preferences_entity.dart';
-
-const CAMERA_FLASH = 'cameraFlash';
-const USE_BIOMETRICS = 'useBiometrics';
 
 class UserPreferencesModel extends UserPreferencesEntity {
   const UserPreferencesModel({
@@ -21,5 +19,14 @@ class UserPreferencesModel extends UserPreferencesEntity {
   void toSharedPreferences(SharedPreferences preferences) {
     preferences.setBool(CAMERA_FLASH, cameraFlash);
     preferences.setBool(USE_BIOMETRICS, useBiometrics);
+  }
+
+  UserPreferencesModel copyWith({
+    bool? cameraFlash,
+    bool? useBiometrics,
+  }) {
+    return UserPreferencesModel(
+        cameraFlash: cameraFlash ?? this.cameraFlash,
+        useBiometrics: useBiometrics ?? this.useBiometrics);
   }
 }

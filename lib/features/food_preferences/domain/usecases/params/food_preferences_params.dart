@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:ingredients_scanner/features/food_preferences/data/models/food_preferences_model.dart';
+import '../../../data/models/food_preferences_model.dart';
 
 class FoodPreferencesParams extends Equatable {
   final FoodPreferencesModel foodPreferencesModel;

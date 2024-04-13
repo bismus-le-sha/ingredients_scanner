@@ -1,20 +1,37 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
-import 'package:ingredients_scanner/features/food_preferences/data/models/food_preferences_model.dart';
+import '../../models/food_preferences_model.dart';
 
-import '../abstract_food_preferences_data_source.dart';
+import '../../../../../core/constants/core_consts.dart';
 
-class RemoteFoodPreferencesDataSource implements FoodPreferencesDataSource {
-  //TODO: need to write code for firebase remote datasource
+abstract class RemoteFoodPreferencesDataSource {
+  Future<FoodPreferencesModel> getFoodPreferences();
+  Future<Unit> updateFoodPreferences(FoodPreferencesModel foodPreferencesModel);
+}
+
+class RemoteFoodPreferencesDataSourceImpl
+    implements RemoteFoodPreferencesDataSource {
+  final FirebaseFirestore instance;
+  late final CollectionReference _foodPreferencesRef;
+
+  RemoteFoodPreferencesDataSourceImpl({required this.instance}) {
+    _foodPreferencesRef = instance
+        .collection(foodPreferencesDBName)
+        .withConverter<FoodPreferencesModel>(
+            fromFirestore: (snapshots, _) =>
+                FoodPreferencesModel.fromJson(snapshots.data()!),
+            toFirestore: (foodPreferences, _) => foodPreferences.toJson());
+  }
+
   @override
   Future<FoodPreferencesModel> getFoodPreferences() {
-    // TODO: implement getFoodPreference
-    throw UnimplementedError();
+    return Future.value(_foodPreferencesRef.get() as FoodPreferencesModel);
   }
 
   @override
   Future<Unit> updateFoodPreferences(
       FoodPreferencesModel foodPreferencesModel) {
-    // TODO: implement setFoodPreference
-    throw UnimplementedError();
+    _foodPreferencesRef.doc().set(foodPreferencesModel);
+    return Future.value(unit);
   }
 }

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:dartz/dartz.dart';
-import 'package:ingredients_scanner/core/usecase/usecase.dart';
+import '../../../../core/usecase/usecase.dart';
 
 import '../../../../core/error/failures.dart';
 import '../repositories/authentication_repository.dart';

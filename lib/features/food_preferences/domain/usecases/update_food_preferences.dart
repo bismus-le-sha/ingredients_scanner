@@ -1,14 +1,14 @@
 import 'package:dartz/dartz.dart';
-import 'package:ingredients_scanner/core/error/failures.dart';
-import 'package:ingredients_scanner/core/usecase/usecase.dart';
-import 'package:ingredients_scanner/features/food_preferences/domain/repositories/food_preferences_repository.dart';
+import '../../../../core/error/failures.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../repositories/food_preferences_repository.dart';
 
 import 'params/food_preferences_params.dart';
 
-class UpdateFoodPreference implements UseCase<Unit, FoodPreferencesParams> {
+class UpdateFoodPreferences implements UseCase<Unit, FoodPreferencesParams> {
   final FoodPreferencesRepository repository;
 
-  UpdateFoodPreference(this.repository);
+  UpdateFoodPreferences(this.repository);
 
   @override
   Future<Either<Failure, Unit>> call(FoodPreferencesParams params) async {

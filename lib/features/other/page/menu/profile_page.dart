@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../config/router/router.dart';
-import '../../../../authentication/presentation/bloc/authentication/auth_bloc.dart';
+import '../../../authentication/presentation/bloc/authentication/auth_bloc.dart';
 
 @RoutePage()
 class ProfilePage extends StatefulWidget {

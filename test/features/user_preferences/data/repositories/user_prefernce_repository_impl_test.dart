@@ -23,7 +23,7 @@ void main() {
   group('get userPreferences', () {
     const testUserPreferencesModel =
         UserPreferencesModel(cameraFlash: true, useBiometrics: false);
-    const UserPreferencesEntity testUserPreferences = testUserPreferencesModel;
+    UserPreferencesEntity testUserPreferences = testUserPreferencesModel;
 
     test('should return data from data source', () async {
       //arrange
@@ -33,7 +33,7 @@ void main() {
       final result = await repositoryImpl.getUserPreferences();
       //assert
       verify(dataSource.getUserPreferences());
-      expect(result, equals(const Right(testUserPreferences)));
+      expect(result, equals(Right(testUserPreferences)));
     });
 
     test('should return DatabaseFailure if cath DatabaseException', () async {
@@ -48,54 +48,31 @@ void main() {
   });
 
   group('update userPreferences', () {
-    const bool cameraFlash = true;
-    const bool useBiometrics = false;
-
-    test('should update cameraFlash value in data source', () async {
+    const testUserPreferencesModel =
+        UserPreferencesModel(cameraFlash: true, useBiometrics: false);
+    test('should update user preferences in data source', () async {
       //arrange
-      when(dataSource.updateCameraFlash(cameraFlash))
+      when(dataSource.updateUserPreferences(testUserPreferencesModel))
           .thenAnswer((_) async => unit);
       //act
-      final result = await repositoryImpl.updateCameraFlash(cameraFlash);
+      final result =
+          await repositoryImpl.updateUserPreferences(testUserPreferencesModel);
       //assert
-      verify(dataSource.updateCameraFlash(cameraFlash));
-      expect(result, equals(const Right(unit)));
-    });
-
-    test('should update useBiometrics value in data source', () async {
-      //arrange
-      when(dataSource.updateUseBiometrics(useBiometrics))
-          .thenAnswer((_) async => unit);
-      //act
-      final result = await repositoryImpl.updateUseBiometrics(useBiometrics);
-      //assert
-      verify(dataSource.updateUseBiometrics(useBiometrics));
+      verify(dataSource.updateUserPreferences(testUserPreferencesModel));
       expect(result, equals(const Right(unit)));
     });
 
     test(
-        'should return DatabaseFailure if update cameraFlash cath DatabaseException',
+        'should return DatabaseFailure if update user preferences cath DatabaseException',
         () async {
       //arrange
-      when(dataSource.updateCameraFlash(any))
+      when(dataSource.updateUserPreferences(any))
           .thenThrow(LocalDatabaseException());
       //act
-      final result = await repositoryImpl.updateCameraFlash(cameraFlash);
+      final result =
+          await repositoryImpl.updateUserPreferences(testUserPreferencesModel);
       //assert
-      verify(dataSource.updateCameraFlash(any));
-      expect(result, Left(DatabaseFailure()));
-    });
-
-    test(
-        'should return DatabaseFailure if update useBiometrics cath DatabaseException',
-        () async {
-      //arrange
-      when(dataSource.updateUseBiometrics(any))
-          .thenThrow(LocalDatabaseException());
-      //act
-      final result = await repositoryImpl.updateUseBiometrics(cameraFlash);
-      //assert
-      verify(dataSource.updateUseBiometrics(any));
+      verify(dataSource.updateUserPreferences(any));
       expect(result, Left(DatabaseFailure()));
     });
   });

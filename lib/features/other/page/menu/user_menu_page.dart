@@ -32,8 +32,9 @@ class _UserMenuPageState extends State<UserMenuPage> {
               ),
             ),
             TextButton(
-                onPressed: () => context.pushRoute(const FoodPreferenceRoute()),
-                child: const Text('Food Preference')),
+                onPressed: () =>
+                    context.pushRoute(const FoodPreferencesRoute()),
+                child: const Text('Food Preferences')),
             TextButton(
                 onPressed: () =>
                     context.pushRoute(const UserPreferencesRoute()),

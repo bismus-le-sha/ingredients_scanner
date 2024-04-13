@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ingredients_scanner/features/user_preferences/domain/entities/user_preferences_entity.dart';
-import 'package:ingredients_scanner/features/user_preferences/presentation/bloc/user_preferences_bloc.dart';
+import '../../data/models/user_preferences_model.dart';
+import '../../domain/entities/user_preferences_entity.dart';
+import '../bloc/user_preferences_bloc.dart';
 
 class UserPreferencesListView extends StatefulWidget {
   final UserPreferencesEntity userPreferences;
@@ -22,14 +23,14 @@ class _UserPreferencesListViewState extends State<UserPreferencesListView> {
             title: const Text('Camera flash'),
             value: widget.userPreferences.cameraFlash,
             onChanged: (value) {
-              updateCameraFlash(value);
+              updateUserPreferences(model().copyWith(cameraFlash: value));
             },
           ),
           SwitchListTile(
             title: const Text('Biometric authentication'),
             value: widget.userPreferences.useBiometrics,
             onChanged: (value) {
-              updateUseBiometrics(value);
+              updateUserPreferences(model().copyWith(useBiometrics: value));
             },
           ),
         ],
@@ -37,12 +38,14 @@ class _UserPreferencesListViewState extends State<UserPreferencesListView> {
     );
   }
 
-  void updateCameraFlash(bool value) {
-    BlocProvider.of<UserPreferencesBloc>(context).add(ChangeCameraFlash(value));
+  void updateUserPreferences(UserPreferencesModel value) {
+    BlocProvider.of<UserPreferencesBloc>(context)
+        .add(ChangeUserPreferences(value));
   }
 
-  void updateUseBiometrics(bool value) {
-    BlocProvider.of<UserPreferencesBloc>(context)
-        .add(ChangeUseBiometrics(value));
+  UserPreferencesModel model() {
+    return UserPreferencesModel(
+        cameraFlash: widget.userPreferences.cameraFlash,
+        useBiometrics: widget.userPreferences.useBiometrics);
   }
 }

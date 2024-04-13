@@ -3,13 +3,14 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:ingredients_scanner/core/usecase/usecase.dart';
-import 'package:ingredients_scanner/features/user_preferences/domain/entities/user_preferences_entity.dart';
-import 'package:ingredients_scanner/features/user_preferences/domain/usecases/get_user_preference.dart';
-import 'package:ingredients_scanner/features/user_preferences/domain/usecases/params/user_preferences_params.dart';
-import 'package:ingredients_scanner/features/user_preferences/domain/usecases/update_camera_flash.dart';
-import 'package:ingredients_scanner/features/user_preferences/domain/usecases/update_use_biometrics.dart';
-import 'package:ingredients_scanner/injection_container.dart';
+import '../../../../core/strings/failures.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../../data/models/user_preferences_model.dart';
+import '../../domain/entities/user_preferences_entity.dart';
+import '../../domain/usecases/get_user_preference.dart';
+import '../../domain/usecases/params/user_preferences_params.dart';
+import '../../domain/usecases/update_user_preferences.dart';
+import '../../../../injection_container.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import '../../../../core/error/failures.dart';
@@ -20,14 +21,12 @@ part 'user_preferences_state.dart';
 class UserPreferencesBloc
     extends Bloc<UserPreferencesEvent, UserPreferencesState> {
   GetUserPreferences getUserPreferences;
-  UpdateCameraFlash updateCameraFlash;
-  UpdateUseBiometrics updateUseBiometrics;
+  UpdateUserPreferences updateUserPreferences;
 
-  UserPreferencesBloc(
-      {required this.getUserPreferences,
-      required this.updateCameraFlash,
-      required this.updateUseBiometrics})
-      : super(UserPreferencesInitial()) {
+  UserPreferencesBloc({
+    required this.getUserPreferences,
+    required this.updateUserPreferences,
+  }) : super(UserPreferencesInitial()) {
     on<UserPreferencesEvent>(
         (event, emit) => _userPreferencesMapEventToState(event, emit));
   }
@@ -42,18 +41,11 @@ class UserPreferencesBloc
         event.completer?.complete();
       }
     }
-    if (event is ChangeCameraFlash || event is ChangeUseBiometrics) {
-      switch (event.runtimeType) {
-        case const (ChangeCameraFlash):
-          final failureOrUpdatedPreferences = await updateCameraFlash(
-              UserPreferencesParams(value: event.value));
-          emit(_eitherUpdateOrErrorState(failureOrUpdatedPreferences));
-          break;
-        case const (ChangeUseBiometrics):
-          final failureOrUpdatedPreferences = await updateUseBiometrics(
-              UserPreferencesParams(value: event.value));
-          emit(_eitherUpdateOrErrorState(failureOrUpdatedPreferences));
-      }
+    if (event is ChangeUserPreferences) {
+      final failureOrUpdatedPreferences = await updateUserPreferences(
+          UserPreferencesParams(userPrefernces: event.value));
+      emit(_eitherUpdateOrErrorState(failureOrUpdatedPreferences));
+
       add(const UserPreferencesLoad());
     }
   }
@@ -75,6 +67,8 @@ class UserPreferencesBloc
 
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
+      case DatabaseFailure():
+        return DATABASE_FAILURE_MESSAGE;
       default:
         return 'Unexpected Error';
     }

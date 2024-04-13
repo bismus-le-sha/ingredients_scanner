@@ -8,12 +8,12 @@ import 'package:mockito/mockito.dart';
 import '../../../../helper/test_helper.mocks.dart';
 
 void main() {
-  late UpdateFoodPreference usecase;
+  late UpdateFoodPreferences usecase;
   late MockFoodPreferencesRepository repository;
 
   setUp(() => {
         repository = MockFoodPreferencesRepository(),
-        usecase = UpdateFoodPreference(repository)
+        usecase = UpdateFoodPreferences(repository)
       });
 
   const testFoodPreference = FoodPreferencesModel(
