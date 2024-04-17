@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:ingredients_scanner/core/network/network_info.dart';
 import 'package:ingredients_scanner/features/authentication/data/data_sources/auth_remote_data_source.dart';
 import 'package:ingredients_scanner/features/authentication/domain/repositories/authentication_repository.dart';
@@ -15,6 +16,9 @@ import 'package:ingredients_scanner/features/food_preferences/data/datasources/r
 import 'package:ingredients_scanner/features/food_preferences/domain/repositories/food_preferences_repository.dart';
 import 'package:ingredients_scanner/features/food_preferences/domain/usecases/get_food_preferences_usecase.dart';
 import 'package:ingredients_scanner/features/food_preferences/domain/usecases/update_food_preferences.dart';
+import 'package:ingredients_scanner/features/text_recognition/data/datasources/text_recognition_data_source.dart';
+import 'package:ingredients_scanner/features/text_recognition/domain/repositories/text_recognition_repository.dart';
+import 'package:ingredients_scanner/features/text_recognition/domain/usecases/get_recognized_text_usecase.dart';
 import 'package:ingredients_scanner/features/user_preferences/data/data_sources/user_preferences_data_source.dart';
 import 'package:ingredients_scanner/features/user_preferences/domain/usecases/get_user_preference.dart';
 import 'package:ingredients_scanner/features/user_preferences/domain/usecases/update_user_preferences.dart';
@@ -44,13 +48,18 @@ import 'package:shared_preferences/shared_preferences.dart';
   UpdateUserPreferences,
   //food_preferences
   FoodPreferencesRepository,
-  RemoteFoodPreferencesDataSourceImpl,
-  LocalFoodPreferencesDataSourceImpl,
+  RemoteFoodPreferencesDataSource,
+  LocalFoodPreferencesDataSource,
   GetFoodPreferences,
   UpdateFoodPreferences,
   CollectionReference,
   NetworkInfo,
   FirebaseFirestore,
+  //text_recognition
+  TextRecognitionRepository,
+  TextRecognitionDataSource,
+  TextRecognizer,
+  GetRecognizedText,
   //internet_connection_checker_plus
   InternetConnection
 ])

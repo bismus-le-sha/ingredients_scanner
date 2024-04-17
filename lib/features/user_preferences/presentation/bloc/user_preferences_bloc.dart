@@ -3,17 +3,17 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:talker_flutter/talker_flutter.dart';
+
+import '../../../../core/error/failures.dart';
 import '../../../../core/strings/failures.dart';
 import '../../../../core/usecase/usecase.dart';
+import '../../../../injection_container.dart';
 import '../../data/models/user_preferences_model.dart';
 import '../../domain/entities/user_preferences_entity.dart';
 import '../../domain/usecases/get_user_preference.dart';
 import '../../domain/usecases/params/user_preferences_params.dart';
 import '../../domain/usecases/update_user_preferences.dart';
-import '../../../../injection_container.dart';
-import 'package:talker_flutter/talker_flutter.dart';
-
-import '../../../../core/error/failures.dart';
 
 part 'user_preferences_event.dart';
 part 'user_preferences_state.dart';

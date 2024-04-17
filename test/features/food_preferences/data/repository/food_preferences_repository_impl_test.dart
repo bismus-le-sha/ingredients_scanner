@@ -11,14 +11,14 @@ import '../../../../helper/test_helper.mocks.dart';
 
 void main() {
   late FoodPreferencesRepositoryImpl repository;
-  late MockRemoteFoodPreferencesDataSourceImpl remoteDataSource;
-  late MockLocalFoodPreferencesDataSourceImpl localDataSource;
+  late MockRemoteFoodPreferencesDataSource remoteDataSource;
+  late MockLocalFoodPreferencesDataSource localDataSource;
   late MockNetworkInfo networkInfo;
   late FoodPreferencesModel testFoodPreferencesModel;
 
   setUp(() {
-    remoteDataSource = MockRemoteFoodPreferencesDataSourceImpl();
-    localDataSource = MockLocalFoodPreferencesDataSourceImpl();
+    remoteDataSource = MockRemoteFoodPreferencesDataSource();
+    localDataSource = MockLocalFoodPreferencesDataSource();
     networkInfo = MockNetworkInfo();
     repository = FoodPreferencesRepositoryImpl(
         remoteDataSource: remoteDataSource,

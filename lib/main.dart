@@ -33,8 +33,8 @@ void main() async {
     FlutterError.onError =
         (details) => talker.handle(details.exception, details.stack);
 
-    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-    await FirebaseStorage.instance.useStorageEmulator('localhost', 8085);
+    // await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+    // await FirebaseStorage.instance.useStorageEmulator('localhost', 8085);
 
     runApp(const IngredientsSannerApp());
   }, (e, st) {

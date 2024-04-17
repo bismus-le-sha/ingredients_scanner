@@ -8,7 +8,7 @@ import '../../features/food_preferences/presentation/pages/food_preferences_page
 import '../../features/other/page/home/home_navigation_page.dart';
 import '../../features/other/page/home/home_page.dart';
 import '../../features/other/page/home/menu_navigation_page.dart';
-import '../../features/other/page/home/scanner_page.dart';
+import '../../features/text_recognition/presentation/pages/text_recognition_page.dart';
 import '../../features/other/page/menu/profile_page.dart';
 import '../../features/other/page/menu/user_menu_page.dart';
 import '../../features/user_preferences/presentation/page/user_preferences_page.dart';
@@ -30,7 +30,7 @@ class AppRouter extends _$AppRouter {
               AutoRoute(page: UserPreferencesRoute.page),
             ]),
             AutoRoute(path: 'home', page: HomeRoute.page, initial: true),
-            AutoRoute(path: 'scanner', page: ScannerRoute.page),
+            AutoRoute(path: 'scanner', page: TextRecognitionRoute.page),
           ],
         ),
         AutoRoute(

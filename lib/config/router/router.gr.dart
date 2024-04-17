@@ -51,12 +51,6 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ProfilePage(),
       );
     },
-    ScannerRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const ScannerScreen(),
-      );
-    },
     SignInRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -67,6 +61,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const SignUpPage(),
+      );
+    },
+    TextRecognitionRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const TextRecognitionPage(),
       );
     },
     UserMenuRoute.name: (routeData) {
@@ -175,20 +175,6 @@ class ProfileRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [ScannerScreen]
-class ScannerRoute extends PageRouteInfo<void> {
-  const ScannerRoute({List<PageRouteInfo>? children})
-      : super(
-          ScannerRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'ScannerRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
 /// [SignInPage]
 class SignInRoute extends PageRouteInfo<void> {
   const SignInRoute({List<PageRouteInfo>? children})
@@ -212,6 +198,20 @@ class SignUpRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SignUpRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TextRecognitionPage]
+class TextRecognitionRoute extends PageRouteInfo<void> {
+  const TextRecognitionRoute({List<PageRouteInfo>? children})
+      : super(
+          TextRecognitionRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TextRecognitionRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

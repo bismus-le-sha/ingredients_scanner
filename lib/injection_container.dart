@@ -1,5 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:ingredients_scanner/core/util/gallery_controller/gallery_controller.dart';
+import 'package:ingredients_scanner/features/text_recognition/data/datasources/text_recognition_data_source.dart';
+import 'package:ingredients_scanner/features/text_recognition/data/repositories/text_recognition_repository_impl.dart';
+import 'package:ingredients_scanner/features/text_recognition/domain/repositories/text_recognition_repository.dart';
+import 'package:ingredients_scanner/features/text_recognition/domain/usecases/get_recognized_text_usecase.dart';
+import 'package:ingredients_scanner/features/text_recognition/presentation/bloc/text_recognition_bloc.dart';
 import 'features/food_preferences/data/datasources/local/local_food_preferences_data_source.dart';
 import 'features/food_preferences/data/datasources/remote/remote_food_preference_data_source.dart';
 import 'features/food_preferences/data/repositories/food_preferences_repository_impl.dart';
@@ -110,9 +117,28 @@ Future<void> init() async {
   //FirebaseFirestore
   sl.registerSingleton<FirebaseFirestore>(FirebaseFirestore.instance);
 
+//! Features - TextRecognition
+
+  //Bloc
+  sl.registerFactory(() =>
+      TextRecognitionBloc(getRecognizedText: sl(), galleryController: sl()));
+
+  //Usecases
+  sl.registerLazySingleton(() => GetRecognizedText(sl()));
+
+  //Repository
+  sl.registerLazySingleton<TextRecognitionRepository>(
+      () => TextRecognitionRepositoryImpl(textRecognizer: sl()));
+
+  //Datasources
+  sl.registerLazySingleton<TextRecognitionDataSource>(
+      () => TextRecognitionDataSourceImpl(textRecognizer: sl()));
+
 //! Core
 
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
+
+  sl.registerLazySingleton<GalleryController>(() => GallerycontrollerImpl());
 
 //! External
 
@@ -120,7 +146,11 @@ Future<void> init() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 
+  //IntnetConnection
   sl.registerLazySingleton<InternetConnection>(() => InternetConnection());
+
+  //TextRecognizer
+  sl.registerSingleton<TextRecognizer>(TextRecognizer());
 
 //! Config
 

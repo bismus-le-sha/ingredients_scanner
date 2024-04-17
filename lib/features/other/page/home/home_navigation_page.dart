@@ -38,7 +38,7 @@ class _HomeNavigationPageState extends State<HomeNavigationPage> {
       routes: const [
         UserMenuRoute(),
         HomeRoute(),
-        ScannerRoute(),
+        TextRecognitionRoute(),
       ],
       builder: (context, child, _) {
         final tabsRouter = AutoTabsRouter.of(context);
