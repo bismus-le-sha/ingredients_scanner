@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
-import 'package:ingredients_scanner/core/util/gallery_controller/gallery_controller.dart';
+import 'package:ingredients_scanner/core/util/gallery_controller/data/datasources/gallery_controller_data_source.dart';
+import 'package:ingredients_scanner/core/util/gallery_controller/domain/repositories/gallery_controller_repository.dart';
+import 'package:ingredients_scanner/core/util/gallery_controller/domain/usecases/get_from_gallery_usecase.dart';
 import 'package:ingredients_scanner/features/text_recognition/data/datasources/text_recognition_data_source.dart';
 import 'package:ingredients_scanner/features/text_recognition/data/repositories/text_recognition_repository_impl.dart';
 import 'package:ingredients_scanner/features/text_recognition/domain/repositories/text_recognition_repository.dart';
@@ -14,6 +16,7 @@ import 'features/food_preferences/domain/repositories/food_preferences_repositor
 import 'features/food_preferences/domain/usecases/get_food_preferences_usecase.dart';
 import 'features/food_preferences/domain/usecases/update_food_preferences.dart';
 import 'features/food_preferences/presentation/bloc/food_preferences_bloc.dart';
+import 'core/util/gallery_controller/data/repositories/gallery_controller_repository_impl.dart';
 import 'features/user_preferences/data/data_sources/user_preferences_data_source.dart';
 import 'features/user_preferences/data/repositories/user_preferences_repository_imp.dart';
 import 'features/user_preferences/domain/repositories/user_preferences_repositiory.dart';
@@ -120,8 +123,8 @@ Future<void> init() async {
 //! Features - TextRecognition
 
   //Bloc
-  sl.registerFactory(() =>
-      TextRecognitionBloc(getRecognizedText: sl(), galleryController: sl()));
+  sl.registerFactory(
+      () => TextRecognitionBloc(getRecognizedText: sl(), getFromGallery: sl()));
 
   //Usecases
   sl.registerLazySingleton(() => GetRecognizedText(sl()));
@@ -134,11 +137,22 @@ Future<void> init() async {
   sl.registerLazySingleton<TextRecognitionDataSource>(
       () => TextRecognitionDataSourceImpl(textRecognizer: sl()));
 
+//!Features - GalleryController
+
+  //Usecases
+  sl.registerLazySingleton(() => GetFromGallery(sl()));
+
+  //Repository
+  sl.registerLazySingleton<GalleryControllerRepository>(
+      () => GalleryControllerRepositoryImpl(galleryDataSource: sl()));
+
+  //Datasources
+  sl.registerLazySingleton<GalleryControllerDataSource>(
+      () => GalleryControllerDataSourceImpl());
+
 //! Core
 
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
-
-  sl.registerLazySingleton<GalleryController>(() => GallerycontrollerImpl());
 
 //! External
 

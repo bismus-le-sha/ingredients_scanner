@@ -7,11 +7,20 @@ abstract class TextRecognitionEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class GerRecognizedText extends TextRecognitionEvent {
-  const GerRecognizedText(this.path);
+class TakeRecognizedTextFromCamera extends TextRecognitionEvent {
+  const TakeRecognizedTextFromCamera(this.path);
 
   final String path;
 
   @override
   List<Object?> get props => [path];
+}
+
+class TakeRecognizedTextFromGallery extends TextRecognitionEvent {
+  const TakeRecognizedTextFromGallery(this.context);
+
+  final BuildContext context;
+
+  @override
+  List<Object?> get props => [context];
 }

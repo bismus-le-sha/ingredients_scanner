@@ -20,8 +20,9 @@ class _TextRecognitionPageState extends State<TextRecognitionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Scanner Screen')),
-        body: SingleChildScrollView(child: _buildBody()));
+      appBar: AppBar(title: const Text('Scanner Screen')),
+      body: SingleChildScrollView(child: _buildBody()),
+    );
   }
 
   BlocProvider<TextRecognitionBloc> _buildBody() {
@@ -45,7 +46,9 @@ class _TextRecognitionPageState extends State<TextRecognitionPage> {
                     return RecognizedTextDisplay(
                       textRecognitionEntity: state.textRecognitionEntity,
                     );
-                  } else if (state is TextRecognitionFailure) {}
+                  } else if (state is TextRecognitionFailure) {
+                    return Center(child: Text(state.message));
+                  }
                   return const Center(child: Text('bloc dont work'));
                 },
               ),
