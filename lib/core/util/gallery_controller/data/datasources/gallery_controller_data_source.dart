@@ -20,4 +20,8 @@ class GalleryControllerDataSourceImpl implements GalleryControllerDataSource {
       throw NoSuchFileException();
     }
   }
+
+  void dispose() {
+    GalleryPicker.dispose();
+  }
 }

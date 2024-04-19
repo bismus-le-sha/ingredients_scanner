@@ -1,7 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:gallery_picker/gallery_picker.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:ingredients_scanner/core/network/network_info.dart';
+import 'package:ingredients_scanner/core/util/gallery_controller/data/datasources/gallery_controller_data_source.dart';
+import 'package:ingredients_scanner/core/util/gallery_controller/domain/repositories/gallery_controller_repository.dart';
+import 'package:ingredients_scanner/core/util/gallery_controller/domain/usecases/get_from_gallery_usecase.dart';
 import 'package:ingredients_scanner/features/authentication/data/data_sources/auth_remote_data_source.dart';
 import 'package:ingredients_scanner/features/authentication/domain/repositories/authentication_repository.dart';
 import 'package:ingredients_scanner/features/authentication/domain/usecases/check_verification_usecase.dart';
@@ -60,6 +65,12 @@ import 'package:shared_preferences/shared_preferences.dart';
   TextRecognitionDataSource,
   TextRecognizer,
   GetRecognizedText,
+  //gallery_controller
+  GalleryControllerRepository,
+  GalleryControllerDataSource,
+  GetFromGallery,
+  BuildContext,
+  MediaFile,
   //internet_connection_checker_plus
   InternetConnection
 ])
