@@ -51,6 +51,22 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ProfilePage(),
       );
     },
+    ResultRoute.name: (routeData) {
+      final args = routeData.argsAs<ResultRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ResultScreen(
+          key: args.key,
+          textRecognitionEntity: args.textRecognitionEntity,
+        ),
+      );
+    },
+    ScannerNavigationRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ScannerNavigationPage(),
+      );
+    },
     SignInRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -170,6 +186,57 @@ class ProfileRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ProfileRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ResultScreen]
+class ResultRoute extends PageRouteInfo<ResultRouteArgs> {
+  ResultRoute({
+    Key? key,
+    required TextRecognitionEntity textRecognitionEntity,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ResultRoute.name,
+          args: ResultRouteArgs(
+            key: key,
+            textRecognitionEntity: textRecognitionEntity,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ResultRoute';
+
+  static const PageInfo<ResultRouteArgs> page = PageInfo<ResultRouteArgs>(name);
+}
+
+class ResultRouteArgs {
+  const ResultRouteArgs({
+    this.key,
+    required this.textRecognitionEntity,
+  });
+
+  final Key? key;
+
+  final TextRecognitionEntity textRecognitionEntity;
+
+  @override
+  String toString() {
+    return 'ResultRouteArgs{key: $key, textRecognitionEntity: $textRecognitionEntity}';
+  }
+}
+
+/// generated route for
+/// [ScannerNavigationPage]
+class ScannerNavigationRoute extends PageRouteInfo<void> {
+  const ScannerNavigationRoute({List<PageRouteInfo>? children})
+      : super(
+          ScannerNavigationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ScannerNavigationRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

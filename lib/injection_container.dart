@@ -1,14 +1,21 @@
+import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:ingredients_scanner/core/util/camera_controller/data/datasource/camera_controller_data_source.dart';
 import 'package:ingredients_scanner/core/util/gallery_controller/data/datasources/gallery_controller_data_source.dart';
 import 'package:ingredients_scanner/core/util/gallery_controller/domain/repositories/gallery_controller_repository.dart';
 import 'package:ingredients_scanner/core/util/gallery_controller/domain/usecases/get_from_gallery_usecase.dart';
+import 'package:ingredients_scanner/features/other/page/home/camera/bloc/camera_controller_bloc.dart';
 import 'package:ingredients_scanner/features/text_recognition/data/datasources/text_recognition_data_source.dart';
 import 'package:ingredients_scanner/features/text_recognition/data/repositories/text_recognition_repository_impl.dart';
 import 'package:ingredients_scanner/features/text_recognition/domain/repositories/text_recognition_repository.dart';
 import 'package:ingredients_scanner/features/text_recognition/domain/usecases/get_recognized_text_usecase.dart';
 import 'package:ingredients_scanner/features/text_recognition/presentation/bloc/text_recognition_bloc.dart';
+import 'core/util/camera_controller/data/repository/camera_controller_repository_impl.dart';
+import 'core/util/camera_controller/domain/repository/camera_controller_repository.dart';
+import 'core/util/camera_controller/domain/usecase/init_camera_controller.dart';
+import 'core/util/camera_controller/domain/usecase/take_picture_from_camera.dart';
 import 'features/food_preferences/data/datasources/local/local_food_preferences_data_source.dart';
 import 'features/food_preferences/data/datasources/remote/remote_food_preference_data_source.dart';
 import 'features/food_preferences/data/repositories/food_preferences_repository_impl.dart';
@@ -137,7 +144,7 @@ Future<void> init() async {
   sl.registerLazySingleton<TextRecognitionDataSource>(
       () => TextRecognitionDataSourceImpl(textRecognizer: sl()));
 
-//!Features - GalleryController
+//! Core - GalleryController
 
   //Usecases
   sl.registerLazySingleton(() => GetFromGallery(sl()));
@@ -149,6 +156,25 @@ Future<void> init() async {
   //Datasources
   sl.registerLazySingleton<GalleryControllerDataSource>(
       () => GalleryControllerDataSourceImpl());
+
+//! Core - Camera
+
+  //Bloc
+  sl.registerFactory<CameraControllerBloc>(() => CameraControllerBloc(
+      initCameraController: sl(), takePictureFromCamera: sl()));
+
+  //Usecases
+  sl.registerLazySingleton(() => InitCameraController(sl()));
+  sl.registerLazySingleton(() => TakePictureFromCamera(sl()));
+
+  //Repository
+  sl.registerLazySingleton<CameraControllerRepository>(
+      () => CameraControllerRepositoryImpl(dataSource: sl()));
+
+  //Datasource
+  final List<CameraDescription> cameras = await availableCameras();
+  sl.registerLazySingleton<CameraControllerDataSource>(
+      () => CameraControllerDataSourceImpl(cameras: cameras));
 
 //! Core
 

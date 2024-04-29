@@ -1,0 +1,64 @@
+// BlocProvider<CameraControllerBloc> _buildBody() {
+//   final bloc = BlocProvider.of<CameraControllerBloc>(context);
+//   return BlocProvider(
+//       create: (_) {
+//         bloc.add(InitCamera());
+//         return bloc;
+//       },
+//       child: BlocConsumer<CameraControllerBloc, CameraControllerState>(
+//           listener: (_, state) {
+//         if (state is PictureFromCameraLoaded) {
+//           context.pushRoute(
+//             ResultRoute(picture: state.picture),
+//           );
+//         }
+//       }, builder: (context, state) {
+//         if (state is CameraControllerLoaded) {
+//           return CameraWidget(
+//             cameraController: state.cameraController,
+//           );
+//         }
+//         if (state is CameraControllerFailure) {
+//           return Text(state.message);
+//         }
+//         return Container();
+//       }));
+// }
+
+// BlocProvider<TextRecognitionBloc> _buildBody() {
+//   return BlocProvider(
+//     create: (_) => sl<TextRecognitionBloc>(),
+//     child: Center(
+//       child: Padding(
+//         padding: const EdgeInsets.all(10),
+//         child: Column(
+//           children: [
+//             const SizedBox(
+//               height: 10,
+//             ),
+//             BlocBuilder<TextRecognitionBloc, TextRecognitionState>(
+//               builder: (context, state) {
+//                 if (state is TextRecognitionInitial) {
+//                   return const Center(child: Text('no data'));
+//                 } else if (state is TextRecognitionLoading) {
+//                   return const LoadingWidget();
+//                 } else if (state is TextRecognitionLoaded) {
+//                   return RecognizedTextDisplay(
+//                     textRecognitionEntity: state.textRecognitionEntity,
+//                   );
+//                 } else if (state is TextRecognitionFailure) {
+//                   return Center(child: Text(state.message));
+//                 }
+//                 return const Center(child: Text('bloc dont work'));
+//               },
+//             ),
+//             const SizedBox(
+//               height: 20,
+//             ),
+//             const TextRecognitionController()
+//           ],
+//         ),
+//       ),
+//     ),
+//   );
+// }

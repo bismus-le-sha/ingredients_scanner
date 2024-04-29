@@ -26,7 +26,9 @@ class _IngredientsSannerAppState extends State<IngredientsSannerApp> {
             title: 'Ingredients Scanner',
             theme: appTheme,
             debugShowCheckedModeBanner: false,
-            routerDelegate: AutoRouterDelegate.declarative(di.sl<AppRouter>(),
+            routerDelegate: AutoRouterDelegate.declarative(
+                di.sl<
+                    AppRouter>(), //TODO: Rewrite the deprecated implementation, use AuthGuard
                 navigatorObservers: () =>
                     [TalkerRouteObserver(GetIt.I<Talker>())],
                 routes: (_) => [

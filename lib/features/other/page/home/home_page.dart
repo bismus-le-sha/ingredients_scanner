@@ -12,7 +12,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    //  final theme = Theme.of(context);
-    return const Scaffold(body: Center(child: Text('home')));
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('home'),
+        ),
+        body: const Center(child: Text('home')));
   }
 }

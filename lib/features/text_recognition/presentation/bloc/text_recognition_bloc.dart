@@ -26,7 +26,7 @@ class TextRecognitionBloc
   TextRecognitionBloc(
       {required this.getRecognizedText, required this.getFromGallery})
       : super(TextRecognitionInitial()) {
-    on<TakeRecognizedTextFromGallery>((event, emit) async =>
+    on<TextRecognitionEvent>((event, emit) async =>
         await _textRecognizerMapEventToState(event, emit));
   }
 

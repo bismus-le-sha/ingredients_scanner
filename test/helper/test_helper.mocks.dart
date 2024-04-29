@@ -1682,13 +1682,18 @@ class MockCollectionReference<T extends Object?> extends _i1.Mock
       ) as _i10.Query<T>);
 
   @override
-  _i12.Stream<_i10.QuerySnapshot<T>> snapshots(
-          {bool? includeMetadataChanges = false}) =>
+  _i12.Stream<_i10.QuerySnapshot<T>> snapshots({
+    bool? includeMetadataChanges = false,
+    _i10.ListenSource? source = _i10.ListenSource.defaultSource,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #snapshots,
           [],
-          {#includeMetadataChanges: includeMetadataChanges},
+          {
+            #includeMetadataChanges: includeMetadataChanges,
+            #source: source,
+          },
         ),
         returnValue: _i12.Stream<_i10.QuerySnapshot<T>>.empty(),
       ) as _i12.Stream<_i10.QuerySnapshot<T>>);
@@ -2013,6 +2018,24 @@ class MockFirebaseFirestore extends _i1.Mock implements _i10.FirebaseFirestore {
         Invocation.setter(
           #databaseURL,
           _databaseURL,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  String get databaseId => (super.noSuchMethod(
+        Invocation.getter(#databaseId),
+        returnValue: _i46.dummyValue<String>(
+          this,
+          Invocation.getter(#databaseId),
+        ),
+      ) as String);
+
+  @override
+  set databaseId(String? _databaseId) => super.noSuchMethod(
+        Invocation.setter(
+          #databaseId,
+          _databaseId,
         ),
         returnValueForMissingStub: null,
       );

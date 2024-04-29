@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ingredients_scanner/features/text_recognition/presentation/bloc/text_recognition_bloc.dart';
 
-import '../../../../core/widgets/loading_widget.dart';
-import '../../../../injection_container.dart';
-import '../widgets/recognized_text_display.dart';
-import '../widgets/text_recognition_controller.dart';
+import '../../../../config/router/router.dart';
+import '../../../other/page/home/camera/bloc/camera_controller_bloc.dart';
+import '../../../other/page/home/camera/camera_widget.dart';
 
 @RoutePage()
 class TextRecognitionPage extends StatefulWidget {
@@ -16,50 +15,52 @@ class TextRecognitionPage extends StatefulWidget {
   State<TextRecognitionPage> createState() => _TextRecognitionPageState();
 }
 
+//TODO: Rewrite route
 class _TextRecognitionPageState extends State<TextRecognitionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Scanner Screen')),
-      body: SingleChildScrollView(child: _buildBody()),
+      body: _buildBody(),
     );
   }
 
-  BlocProvider<TextRecognitionBloc> _buildBody() {
-    return BlocProvider(
-      create: (_) => sl<TextRecognitionBloc>(),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              BlocBuilder<TextRecognitionBloc, TextRecognitionState>(
-                builder: (context, state) {
-                  if (state is TextRecognitionInitial) {
-                    return const Center(child: Text('no data'));
-                  } else if (state is TextRecognitionLoading) {
-                    return const LoadingWidget();
-                  } else if (state is TextRecognitionLoaded) {
-                    return RecognizedTextDisplay(
-                      textRecognitionEntity: state.textRecognitionEntity,
-                    );
-                  } else if (state is TextRecognitionFailure) {
-                    return Center(child: Text(state.message));
-                  }
-                  return const Center(child: Text('bloc dont work'));
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const TextRecognitionController()
-            ],
-          ),
-        ),
-      ),
-    );
+  MultiBlocListener _buildBody() {
+    final bloc = BlocProvider.of<CameraControllerBloc>(context);
+    return MultiBlocListener(
+        listeners: [
+          BlocListener<CameraControllerBloc, CameraControllerState>(
+              listener: (context, state) {
+            if (state is PictureFromCameraLoaded) {
+              BlocProvider.of<TextRecognitionBloc>(context)
+                  .add(TakeRecognizedTextFromCamera(state.picture.path));
+            }
+          }),
+          BlocListener<TextRecognitionBloc, TextRecognitionState>(
+            listener: (context, state) {
+              if (state is TextRecognitionLoaded) {
+                context.pushRoute(
+                  ResultRoute(
+                      textRecognitionEntity: state.textRecognitionEntity),
+                );
+              }
+            },
+          )
+        ],
+        child: BlocProvider(create: (_) {
+          bloc.add(InitCamera());
+          return bloc;
+        }, child: BlocBuilder<CameraControllerBloc, CameraControllerState>(
+            builder: (context, state) {
+          if (state is CameraControllerLoaded) {
+            return CameraWidget(
+              cameraController: state.cameraController,
+            );
+          }
+          if (state is CameraControllerFailure) {
+            return Text(state.message);
+          }
+          return Container();
+        })));
   }
 }
