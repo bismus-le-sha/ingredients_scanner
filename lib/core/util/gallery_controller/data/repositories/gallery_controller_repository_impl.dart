@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 
 import 'package:flutter/material.dart';
-import 'package:ingredients_scanner/core/error/exceptions.dart';
-import 'package:ingredients_scanner/core/error/failures.dart';
-import 'package:ingredients_scanner/core/util/gallery_controller/data/datasources/gallery_controller_data_source.dart';
+import '../../../../error/exceptions.dart';
+import '../../../../error/failures.dart';
+import '../datasources/gallery_controller_data_source.dart';
 
 import '../../domain/repositories/gallery_controller_repository.dart';
 

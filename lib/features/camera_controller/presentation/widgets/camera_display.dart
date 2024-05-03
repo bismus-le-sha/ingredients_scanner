@@ -1,20 +1,20 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ingredients_scanner/features/other/page/home/camera/bloc/camera_controller_bloc.dart';
+import '../bloc/camera_controller_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../../text_recognition/presentation/bloc/text_recognition_bloc.dart';
+import '../../../text_recognition/presentation/bloc/text_recognition_bloc.dart';
 
-class CameraWidget extends StatefulWidget {
-  const CameraWidget({super.key, required this.cameraController});
+class CameraDisplay extends StatefulWidget {
+  const CameraDisplay({super.key, required this.cameraController});
   final CameraController cameraController;
 
   @override
-  State<CameraWidget> createState() => _CameraWidgetState();
+  State<CameraDisplay> createState() => _CameraDisplayState();
 }
 
-class _CameraWidgetState extends State<CameraWidget> {
+class _CameraDisplayState extends State<CameraDisplay> {
   bool _isPermissionGranted = false;
   late final Future<void> _future;
 

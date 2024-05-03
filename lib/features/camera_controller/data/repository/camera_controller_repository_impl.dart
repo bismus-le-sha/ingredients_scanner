@@ -1,9 +1,9 @@
 import 'package:camera/camera.dart';
 import 'package:dartz/dartz.dart';
 
-import 'package:ingredients_scanner/core/util/camera_controller/data/datasource/camera_controller_data_source.dart';
+import '../datasource/camera_controller_data_source.dart';
 
-import '../../../../error/failures.dart';
+import '../../../../core/error/failures.dart';
 import '../../domain/repository/camera_controller_repository.dart';
 
 class CameraControllerRepositoryImpl implements CameraControllerRepository {
@@ -23,6 +23,15 @@ class CameraControllerRepositoryImpl implements CameraControllerRepository {
   Future<Either<Failure, XFile>> takePictureFromCamera() async {
     try {
       return Right(await dataSource.takePictureFromCamera());
+    } on CameraException {
+      return Left(CameraFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> disposeCameraController() async {
+    try {
+      return Right(await dataSource.disposeCameraController());
     } on CameraException {
       return Left(CameraFailure());
     }

@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 
-import 'package:ingredients_scanner/core/error/failures.dart';
-import 'package:ingredients_scanner/features/text_recognition/data/datasources/text_recognition_data_source.dart';
-import 'package:ingredients_scanner/features/text_recognition/domain/entities/text_recognition_entity.dart';
+import '../../../../core/error/failures.dart';
+import '../datasources/text_recognition_data_source.dart';
+import '../../domain/entities/text_recognition_entity.dart';
 
 import '../../domain/repositories/text_recognition_repository.dart';
 

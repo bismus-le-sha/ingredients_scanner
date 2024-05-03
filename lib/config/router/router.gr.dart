@@ -82,7 +82,7 @@ abstract class _$AppRouter extends RootStackRouter {
     TextRecognitionRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const TextRecognitionPage(),
+        child: const CameraPage(),
       );
     },
     UserMenuRoute.name: (routeData) {
@@ -270,7 +270,7 @@ class SignUpRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [TextRecognitionPage]
+/// [CameraPage]
 class TextRecognitionRoute extends PageRouteInfo<void> {
   const TextRecognitionRoute({List<PageRouteInfo>? children})
       : super(

@@ -7,15 +7,10 @@ sealed class CameraControllerEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitCamera extends CameraControllerEvent {
-  // const InitCamera(this.cameras);
-
-  // final List<CameraDescription> cameras;
-
-  // @override
-  // List<Object?> get props => [cameras];
-}
+class InitCamera extends CameraControllerEvent {}
 
 class TakePicture extends CameraControllerEvent {}
+
+class DisposeCamera extends CameraControllerEvent {}
 
 class ChangeCameraFalsh extends CameraControllerEvent {}

@@ -29,6 +29,8 @@ final class PictureFromCameraLoaded extends CameraControllerState {
   List<Object?> get props => [picture];
 }
 
+final class CameraControllerDispose extends CameraControllerState {}
+
 final class CameraControllerFailure extends CameraControllerState {
   final String message;
 

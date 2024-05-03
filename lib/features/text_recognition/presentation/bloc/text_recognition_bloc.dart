@@ -4,9 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:ingredients_scanner/core/util/gallery_controller/domain/usecases/params/gallery_controller_params.dart';
-import 'package:ingredients_scanner/features/text_recognition/domain/entities/text_recognition_entity.dart';
-import 'package:ingredients_scanner/features/text_recognition/domain/usecases/params/text_recognition_params.dart';
+import '../../../../core/util/gallery_controller/domain/usecases/params/gallery_controller_params.dart';
+import '../../domain/entities/text_recognition_entity.dart';
+import '../../domain/usecases/params/text_recognition_params.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import '../../../../core/error/failures.dart';

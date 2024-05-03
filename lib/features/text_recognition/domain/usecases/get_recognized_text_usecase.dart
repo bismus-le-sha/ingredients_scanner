@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:ingredients_scanner/core/error/failures.dart';
-import 'package:ingredients_scanner/core/usecase/usecase.dart';
-import 'package:ingredients_scanner/features/text_recognition/domain/entities/text_recognition_entity.dart';
+import '../../../../core/error/failures.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../entities/text_recognition_entity.dart';
 
 import '../repositories/text_recognition_repository.dart';
 import 'params/text_recognition_params.dart';

@@ -1,8 +1,10 @@
 import 'package:camera/camera.dart';
+import 'package:dartz/dartz.dart';
 
 abstract class CameraControllerDataSource {
   Future<CameraController> initCameraController();
   Future<XFile> takePictureFromCamera();
+  Future<Unit> disposeCameraController();
 }
 
 //TODO: Add cameraFlash controller and cameraSelector
@@ -29,6 +31,24 @@ class CameraControllerDataSourceImpl implements CameraControllerDataSource {
     }
   }
 
+  @override
+  Future<Unit> disposeCameraController() {
+    cameraController.dispose();
+    return Future.value(unit);
+  }
+
+  Future<CameraController> _initCamera(CameraDescription camera) async {
+    cameraController = CameraController(
+      camera,
+      ResolutionPreset.max,
+      enableAudio: false,
+    );
+
+    await cameraController.initialize();
+    await cameraController.setFlashMode(FlashMode.off);
+    return cameraController;
+  }
+
   // void _selectCamera(List<CameraDescription> cameras) {
   //   CameraDescription? camera;
   //   for (var i = 0; i < cameras.length; i++) {
@@ -43,16 +63,4 @@ class CameraControllerDataSourceImpl implements CameraControllerDataSource {
   //     _initCamera(camera);
   //   }
   // }
-
-  Future<CameraController> _initCamera(CameraDescription camera) async {
-    cameraController = CameraController(
-      camera,
-      ResolutionPreset.max,
-      enableAudio: false,
-    );
-
-    await cameraController.initialize();
-    await cameraController.setFlashMode(FlashMode.off);
-    return cameraController;
-  }
 }

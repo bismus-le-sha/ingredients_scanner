@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ingredients_scanner/features/other/page/home/camera/bloc/camera_controller_bloc.dart';
+import '../../../camera_controller/presentation/bloc/camera_controller_bloc.dart';
 
 import '../../../../injection_container.dart';
 import '../../../text_recognition/presentation/bloc/text_recognition_bloc.dart';
