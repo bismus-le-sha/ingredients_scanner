@@ -16,7 +16,7 @@ class RemoteFoodPreferencesDataSourceImpl
 
   RemoteFoodPreferencesDataSourceImpl({required this.instance}) {
     _foodPreferencesRef = instance
-        .collection(foodPreferencesDBName)
+        .collection(FOOD_PREFERENCES_DB_NAME)
         .withConverter<FoodPreferencesModel>(
             fromFirestore: (snapshots, _) =>
                 FoodPreferencesModel.fromJson(snapshots.data()!),

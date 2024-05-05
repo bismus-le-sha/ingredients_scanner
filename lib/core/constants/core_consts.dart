@@ -1,1 +1,1 @@
-const String foodPreferencesDBName = 'food_preferences';
+const String FOOD_PREFERENCES_DB_NAME = 'food_preferences';

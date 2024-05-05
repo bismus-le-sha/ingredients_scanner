@@ -6,7 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/strings/failures.dart';
+import '../../../../core/constants/failures.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../../../../injection_container.dart';
 import '../../data/models/user_preferences_model.dart';

@@ -39,7 +39,7 @@ void main() {
   group('getFoodPreferences', () {
     test('should  return FoodPreferences from FirebaseStore', () async {
       //arrange
-      when(instance.collection(foodPreferencesDBName))
+      when(instance.collection(FOOD_PREFERENCES_DB_NAME))
           .thenReturn(collectionReference);
       when(collectionReference.withConverter(
               fromFirestore: (snapshots, _) =>

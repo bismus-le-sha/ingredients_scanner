@@ -7,7 +7,7 @@ import '../../../../../core/usecase/usecase.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import '../../../../../core/error/failures.dart';
-import '../../../../../core/strings/failures.dart';
+import '../../../../../core/constants/failures.dart';
 import '../../../../../injection_container.dart';
 import '../../../domain/entities/sign_in_entity.dart';
 import '../../../domain/entities/sign_up_entity.dart';
