@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../core/constants/food_preferences_list.dart';
+import '../../../../core/resources/food_preferences_list.dart';
 import '../../domain/entities/food_preferences_entity.dart';
 
 class FoodPreferencesModel extends FoodPreferencesEntity {

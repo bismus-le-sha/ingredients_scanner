@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../core/constants/user_preferences_list.dart';
+import '../../../../core/resources/user_preferences_list.dart';
 import '../../domain/entities/user_preferences_entity.dart';
 
 class UserPreferencesModel extends UserPreferencesEntity {

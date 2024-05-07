@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ingredients_scanner/core/strings/user_preferences_list.dart';
+import 'package:ingredients_scanner/core/resources/user_preferences_list.dart';
 import 'package:ingredients_scanner/features/user_preferences/data/data_sources/user_preferences_data_source.dart';
 import 'package:ingredients_scanner/features/user_preferences/data/models/user_preferences_model.dart';
 import 'package:mockito/mockito.dart';

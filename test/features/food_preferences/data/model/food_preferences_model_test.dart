@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ingredients_scanner/core/constants/food_preferences_list.dart';
+import 'package:ingredients_scanner/core/resources/food_preferences_list.dart';
 import 'package:ingredients_scanner/features/food_preferences/data/models/food_preferences_model.dart';
 import 'package:ingredients_scanner/features/food_preferences/domain/entities/food_preferences_entity.dart';
 import 'package:mockito/mockito.dart';
