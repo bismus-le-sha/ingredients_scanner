@@ -11,9 +11,10 @@ class CameraControllerRepositoryImpl implements CameraControllerRepository {
   final CameraControllerDataSource dataSource;
 
   @override
-  Future<Either<Failure, CameraController>> initCameraController() async {
+  Future<Either<Failure, CameraController>> initCameraController(
+      bool cameraFlashValue) async {
     try {
-      return Right(await dataSource.initCameraController());
+      return Right(await dataSource.initCameraController(cameraFlashValue));
     } on CameraException {
       return Left(CameraFailure());
     }
@@ -32,6 +33,15 @@ class CameraControllerRepositoryImpl implements CameraControllerRepository {
   Future<Either<Failure, Unit>> disposeCameraController() async {
     try {
       return Right(await dataSource.disposeCameraController());
+    } on CameraException {
+      return Left(CameraFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> changeCameraFlash(bool cameraFlashValue) async {
+    try {
+      return Right(await dataSource.controllCameraFlash(cameraFlashValue));
     } on CameraException {
       return Left(CameraFailure());
     }

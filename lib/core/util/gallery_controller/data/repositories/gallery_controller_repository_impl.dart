@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:dartz/dartz.dart';
 
 import 'package:flutter/material.dart';
@@ -19,6 +20,15 @@ class GalleryControllerRepositoryImpl implements GalleryControllerRepository {
       return Right(await galleryDataSource.getFromGallery(context));
     } on NoSuchFileException {
       return Left(NoSuchFileFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> disposeGallery() async {
+    try {
+      return Right(await galleryDataSource.disposeGallery());
+    } on CameraException {
+      return Left(CameraFailure());
     }
   }
 }

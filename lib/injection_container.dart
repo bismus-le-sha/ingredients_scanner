@@ -2,11 +2,12 @@ import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:ingredients_scanner/features/camera_controller/domain/usecase/change_camera_flash.dart';
 import 'features/camera_controller/data/datasource/camera_controller_data_source.dart';
 import 'features/camera_controller/domain/usecase/dispose_camera_controller.dart';
 import 'core/util/gallery_controller/data/datasources/gallery_controller_data_source.dart';
 import 'core/util/gallery_controller/domain/repositories/gallery_controller_repository.dart';
-import 'core/util/gallery_controller/domain/usecases/get_from_gallery_usecase.dart';
+import 'core/util/gallery_controller/domain/usecases/get_from_gallery.dart';
 import 'features/camera_controller/presentation/bloc/camera_controller_bloc.dart';
 import 'features/text_recognition/data/datasources/text_recognition_data_source.dart';
 import 'features/text_recognition/data/repositories/text_recognition_repository_impl.dart';
@@ -35,7 +36,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import 'config/router/router.dart';
-import 'core/network/network_info.dart';
+import 'core/util/network/network_info.dart';
 import 'features/authentication/data/data_sources/auth_remote_data_source.dart';
 import 'features/authentication/data/repositories/auth_repository_impl.dart';
 import 'features/authentication/domain/repositories/authentication_repository.dart';
@@ -164,12 +165,14 @@ Future<void> init() async {
   sl.registerFactory<CameraControllerBloc>(() => CameraControllerBloc(
       initCameraController: sl(),
       takePictureFromCamera: sl(),
-      disposeCameraController: sl()));
+      disposeCameraController: sl(),
+      changeCameraFlash: sl()));
 
   //Usecases
   sl.registerLazySingleton(() => InitCameraController(sl()));
   sl.registerLazySingleton(() => TakePictureFromCamera(sl()));
   sl.registerLazySingleton(() => DisposeCameraController(sl()));
+  sl.registerLazySingleton(() => ChangeCameraFlash(sl()));
 
   //Repository
   sl.registerLazySingleton<CameraControllerRepository>(

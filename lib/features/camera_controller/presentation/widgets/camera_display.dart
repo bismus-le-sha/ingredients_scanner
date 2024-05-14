@@ -7,8 +7,10 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../../text_recognition/presentation/bloc/text_recognition_bloc.dart';
 
 class CameraDisplay extends StatefulWidget {
-  const CameraDisplay({super.key, required this.cameraController});
+  const CameraDisplay(
+      {super.key, required this.cameraController, required this.cameraFlash});
   final CameraController cameraController;
+  final bool cameraFlash;
 
   @override
   State<CameraDisplay> createState() => _CameraDisplayState();
@@ -58,6 +60,29 @@ class _CameraDisplayState extends State<CameraDisplay> {
               body: _isPermissionGranted
                   ? Column(
                       children: [
+                        GestureDetector(
+                          onTap: () => _changeCameraFlash(!widget.cameraFlash),
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Color.fromARGB(50, 0, 0, 0),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: widget.cameraFlash
+                                  ? const Icon(
+                                      Icons.flash_on,
+                                      color: Colors.white,
+                                      size: 30,
+                                    )
+                                  : const Icon(
+                                      Icons.flash_off,
+                                      color: Colors.white,
+                                      size: 30,
+                                    ),
+                            ),
+                          ),
+                        ),
                         Expanded(
                           child: Container(),
                         ),
@@ -114,6 +139,11 @@ class _CameraDisplayState extends State<CameraDisplay> {
 
   Future<void> _takePicture() async {
     BlocProvider.of<CameraControllerBloc>(context).add(TakePicture());
+  }
+
+  Future<void> _changeCameraFlash(bool cameraFlash) async {
+    BlocProvider.of<CameraControllerBloc>(context)
+        .add(SwitchCameraFlash(cameraFlashValue: cameraFlash));
   }
 
   Future<void> _recognitionTextFromGallery() async {

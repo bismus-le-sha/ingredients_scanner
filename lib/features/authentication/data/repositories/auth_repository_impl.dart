@@ -6,7 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
-import '../../../../core/network/network_info.dart';
+import '../../../../core/util/network/network_info.dart';
 import '../../domain/entities/sign_in_entity.dart';
 import '../../domain/entities/sign_up_entity.dart';
 import '../../domain/repositories/authentication_repository.dart';

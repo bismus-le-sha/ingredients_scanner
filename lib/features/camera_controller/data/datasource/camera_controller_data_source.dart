@@ -2,9 +2,10 @@ import 'package:camera/camera.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class CameraControllerDataSource {
-  Future<CameraController> initCameraController();
+  Future<CameraController> initCameraController(bool cameraFlashValue);
   Future<XFile> takePictureFromCamera();
   Future<Unit> disposeCameraController();
+  Future<Unit> controllCameraFlash(bool cameraFlashValue);
 }
 
 //TODO: Add cameraFlash controller and cameraSelector
@@ -17,8 +18,8 @@ class CameraControllerDataSourceImpl implements CameraControllerDataSource {
   });
 
   @override
-  Future<CameraController> initCameraController() {
-    return _initCamera(cameras[0]);
+  Future<CameraController> initCameraController(bool cameraFlashValue) {
+    return _initCamera(cameras[0], cameraFlashValue);
   }
 
   @override
@@ -37,7 +38,8 @@ class CameraControllerDataSourceImpl implements CameraControllerDataSource {
     return Future.value(unit);
   }
 
-  Future<CameraController> _initCamera(CameraDescription camera) async {
+  Future<CameraController> _initCamera(
+      CameraDescription camera, bool cameraFlashValue) async {
     cameraController = CameraController(
       camera,
       ResolutionPreset.max,
@@ -45,8 +47,19 @@ class CameraControllerDataSourceImpl implements CameraControllerDataSource {
     );
 
     await cameraController.initialize();
-    await cameraController.setFlashMode(FlashMode.off);
+    await controllCameraFlash(cameraFlashValue);
     return cameraController;
+  }
+
+  @override
+  Future<Unit> controllCameraFlash(bool value) async {
+    if (value) {
+      await cameraController.setFlashMode(FlashMode.always);
+      return Future.value(unit);
+    } else {
+      await cameraController.setFlashMode(FlashMode.off);
+      return Future.value(unit);
+    }
   }
 
   // void _selectCamera(List<CameraDescription> cameras) {

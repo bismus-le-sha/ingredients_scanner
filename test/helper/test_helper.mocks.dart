@@ -17,13 +17,14 @@ import 'package:gallery_picker/gallery_picker.dart' as _i56;
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart'
     as _i14;
 import 'package:ingredients_scanner/core/error/failures.dart' as _i20;
-import 'package:ingredients_scanner/core/network/network_info.dart' as _i47;
+import 'package:ingredients_scanner/core/util/network/network_info.dart'
+    as _i47;
 import 'package:ingredients_scanner/core/usecase/usecase.dart' as _i29;
 import 'package:ingredients_scanner/core/util/gallery_controller/data/datasources/gallery_controller_data_source.dart'
     as _i53;
 import 'package:ingredients_scanner/core/util/gallery_controller/domain/repositories/gallery_controller_repository.dart'
     as _i17;
-import 'package:ingredients_scanner/core/util/gallery_controller/domain/usecases/get_from_gallery_usecase.dart'
+import 'package:ingredients_scanner/core/util/gallery_controller/domain/usecases/get_from_gallery.dart'
     as _i54;
 import 'package:ingredients_scanner/core/util/gallery_controller/domain/usecases/params/gallery_controller_params.dart'
     as _i55;

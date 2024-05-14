@@ -2,6 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ingredients_scanner/features/camera_controller/domain/usecase/change_camera_flash.dart';
+import 'package:ingredients_scanner/features/camera_controller/domain/usecase/params/camera_params.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../../domain/usecase/dispose_camera_controller.dart';
 import '../../domain/usecase/init_camera_controller.dart';
@@ -19,12 +22,14 @@ class CameraControllerBloc
   InitCameraController initCameraController;
   TakePictureFromCamera takePictureFromCamera;
   DisposeCameraController disposeCameraController;
+  ChangeCameraFlash changeCameraFlash;
 
-  CameraControllerBloc(
-      {required this.initCameraController,
-      required this.takePictureFromCamera,
-      required this.disposeCameraController})
-      : super(CameraControllerInitial()) {
+  CameraControllerBloc({
+    required this.initCameraController,
+    required this.takePictureFromCamera,
+    required this.disposeCameraController,
+    required this.changeCameraFlash,
+  }) : super(CameraControllerInitial()) {
     on<CameraControllerEvent>(
         (event, emit) async => await _cameraMapEventToState(event, emit));
   }
@@ -32,7 +37,8 @@ class CameraControllerBloc
   Future<void> _cameraMapEventToState(dynamic event, dynamic emit) async {
     if (event is InitCamera) {
       emit(CameraControllerLoading());
-      final failureOrCameraController = await initCameraController(NoParams());
+      final failureOrCameraController = await initCameraController(
+          CameraParams(cameraFlashValue: event.cameraFlashValue));
       emit(_eitherLoadedOrErrorState(failureOrCameraController));
     }
     if (event is TakePicture) {
@@ -41,7 +47,12 @@ class CameraControllerBloc
     }
     if (event is DisposeCamera) {
       final failureOrDisposeCamera = await disposeCameraController(NoParams());
-      emit(_eitherUnitOrErrorState(failureOrDisposeCamera));
+      emit(_eitherUnitDisposeOrErrorState(failureOrDisposeCamera));
+    }
+    if (event is SwitchCameraFlash) {
+      final failureOrChangeCameraFlash = await changeCameraFlash(
+          CameraParams(cameraFlashValue: event.cameraFlashValue));
+      emit(_eitherUnitOrErrorState(failureOrChangeCameraFlash));
     }
   }
 
@@ -61,11 +72,20 @@ class CameraControllerBloc
         (picture) => PictureFromCameraLoaded(picture: picture));
   }
 
-  CameraControllerState _eitherUnitOrErrorState(Either failureOrPicture) {
-    return failureOrPicture.fold(
+  CameraControllerState _eitherUnitDisposeOrErrorState(
+      Either failureOrDisposeCamera) {
+    return failureOrDisposeCamera.fold(
         (failure) =>
             CameraControllerFailure(message: _mapFailureToMessage(failure)),
         (unit) => CameraControllerDispose());
+  }
+
+  CameraControllerState _eitherUnitOrErrorState(
+      Either failureOrChangeCameraFlash) {
+    return failureOrChangeCameraFlash.fold(
+        (failure) =>
+            CameraControllerFailure(message: _mapFailureToMessage(failure)),
+        (unit) => CameraControllerChangeFlash());
   }
 
   String _mapFailureToMessage(Failure failure) {

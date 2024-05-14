@@ -58,7 +58,7 @@ void main() {
 
   test('should dispose GalleryPicker', () async {
     //act
-    dataSourceImpl.dispose();
+    dataSourceImpl.disposeGallery();
     //assert
     verify(picker.dispose()).called(1);
   });

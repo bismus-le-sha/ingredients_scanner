@@ -7,10 +7,26 @@ sealed class CameraControllerEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitCamera extends CameraControllerEvent {}
+class InitCamera extends CameraControllerEvent {
+  final bool cameraFlashValue;
+
+  const InitCamera({required this.cameraFlashValue});
+
+  @override
+  List<Object?> get props => [cameraFlashValue];
+}
 
 class TakePicture extends CameraControllerEvent {}
 
 class DisposeCamera extends CameraControllerEvent {}
 
-class ChangeCameraFalsh extends CameraControllerEvent {}
+class SwitchCameraFlash extends CameraControllerEvent {
+  final bool cameraFlashValue;
+
+  const SwitchCameraFlash({
+    required this.cameraFlashValue,
+  });
+
+  @override
+  List<Object?> get props => [cameraFlashValue];
+}

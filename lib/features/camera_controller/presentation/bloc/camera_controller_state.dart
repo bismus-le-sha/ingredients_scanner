@@ -31,6 +31,8 @@ final class PictureFromCameraLoaded extends CameraControllerState {
 
 final class CameraControllerDispose extends CameraControllerState {}
 
+final class CameraControllerChangeFlash extends CameraControllerState {}
+
 final class CameraControllerFailure extends CameraControllerState {
   final String message;
 
