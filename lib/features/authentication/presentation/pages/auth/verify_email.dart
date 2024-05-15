@@ -31,7 +31,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
               const Padding(
                 padding: EdgeInsets.all(50),
                 child:
-                    Image(image: AssetImage('assets/images/verify_page.jpg')),
+                    Image(image: AssetImage("assets/images/verify_page.jpg")),
               ),
               const Padding(
                 padding: EdgeInsets.all(20.0),

@@ -34,6 +34,7 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    BlocProvider.of<CameraControllerBloc>(context).add(DisposeCamera());
     super.dispose();
   }
 
@@ -110,7 +111,7 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
           if (state is CameraControllerFailure) {
             return CameraFailureDisplay(
                 onReload: () =>
-                    userPreferencesBloc.add(const UserPreferencesLoad()),
+                    cameraBloc.add(InitCamera(cameraFlashValue: cameraFlash)),
                 failureMessage: state.message);
           }
           return const Center(

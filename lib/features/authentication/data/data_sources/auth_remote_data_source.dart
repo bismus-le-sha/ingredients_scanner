@@ -38,7 +38,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<UserCredential> signUp(SignUpModel signUp) async {
     try {
       FirebaseAuth firebaseInstance = FirebaseAuth.instance;
-      await firebaseInstance.currentUser?.reload();
       return await firebaseInstance.createUserWithEmailAndPassword(
         email: signUp.email,
         password: signUp.password,
@@ -79,14 +78,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<UserCredential> googleAuthentication() async {
     FirebaseAuth firebaseInstance = FirebaseAuth.instance;
-    await firebaseInstance.currentUser?.reload();
-    // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    // Obtain the auth details from the request
     final GoogleSignInAuthentication? googleAuth =
         await googleUser?.authentication;
 
-    // Create a new credential
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,

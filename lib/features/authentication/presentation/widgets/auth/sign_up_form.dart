@@ -183,13 +183,13 @@ class _SignUpFormState extends State<SignUpForm> {
                       },
                       style: ButtonStyle(
                         shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                            WidgetStateProperty.all<RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         )),
                         minimumSize:
-                            MaterialStateProperty.all(const Size(500, 50)),
-                        textStyle: MaterialStateProperty.all(
+                            WidgetStateProperty.all(const Size(500, 50)),
+                        textStyle: WidgetStateProperty.all(
                             const TextStyle(fontSize: 18)),
                       ),
                       child: const Text('Signup'),
@@ -253,12 +253,12 @@ class _SignUpFormState extends State<SignUpForm> {
     return ElevatedButton(
         onPressed: onPress,
         style: ButtonStyle(
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           )),
-          minimumSize: MaterialStateProperty.all(const Size(500, 50)),
-          textStyle: MaterialStateProperty.all(const TextStyle(fontSize: 18)),
+          minimumSize: WidgetStateProperty.all(const Size(500, 50)),
+          textStyle: WidgetStateProperty.all(const TextStyle(fontSize: 18)),
         ),
         child: child);
   }

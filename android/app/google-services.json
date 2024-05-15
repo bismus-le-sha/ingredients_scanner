@@ -12,7 +12,20 @@
           "package_name": "com.example.ingredients_scanner"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "605864898154-c7mt6l79iqog3v63hr21g78dejs4f845.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ingredients_scanner",
+            "certificate_hash": "164deb9421bcde99829a9cfba4fe9383eca58be3"
+          }
+        },
+        {
+          "client_id": "605864898154-o9tv5nel04vql32leo7sgm9o832g73cu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA4W2fSQeiXhy0yQXGBho0r76UAnvufoUk"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "605864898154-ipu4iqvp3ultlsh10sulopjhhgq51pv0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "605864898154-32nko42gf73cpil4jhjcm5g88ovf156r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ingredientsScanner"
+              }
+            }
+          ]
         }
       }
     }

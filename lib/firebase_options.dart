@@ -50,23 +50,22 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCxfbetLHT3qRJ9-ZpHgMKGJS_S3E81Wh8',
-    appId: '1:134996633346:android:fb10a97e6951c81850c41b',
-    messagingSenderId: '134996633346',
-    projectId: 'ingredientsscan',
-    databaseURL: 'https://ingredientsscan-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'ingredientsscan.appspot.com',
+    apiKey: 'AIzaSyA4W2fSQeiXhy0yQXGBho0r76UAnvufoUk',
+    appId: '1:605864898154:android:8b5d07926e81aa2648e413',
+    messagingSenderId: '605864898154',
+    projectId: 'ingredientscheck',
+    storageBucket: 'ingredientscheck.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyANXR62eoItoADkrVT5oJiup7QOQhhD7Co',
-    appId: '1:134996633346:ios:62e5d161eaa9ef0850c41b',
-    messagingSenderId: '134996633346',
-    projectId: 'ingredientsscan',
-    databaseURL: 'https://ingredientsscan-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'ingredientsscan.appspot.com',
-    androidClientId: '134996633346-lm4cd3t4ccsvke8qnfup1sbjb60lhkj9.apps.googleusercontent.com',
-    iosClientId: '134996633346-0nlfkjf0faqgmmcseri3u8n9nfagm514.apps.googleusercontent.com',
+    apiKey: 'AIzaSyDEQFyA_EMB-uUhSims3yKOEn6wrNFGlrs',
+    appId: '1:605864898154:ios:c87e110c6fe1fa1948e413',
+    messagingSenderId: '605864898154',
+    projectId: 'ingredientscheck',
+    storageBucket: 'ingredientscheck.appspot.com',
+    androidClientId: '605864898154-c7mt6l79iqog3v63hr21g78dejs4f845.apps.googleusercontent.com',
+    iosClientId: '605864898154-32nko42gf73cpil4jhjcm5g88ovf156r.apps.googleusercontent.com',
     iosBundleId: 'com.example.ingredientsScanner',
   );
+
 }
