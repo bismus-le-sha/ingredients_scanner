@@ -61,7 +61,7 @@ abstract class _$AppRouter extends RootStackRouter {
       final args = routeData.argsAs<ResultRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: ResultScreen(
+        child: ResultPage(
           key: args.key,
           textRecognitionEntity: args.textRecognitionEntity,
         ),
@@ -209,7 +209,7 @@ class ProfileRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [ResultScreen]
+/// [ResultPage]
 class ResultRoute extends PageRouteInfo<ResultRouteArgs> {
   ResultRoute({
     Key? key,
