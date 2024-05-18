@@ -21,6 +21,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AuthNavigationPage(),
       );
     },
+    CameraRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const CameraPage(),
+      );
+    },
     FoodPreferencesRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -79,12 +85,6 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const SignUpPage(),
       );
     },
-    TextRecognitionRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const CameraPage(),
-      );
-    },
     UserMenuRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -98,9 +98,13 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     VerifyEmailRoute.name: (routeData) {
+      final args = routeData.argsAs<VerifyEmailRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const VerifyEmailPage(),
+        child: VerifyEmailPage(
+          key: args.key,
+          email: args.email,
+        ),
       );
     },
   };
@@ -116,6 +120,20 @@ class AuthNavigationRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'AuthNavigationRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [CameraPage]
+class CameraRoute extends PageRouteInfo<void> {
+  const CameraRoute({List<PageRouteInfo>? children})
+      : super(
+          CameraRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CameraRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -270,20 +288,6 @@ class SignUpRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [CameraPage]
-class TextRecognitionRoute extends PageRouteInfo<void> {
-  const TextRecognitionRoute({List<PageRouteInfo>? children})
-      : super(
-          TextRecognitionRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'TextRecognitionRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
 /// [UserMenuPage]
 class UserMenuRoute extends PageRouteInfo<void> {
   const UserMenuRoute({List<PageRouteInfo>? children})
@@ -313,14 +317,38 @@ class UserPreferencesRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [VerifyEmailPage]
-class VerifyEmailRoute extends PageRouteInfo<void> {
-  const VerifyEmailRoute({List<PageRouteInfo>? children})
-      : super(
+class VerifyEmailRoute extends PageRouteInfo<VerifyEmailRouteArgs> {
+  VerifyEmailRoute({
+    Key? key,
+    required String email,
+    List<PageRouteInfo>? children,
+  }) : super(
           VerifyEmailRoute.name,
+          args: VerifyEmailRouteArgs(
+            key: key,
+            email: email,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'VerifyEmailRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<VerifyEmailRouteArgs> page =
+      PageInfo<VerifyEmailRouteArgs>(name);
+}
+
+class VerifyEmailRouteArgs {
+  const VerifyEmailRouteArgs({
+    this.key,
+    required this.email,
+  });
+
+  final Key? key;
+
+  final String email;
+
+  @override
+  String toString() {
+    return 'VerifyEmailRouteArgs{key: $key, email: $email}';
+  }
 }

@@ -17,8 +17,6 @@ import 'package:gallery_picker/gallery_picker.dart' as _i56;
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart'
     as _i14;
 import 'package:ingredients_scanner/core/error/failures.dart' as _i20;
-import 'package:ingredients_scanner/core/util/network/network_info.dart'
-    as _i47;
 import 'package:ingredients_scanner/core/usecase/usecase.dart' as _i29;
 import 'package:ingredients_scanner/core/util/gallery_controller/data/datasources/gallery_controller_data_source.dart'
     as _i53;
@@ -28,6 +26,8 @@ import 'package:ingredients_scanner/core/util/gallery_controller/domain/usecases
     as _i54;
 import 'package:ingredients_scanner/core/util/gallery_controller/domain/usecases/params/gallery_controller_params.dart'
     as _i55;
+import 'package:ingredients_scanner/core/util/network/network_info.dart'
+    as _i47;
 import 'package:ingredients_scanner/features/authentication/data/data_sources/auth_remote_data_source.dart'
     as _i23;
 import 'package:ingredients_scanner/features/authentication/data/models/sign_in_model.dart'
@@ -2535,6 +2535,23 @@ class MockGalleryControllerRepository extends _i1.Mock
           ),
         )),
       ) as _i12.Future<_i2.Either<_i20.Failure, _i16.File>>);
+
+  @override
+  _i12.Future<_i2.Either<_i20.Failure, _i2.Unit>> disposeGallery() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #disposeGallery,
+          [],
+        ),
+        returnValue: _i12.Future<_i2.Either<_i20.Failure, _i2.Unit>>.value(
+            _FakeEither_0<_i20.Failure, _i2.Unit>(
+          this,
+          Invocation.method(
+            #disposeGallery,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i2.Either<_i20.Failure, _i2.Unit>>);
 }
 
 /// A class which mocks [GalleryControllerDataSource].
@@ -2561,6 +2578,21 @@ class MockGalleryControllerDataSource extends _i1.Mock
           ),
         )),
       ) as _i12.Future<_i16.File>);
+
+  @override
+  _i12.Future<_i2.Unit> disposeGallery() => (super.noSuchMethod(
+        Invocation.method(
+          #disposeGallery,
+          [],
+        ),
+        returnValue: _i12.Future<_i2.Unit>.value(_FakeUnit_3(
+          this,
+          Invocation.method(
+            #disposeGallery,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i2.Unit>);
 }
 
 /// A class which mocks [GetFromGallery].

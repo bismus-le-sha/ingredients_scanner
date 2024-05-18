@@ -107,7 +107,8 @@ class _LoginFormState extends State<LoginForm> {
                   state is GoogleSignInState) {
                 AutoRouter.of(context).replace(const HomeNavigationRoute());
               } else if (state is VerifyEmailPageState) {
-                AutoRouter.of(context).push(const VerifyEmailRoute());
+                AutoRouter.of(context)
+                    .push(VerifyEmailRoute(email: _emailController.text));
                 BlocProvider.of<AuthBloc>(context)
                     .add(SendEmailVerificationEvent());
               }

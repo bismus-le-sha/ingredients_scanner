@@ -8,7 +8,7 @@ abstract class CameraControllerDataSource {
   Future<Unit> controllCameraFlash(bool cameraFlashValue);
 }
 
-//TODO: Add cameraFlash controller and cameraSelector
+//TODO: Add cameraSelector
 class CameraControllerDataSourceImpl implements CameraControllerDataSource {
   final List<CameraDescription> cameras;
   late CameraController cameraController;

@@ -90,7 +90,7 @@ Future<void> init() async {
 //! Features - UserPreferences
 
   // Bloc
-  sl.registerFactory(() => UserPreferencesBloc(
+  sl.registerLazySingleton(() => UserPreferencesBloc(
       getUserPreferences: sl(), updateUserPreferences: sl()));
 
   // Usecases
@@ -108,7 +108,7 @@ Future<void> init() async {
 //! Features - FoodPreferences
 
   //Bloc
-  sl.registerFactory(() => FoodPreferencesBloc(
+  sl.registerLazySingleton(() => FoodPreferencesBloc(
       getFoodPreferences: sl(), updateFoodPreferences: sl()));
 
   //Usecases

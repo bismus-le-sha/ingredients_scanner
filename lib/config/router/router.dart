@@ -37,7 +37,8 @@ class AppRouter extends _$AppRouter {
                 path: 'scann',
                 page: ScannerNavigationRoute.page,
                 children: [
-                  AutoRoute(path: 'scanner', page: TextRecognitionRoute.page),
+                  AutoRoute(
+                      path: 'scanner', page: CameraRoute.page, initial: true),
                   AutoRoute(path: 'result', page: ResultRoute.page),
                 ]),
             AutoRoute(path: 'home', page: HomeRoute.page, initial: true),

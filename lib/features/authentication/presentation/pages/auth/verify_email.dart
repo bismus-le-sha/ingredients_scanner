@@ -7,7 +7,8 @@ import '../../bloc/authentication/auth_bloc.dart';
 
 @RoutePage()
 class VerifyEmailPage extends StatefulWidget {
-  const VerifyEmailPage({super.key});
+  final String email;
+  const VerifyEmailPage({super.key, required this.email});
 
   @override
   State<VerifyEmailPage> createState() => _VerifyEmailPageState();
@@ -22,6 +23,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final String email = widget.email;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(),
@@ -30,14 +32,18 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
             children: [
               const Padding(
                 padding: EdgeInsets.all(50),
-                child:
-                    Image(image: AssetImage("assets/images/verify_page.jpg")),
+                child: Image(
+                    height: 200,
+                    width: 200,
+                    image: AssetImage("assets/images/verify_page.jpg")),
               ),
               const Padding(
                 padding: EdgeInsets.all(20.0),
-                child: Text(
-                  'Verify your E-Mail address',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                child: Center(
+                  child: Text(
+                    'Verify your E-Mail address',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
                 ),
               ),
               BlocConsumer<AuthBloc, AuthState>(
@@ -48,9 +54,9 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                 },
                 builder: (context, state) {
                   if (state is EmailIsSentState) {
-                    return const Center(
+                    return Center(
                         child: Text(
-                      'A verification email has been dispatched; kindly verify your account to proceed.',
+                      'A confirmation email has been sent to $email; please verify your account to continue.',
                       textAlign: TextAlign.center,
                     ));
                   } else if (state is ErrorAuthState) {

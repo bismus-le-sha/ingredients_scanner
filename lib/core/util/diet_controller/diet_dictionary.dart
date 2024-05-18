@@ -62,17 +62,4 @@ class DietDictionary {
 
     return diets;
   }
-  // List<Diets> fromJsonToDiets(Map<String, bool> json) {
-  //   List<Diets> diets = [];
-
-  //   json.forEach((key, value) {
-  //     if (value) {
-  //       Diets diet =
-  //           Diets.values.firstWhere((e) => e.toString() == 'Diets.$key');
-  //       diets.add(diet);
-  //     }
-  //   });
-
-  //   return diets;
-  // }
 }

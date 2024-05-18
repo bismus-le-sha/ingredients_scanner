@@ -148,7 +148,8 @@ class _SignUpFormState extends State<SignUpForm> {
             ),
             BlocConsumer<AuthBloc, AuthState>(listener: (_, state) {
               if (state is SignedUpState) {
-                AutoRouter.of(context).replace(const VerifyEmailRoute());
+                AutoRouter.of(context)
+                    .replace(VerifyEmailRoute(email: _emailController.text));
                 BlocProvider.of<AuthBloc>(context)
                     .add(SendEmailVerificationEvent());
               } else if (state is GoogleSignInState) {
@@ -182,9 +183,8 @@ class _SignUpFormState extends State<SignUpForm> {
                         )));
                       },
                       style: ButtonStyle(
-                        shape:
-                            WidgetStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
+                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         )),
                         minimumSize:
