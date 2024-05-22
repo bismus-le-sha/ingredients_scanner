@@ -2,6 +2,7 @@
 
 ## Overview
 Ingredients Scanner is a cross-platform mobile application designed to scan and interpret the ingredient lists on food labels. It enhances readability and assists users in identifying undesirable ingredients.
+An app built with Flutter, implementing Clean Architecture and TDD principles.
 
 ## Features
 - **Text Recognition**: Utilizes Google ML Kit for text recognition.
@@ -29,8 +30,11 @@ Ingredients Scanner is a cross-platform mobile application designed to scan and 
    ```sh
    flutter pub get
 
-### Firebase Setup
-Add your 'google-services.json' (for Android) and 'GoogleService-Info.plist' (for iOS) to the respective directories.
+4. Firebase Setup
+- Follow the [Firebase setup guide](https://firebase.google.com/docs/flutter/setup)
+ to add Firebase to your Flutter app.
+- Add your 'google-services.json' (for Android) and 'GoogleService-Info.plist' (for iOS) to the respective directories.
+
 
 ### Running the App
 1. Run the app on an emulator or connected device:
@@ -42,13 +46,23 @@ Add your 'google-services.json' (for Android) and 'GoogleService-Info.plist' (fo
 - **Domain Layer**: Business logic and use cases.
 - **Data Layer**: Repository pattern for data handling.
 
+
 ## Testing
 - **Run unit tests**:
    ```sh
    flutter test
 
+
+## Usage
+- Authenticate users with email/password or social media accounts.
+- Save and manage user preferences locally.
+- Scan product ingredients using the camera.
+
+
+
 ## Contribution
-Contributions are welcome! 
+Contributions are welcome! Please create an issue or submit a pull request.
+
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
