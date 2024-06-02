@@ -36,7 +36,6 @@ class CameraControllerBloc
 
   Future<void> _cameraMapEventToState(dynamic event, dynamic emit) async {
     if (event is InitCamera) {
-      emit(CameraControllerLoading());
       final failureOrCameraController = await initCameraController(
           CameraParams(cameraFlashValue: event.cameraFlashValue));
       emit(_eitherLoadedOrErrorState(failureOrCameraController));
