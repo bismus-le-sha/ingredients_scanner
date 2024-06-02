@@ -27,25 +27,57 @@ class _ProfilePageState extends State<ProfilePage> {
               }
             },
             child: Scaffold(
-              key: _scaffoldKey,
-              appBar: AppBar(
-                title: const Text('Profile Screen'),
-              ),
-              body: MaterialButton(
-                onPressed: () =>
-                    BlocProvider.of<AuthBloc>(context).add(LogOutEvent()),
-                height: size.height * .045,
-                color: Colors.black,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+                key: _scaffoldKey,
+                appBar: AppBar(
+                  title: const Text('Profile Screen'),
                 ),
-                child: const Text(
-                  "Logout",
-                  style: TextStyle(color: Colors.white, fontSize: 16.0),
-                ),
-              ),
-            )));
+                body: ListView(
+                  children: [
+                    SizedBox(
+                      height: size.height * .05,
+                    ),
+                    //profil pic
+                    Icon(
+                      Icons.person,
+                      size: size.height * .2,
+                    ),
+                    SizedBox(
+                      height: size.height * .02,
+                    ),
+                    //user name
+                    const Text(
+                      'name',
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      height: size.height * .02,
+                    ),
+                    //user email
+                    const Text(
+                      'email',
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      height: size.height * .3,
+                    ),
+                    _logOut(size)
+                  ],
+                ))));
+  }
+
+  Widget _logOut(size) {
+    return MaterialButton(
+      onPressed: () => BlocProvider.of<AuthBloc>(context).add(LogOutEvent()),
+      height: size.height * .045,
+      color: Colors.black,
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: const Text(
+        "Logout",
+        style: TextStyle(color: Colors.white, fontSize: 16.0),
+      ),
+    );
   }
 }

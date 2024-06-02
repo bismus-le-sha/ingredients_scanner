@@ -1,5 +1,5 @@
 //Auth
-const String SERVER_FAILURE_MESSAGE = 'Please try again later .';
+const String SERVER_FAILURE_MESSAGE = 'Please try again later.';
 const String OFFLINE_FAILURE_MESSAGE = 'Please Check your Internet Connection';
 const String WEEK_PASS_FAILURE_MESSAGE = "The password provided is too weak.";
 const String EXISTED_ACCOUNT_FAILURE_MESSAGE =

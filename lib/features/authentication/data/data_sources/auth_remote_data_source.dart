@@ -14,82 +14,86 @@ abstract class AuthRemoteDataSource {
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  @override
-  Future<UserCredential> signIn(SignInModel signIn) async {
-    try {
-      FirebaseAuth firebaseInstance = FirebaseAuth.instance;
-      await firebaseInstance.currentUser?.reload();
-      return await firebaseInstance.signInWithEmailAndPassword(
-        email: signIn.email,
-        password: signIn.password,
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        throw ExistedAccountException();
-      } else if (e.code == 'wrong-password') {
-        throw WrongPasswordException();
-      } else {
-        throw ServerException();
-      }
-    }
-  }
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
   Future<UserCredential> signUp(SignUpModel signUp) async {
     try {
-      FirebaseAuth firebaseInstance = FirebaseAuth.instance;
-      return await firebaseInstance.createUserWithEmailAndPassword(
+      return await _firebaseAuth.createUserWithEmailAndPassword(
         email: signUp.email,
         password: signUp.password,
       );
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        throw WeekPassException();
-      } else if (e.code == 'email-already-in-use') {
-        throw ExistedAccountException();
-      } else {
-        throw ServerException();
-      }
+      _handleAuthException(e);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<UserCredential> signIn(SignInModel signIn) async {
+    try {
+      await _firebaseAuth.currentUser?.reload();
+      return await _firebaseAuth.signInWithEmailAndPassword(
+        email: signIn.email,
+        password: signIn.password,
+      );
+    } on FirebaseAuthException catch (e) {
+      _handleAuthException(e);
+      rethrow;
     }
   }
 
   @override
   Future<Unit> verifyEmail() async {
-    final user = FirebaseAuth.instance.currentUser;
+    final user = _firebaseAuth.currentUser;
     if (user != null) {
       try {
         await user.reload();
         await user.sendEmailVerification();
       } on FirebaseAuthException catch (e) {
-        if (e.code == 'too-many-requests') {
-          throw TooManyRequestsException();
-        } else {
-          throw ServerException();
-        }
-      } catch (e) {
-        throw ServerException();
+        _handleAuthException(e);
+        rethrow;
       }
+      return unit;
     } else {
       throw NoUserException();
     }
-    return Future.value(unit);
   }
 
   @override
   Future<UserCredential> googleAuthentication() async {
-    FirebaseAuth firebaseInstance = FirebaseAuth.instance;
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
     try {
-      return await firebaseInstance.signInWithCredential(credential);
-    } catch (e) {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        throw ServerException();
+      }
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      return await _firebaseAuth.signInWithCredential(credential);
+    } catch (_) {
       throw ServerException();
+    }
+  }
+
+  void _handleAuthException(FirebaseAuthException e) {
+    switch (e.code) {
+      case 'user-not-found':
+        throw ExistedAccountException();
+      case 'wrong-password':
+        throw WrongPasswordException();
+      case 'weak-password':
+        throw WeekPassException();
+      case 'email-already-in-use':
+        throw ExistedAccountException();
+      case 'too-many-requests':
+        throw TooManyRequestsException();
+      default:
+        throw ServerException();
     }
   }
 }

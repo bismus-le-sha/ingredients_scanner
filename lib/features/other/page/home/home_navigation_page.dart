@@ -49,7 +49,7 @@ class _HomeNavigationPageState extends State<HomeNavigationPage> {
             onTap: tabsRouter.setActiveIndex,
             items: items,
             height: 70,
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.transparent,
             color: theme.primaryColor,
             animationDuration: const Duration(milliseconds: 300),
           ),
