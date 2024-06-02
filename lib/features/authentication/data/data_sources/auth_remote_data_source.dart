@@ -14,13 +14,16 @@ abstract class AuthRemoteDataSource {
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth firebaseAuth;
+  final GoogleSignIn googleSignIn;
+
+  AuthRemoteDataSourceImpl(
+      {required this.firebaseAuth, required this.googleSignIn});
 
   @override
   Future<UserCredential> signUp(SignUpModel signUp) async {
     try {
-      return await _firebaseAuth.createUserWithEmailAndPassword(
+      return await firebaseAuth.createUserWithEmailAndPassword(
         email: signUp.email,
         password: signUp.password,
       );
@@ -33,8 +36,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<UserCredential> signIn(SignInModel signIn) async {
     try {
-      await _firebaseAuth.currentUser?.reload();
-      return await _firebaseAuth.signInWithEmailAndPassword(
+      await firebaseAuth.currentUser?.reload();
+      return await firebaseAuth.signInWithEmailAndPassword(
         email: signIn.email,
         password: signIn.password,
       );
@@ -46,7 +49,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<Unit> verifyEmail() async {
-    final user = _firebaseAuth.currentUser;
+    final user = firebaseAuth.currentUser;
     if (user != null) {
       try {
         await user.reload();
@@ -64,7 +67,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<UserCredential> googleAuthentication() async {
     try {
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
       if (googleUser == null) {
         throw ServerException();
       }
@@ -74,7 +77,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      return await _firebaseAuth.signInWithCredential(credential);
+      return await firebaseAuth.signInWithCredential(credential);
     } catch (_) {
       throw ServerException();
     }

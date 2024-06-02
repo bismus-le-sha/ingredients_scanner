@@ -60,7 +60,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     SizedBox(
                       height: size.height * .3,
                     ),
-                    _logOut(size)
+                    Center(child: _logOut(size))
                   ],
                 ))));
   }

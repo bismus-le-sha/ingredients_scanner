@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ingredients_scanner/features/camera_controller/domain/usecase/change_camera_flash.dart';
 import 'features/camera_controller/data/datasource/camera_controller_data_source.dart';
 import 'features/camera_controller/domain/usecase/dispose_camera_controller.dart';
@@ -82,10 +83,7 @@ Future<void> init() async {
 
   // Datasources
   sl.registerLazySingleton<AuthRemoteDataSource>(
-      () => AuthRemoteDataSourceImpl());
-
-  //FirebaseAuth
-  sl.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);
+      () => AuthRemoteDataSourceImpl(firebaseAuth: sl(), googleSignIn: sl()));
 
 //! Features - UserPreferences
 
@@ -189,6 +187,10 @@ Future<void> init() async {
 
 //! External
 
+  //FirebaseAuth
+  sl.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
+  sl.registerLazySingleton<GoogleSignIn>(() => GoogleSignIn());
+
   //SharedPreferences
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
@@ -201,6 +203,7 @@ Future<void> init() async {
 
 //! Config
 
+  //AppRouter
   sl.registerSingleton<AppRouter>(AppRouter());
 
   //Debug Talker
