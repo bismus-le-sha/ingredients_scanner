@@ -24,7 +24,7 @@ class CameraControllerDataSourceImpl implements CameraControllerDataSource {
 
   @override
   Future<XFile> takePictureFromCamera() async {
-    if (!cameraController.value.isTakingPicture ||
+    if (!cameraController.value.isTakingPicture &&
         cameraController.value.isInitialized) {
       return await cameraController.takePicture();
     } else {

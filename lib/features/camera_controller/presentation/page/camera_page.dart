@@ -1,15 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ingredients_scanner/features/camera_controller/presentation/widgets/camera_display_controller.dart';
 import 'package:ingredients_scanner/features/user_preferences/data/models/user_preferences_model.dart';
 import 'package:ingredients_scanner/features/user_preferences/presentation/bloc/user_preferences_bloc.dart';
 import '../../../../core/widgets/loading_widget.dart';
 import '../../../text_recognition/presentation/bloc/text_recognition_bloc.dart';
-import '../widgets/camera_failure_display.dart';
 
 import '../../../../config/router/router.dart';
 import '../bloc/camera_controller_bloc.dart';
-import '../widgets/camera_display.dart';
 
 @RoutePage()
 class CameraPage extends StatefulWidget {
@@ -19,8 +18,7 @@ class CameraPage extends StatefulWidget {
   State<CameraPage> createState() => _CameraPageState();
 }
 
-class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
-  late bool cameraFlash;
+class _CameraPageState extends State<CameraPage> {
   late UserPreferencesModel userPreferencesModel;
 
   @override
@@ -28,25 +26,6 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
     super.initState();
     BlocProvider.of<UserPreferencesBloc>(context)
         .add(const UserPreferencesLoad());
-    WidgetsBinding.instance.addObserver(this);
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.inactive ||
-        state == AppLifecycleState.paused) {
-      BlocProvider.of<CameraControllerBloc>(context).add(DisposeCamera());
-    } else if (state == AppLifecycleState.resumed) {
-      BlocProvider.of<CameraControllerBloc>(context)
-          .add(InitCamera(cameraFlashValue: cameraFlash));
-    }
   }
 
   @override
@@ -63,16 +42,6 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
     final textRecognitionBloc = BlocProvider.of<TextRecognitionBloc>(context);
     return MultiBlocListener(
         listeners: [
-          BlocListener<UserPreferencesBloc, UserPreferencesState>(
-              listener: (context, state) {
-            if (state is UserPreferencesLoaded) {
-              cameraFlash = state.userPreferences.cameraFlash;
-              cameraBloc.add(InitCamera(cameraFlashValue: cameraFlash));
-              userPreferencesModel = UserPreferencesModel(
-                  cameraFlash: cameraFlash,
-                  useBiometrics: state.userPreferences.useBiometrics);
-            }
-          }),
           BlocListener<CameraControllerBloc, CameraControllerState>(
               listener: (context, state) {
             if (state is PictureFromCameraLoaded) {
@@ -80,8 +49,8 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
                   .add(TakeRecognizedTextFromCamera(state.picture.path));
             }
             if (state is CameraControllerChangeFlash) {
-              userPreferencesBloc.add(ChangeUserPreferences(
-                  userPreferencesModel.copyWith(cameraFlash: !cameraFlash)));
+              userPreferencesBloc.add(ChangeUserPreferences(userPreferencesModel
+                  .copyWith(cameraFlash: !userPreferencesModel.cameraFlash)));
             }
           }),
           BlocListener<TextRecognitionBloc, TextRecognitionState>(
@@ -92,26 +61,20 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
                       ResultRoute(
                           textRecognitionEntity: state.textRecognitionEntity),
                     )
-                    .then((result) => cameraBloc
-                        .add(InitCamera(cameraFlashValue: cameraFlash)));
+                    .then((result) => cameraBloc.add(InitCamera(
+                        cameraFlashValue: userPreferencesModel.cameraFlash)));
                 cameraBloc.add(DisposeCamera());
               }
             },
           )
         ],
-        child: BlocBuilder<CameraControllerBloc, CameraControllerState>(
+        child: BlocBuilder<UserPreferencesBloc, UserPreferencesState>(
             builder: (context, state) {
-          if (state is CameraControllerLoaded) {
-            return CameraDisplay(
-              cameraController: state.cameraController,
-              cameraFlash: cameraFlash,
-            );
-          }
-          if (state is CameraControllerFailure) {
-            return CameraFailureDisplay(
-                onReload: () =>
-                    cameraBloc.add(InitCamera(cameraFlashValue: cameraFlash)),
-                failureMessage: state.message);
+          if (state is UserPreferencesLoaded) {
+            userPreferencesModel =
+                state.userPreferences as UserPreferencesModel;
+            return CameraDisplayController(
+                cameraFlash: userPreferencesModel.cameraFlash);
           }
           return const Center(
             child: LoadingWidget(),
