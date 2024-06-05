@@ -24,13 +24,13 @@ class RemoteFoodPreferencesDataSourceImpl
   }
 
   @override
-  Future<FoodPreferencesModel> getFoodPreferences() {
+  Future<FoodPreferencesModel> getFoodPreferences() async {
     return Future.value(_foodPreferencesRef.get() as FoodPreferencesModel);
   }
 
   @override
   Future<Unit> updateFoodPreferences(
-      FoodPreferencesModel foodPreferencesModel) {
+      FoodPreferencesModel foodPreferencesModel) async {
     _foodPreferencesRef.doc().set(foodPreferencesModel);
     return Future.value(unit);
   }

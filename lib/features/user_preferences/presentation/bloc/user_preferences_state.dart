@@ -22,6 +22,8 @@ class UserPreferencesLoaded extends UserPreferencesState {
   List<Object?> get props => [userPreferences];
 }
 
+class UserPreferencesUpdated extends UserPreferencesState {}
+
 class UserPreferencesFailure extends UserPreferencesState {
   final String message;
 

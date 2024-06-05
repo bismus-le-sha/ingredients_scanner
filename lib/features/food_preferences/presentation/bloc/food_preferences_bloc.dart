@@ -30,7 +30,7 @@ class FoodPreferencesBloc
   }
 
   Future<void> _foodPreferncesMapEventToState(
-      dynamic event, dynamic emit) async {
+      FoodPreferencesEvent event, Emitter<FoodPreferencesState> emit) async {
     if (event is FoodPreferencesLoad) {
       try {
         final failureOrPreferences = await getFoodPreferences(NoParams());
@@ -43,7 +43,6 @@ class FoodPreferencesBloc
       final failureOrPreferences = await updateFoodPreferences(
           FoodPreferencesParams(foodPreferencesModel: event.foodPreferences));
       emit(_eitherUpdateOrErrorState(failureOrPreferences));
-      add(const FoodPreferencesLoad());
     }
   }
 
@@ -60,7 +59,7 @@ class FoodPreferencesBloc
     return failureOrUpdatedPreferences.fold(
         (failure) =>
             FoodPreferencesFailure(message: _mapFailureToMessage(failure)),
-        (unit) => FoodPreferencesLoading());
+        (unit) => FoodPreferencesUpdated());
   }
 
   String _mapFailureToMessage(Failure failure) {

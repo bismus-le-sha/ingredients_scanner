@@ -4,6 +4,9 @@ import 'package:get_it/get_it.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ingredients_scanner/features/camera_controller/domain/usecase/change_camera_flash.dart';
+import 'package:ingredients_scanner/features/user_data/domain/usecases/add_google_user_data.dart';
+import 'package:ingredients_scanner/features/user_data/domain/usecases/get_user_data.dart';
+import 'package:ingredients_scanner/features/user_data/domain/usecases/add_update_user_data.dart';
 import 'features/camera_controller/data/datasource/camera_controller_data_source.dart';
 import 'features/camera_controller/domain/usecase/dispose_camera_controller.dart';
 import 'core/util/gallery_controller/data/datasources/gallery_controller_data_source.dart';
@@ -27,6 +30,11 @@ import 'features/food_preferences/domain/usecases/get_food_preferences_usecase.d
 import 'features/food_preferences/domain/usecases/update_food_preferences.dart';
 import 'features/food_preferences/presentation/bloc/food_preferences_bloc.dart';
 import 'core/util/gallery_controller/data/repositories/gallery_controller_repository_impl.dart';
+import 'features/user_data/data/datasources/local/local_user_data_data_source.dart';
+import 'features/user_data/data/datasources/remote/remote_user_data_data_source.dart';
+import 'features/user_data/data/repositories/user_data_repository_impl.dart';
+import 'features/user_data/domain/repositories/user_data_repository.dart';
+import 'features/user_data/presentation/bloc/user_data_bloc.dart';
 import 'features/user_preferences/data/data_sources/user_preferences_data_source.dart';
 import 'features/user_preferences/data/repositories/user_preferences_repository_imp.dart';
 import 'features/user_preferences/domain/repositories/user_preferences_repositiory.dart';
@@ -124,9 +132,6 @@ Future<void> init() async {
   sl.registerLazySingleton<LocalFoodPreferencesDataSource>(
       () => LocalFoodPreferencesDataSourceImpl(sharedPreferences: sl()));
 
-  //FirebaseFirestore
-  sl.registerSingleton<FirebaseFirestore>(FirebaseFirestore.instance);
-
 //! Features - TextRecognition
 
   //Bloc
@@ -143,6 +148,29 @@ Future<void> init() async {
   //Datasources
   sl.registerLazySingleton<TextRecognitionDataSource>(
       () => TextRecognitionDataSourceImpl(textRecognizer: sl()));
+
+//! Features - UserData
+
+  //Bloc
+  sl.registerLazySingleton(() => UserDataBloc(
+      getUserData: sl(), addUpdateUserData: sl(), addGoogleUserData: sl()));
+
+  //Usecases
+  sl.registerLazySingleton(() => GetUserData(sl()));
+  sl.registerLazySingleton(() => AddUpdateUserData(sl()));
+  sl.registerLazySingleton(() => AddGoogleUserData(sl()));
+
+  //Repository
+  sl.registerLazySingleton<UserDataRepository>(() => UserDataRepositoryImpl(
+      remoteDataDataSource: sl(),
+      localDataDataSource: sl(),
+      networkInfo: sl()));
+
+  //Datasources
+  sl.registerLazySingleton<RemoteUserDataDataSource>(
+      () => RemoteUserDataDataSourceImpl(instance: sl(), firebaseAuth: sl()));
+  sl.registerLazySingleton<LocalUserDataDataSource>(
+      () => LocalUserDataDataSourceImpl(sharedPreferences: sl()));
 
 //! Core - GalleryController
 
@@ -190,6 +218,9 @@ Future<void> init() async {
   //FirebaseAuth
   sl.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
   sl.registerLazySingleton<GoogleSignIn>(() => GoogleSignIn());
+
+  //FirebaseFirestore
+  sl.registerSingleton<FirebaseFirestore>(FirebaseFirestore.instance);
 
   //SharedPreferences
   final sharedPreferences = await SharedPreferences.getInstance();

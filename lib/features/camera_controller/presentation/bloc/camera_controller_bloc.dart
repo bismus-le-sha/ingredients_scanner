@@ -3,6 +3,7 @@ import 'package:camera/camera.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ingredients_scanner/core/resources/failures_list.dart';
 import 'package:ingredients_scanner/features/camera_controller/domain/usecase/change_camera_flash.dart';
 import 'package:ingredients_scanner/features/camera_controller/domain/usecase/params/camera_params.dart';
 import '../../../../core/usecase/usecase.dart';
@@ -34,7 +35,8 @@ class CameraControllerBloc
         (event, emit) async => await _cameraMapEventToState(event, emit));
   }
 
-  Future<void> _cameraMapEventToState(dynamic event, dynamic emit) async {
+  Future<void> _cameraMapEventToState(
+      CameraControllerEvent event, Emitter<CameraControllerState> emit) async {
     if (event is InitCamera) {
       final failureOrCameraController = await initCameraController(
           CameraParams(cameraFlashValue: event.cameraFlashValue));
@@ -90,7 +92,7 @@ class CameraControllerBloc
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
       case CameraFailure():
-        return 'Camera faulure';
+        return CAMERA_FAILURE_MESSAGE;
       default:
         return 'Unexpected Error';
     }

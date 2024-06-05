@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../config/router/router.dart';
+import '../../bloc/authentication/auth_bloc.dart';
 import '../../widgets/auth/sign_in_form.dart';
 
 @RoutePage()
@@ -14,7 +17,14 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is SignedInState) {
+          BlocProvider.of<AuthBloc>(context).add(CheckLoggingInEvent());
+        } else if (state is SignedInPageState || state is GoogleSignInState) {
+          context.replaceRoute(const HomeNavigationRoute());
+        }
+      },
       child: Scaffold(
         body: ListView(
           children: const [

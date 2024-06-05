@@ -1,8 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ingredients_scanner/core/constants/user_consts.dart';
+import 'package:ingredients_scanner/features/user_data/data/models/user_data_model.dart';
 
 import '../../../../../config/router/router.dart';
+import '../../../../user_data/presentation/bloc/user_data_bloc.dart';
 import '../../../domain/entities/sign_up_entity.dart';
 import '../../bloc/authentication/auth_bloc.dart';
 import 'auth_fields.dart';
@@ -61,9 +64,10 @@ class _SignUpFormState extends State<SignUpForm> {
                 );
                 BlocProvider.of<AuthBloc>(context)
                     .add(SendEmailVerificationEvent());
-              } else if (state is GoogleSignInState) {
-                AutoRouter.of(context).replace(const HomeNavigationRoute());
               }
+              //  else if (state is GoogleSignInState) {
+              //   AutoRouter.of(context).push(const HomeNavigationRoute());
+              // }
             }, builder: (context, state) {
               if (state is LoadingState) {
                 return const Center(child: CircularProgressIndicator());
@@ -110,6 +114,11 @@ class _SignUpFormState extends State<SignUpForm> {
       repeatedPassword: _confirmPasswordController.text,
       name: _usernameController.text,
     )));
+    // BlocProvider.of<UserDataBloc>(context).add(AddChangeUserData(
+    //     userData: UserDataModel(
+    //         userName: _usernameController.text,
+    //         email: _emailController.text,
+    //         avatar: DEFAULT_AVATAR_URL)));
   }
 
   _onGoogleAuth() {

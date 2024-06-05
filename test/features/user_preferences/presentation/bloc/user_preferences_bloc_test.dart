@@ -87,7 +87,7 @@ void main() {
             bloc.add(ChangeUserPreferences(testUserPreferencesModel)),
         wait: const Duration(milliseconds: 500),
         verify: (_) => verify(updateUserPreferences(UserPreferencesParams(
-                userPrefernces: testUserPreferencesModel)))
+                userPreferences: testUserPreferencesModel)))
             .called(1));
 
     blocTest<UserPreferencesBloc, UserPreferencesState>(

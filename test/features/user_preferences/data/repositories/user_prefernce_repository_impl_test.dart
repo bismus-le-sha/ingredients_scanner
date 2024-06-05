@@ -38,7 +38,7 @@ void main() {
 
     test('should return DatabaseFailure if cath DatabaseException', () async {
       //arrange
-      when(dataSource.getUserPreferences()).thenThrow(LocalDatabaseException());
+      when(dataSource.getUserPreferences()).thenThrow(CacheException());
       //act
       final result = await repositoryImpl.getUserPreferences();
       //assert
@@ -66,8 +66,7 @@ void main() {
         'should return DatabaseFailure if update user preferences cath DatabaseException',
         () async {
       //arrange
-      when(dataSource.updateUserPreferences(any))
-          .thenThrow(LocalDatabaseException());
+      when(dataSource.updateUserPreferences(any)).thenThrow(CacheException());
       //act
       final result =
           await repositoryImpl.updateUserPreferences(testUserPreferencesModel);

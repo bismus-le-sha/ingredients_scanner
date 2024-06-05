@@ -25,7 +25,7 @@ void main() {
         .thenAnswer((_) async => const Right(unit));
     //act
     final result = await usecase(
-        UserPreferencesParams(userPrefernces: testUserPreferencesModel));
+        UserPreferencesParams(userPreferences: testUserPreferencesModel));
     //assert
     expect(result, const Right(unit));
     verify(mockUserPreferencesRepository

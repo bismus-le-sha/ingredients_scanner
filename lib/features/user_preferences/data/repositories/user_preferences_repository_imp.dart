@@ -19,7 +19,7 @@ class UserPreferencesRepositoryImpl implements UserPreferencesRepository {
     try {
       final userPreferences = await dataSource.getUserPreferences();
       return Right(userPreferences);
-    } on LocalDatabaseException {
+    } on CacheException {
       return Left(DatabaseFailure());
     }
   }
@@ -30,7 +30,7 @@ class UserPreferencesRepositoryImpl implements UserPreferencesRepository {
     try {
       await dataSource.updateUserPreferences(userPreferencesModel);
       return const Right(unit);
-    } on LocalDatabaseException {
+    } on CacheException {
       return Left(DatabaseFailure());
     }
   }

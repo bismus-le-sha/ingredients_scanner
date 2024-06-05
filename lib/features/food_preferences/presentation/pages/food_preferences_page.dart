@@ -26,14 +26,23 @@ class FoodPreferencesPage extends StatelessWidget {
         bloc.add(const FoodPreferencesLoad());
         return bloc;
       },
-      child: BlocBuilder<FoodPreferencesBloc, FoodPreferencesState>(
-        builder: (context, state) {
-          if (state is FoodPreferencesLoaded) {
-            return FoodPreferencesListView(
-                foodPreferences: state.foodPreferences);
+      child: BlocConsumer<FoodPreferencesBloc, FoodPreferencesState>(
+        listener: (context, state) {
+          if (state is FoodPreferencesUpdated) {
+            bloc.add(const FoodPreferencesLoad());
           }
-          if (state is FoodPreferencesFailure) {}
-          return const LoadingWidget();
+        },
+        builder: (context, state) {
+          return BlocBuilder<FoodPreferencesBloc, FoodPreferencesState>(
+            builder: (context, state) {
+              if (state is FoodPreferencesLoaded) {
+                return FoodPreferencesListView(
+                    foodPreferences: state.foodPreferences);
+              }
+              if (state is FoodPreferencesFailure) {}
+              return const LoadingWidget();
+            },
+          );
         },
       ),
     );

@@ -6,7 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/resources/auth_failures_list.dart';
+import '../../../../core/resources/failures_list.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../../../../injection_container.dart';
 import '../../data/models/user_preferences_model.dart';
@@ -32,7 +32,7 @@ class UserPreferencesBloc
   }
 
   Future<void> _userPreferencesMapEventToState(
-      dynamic event, dynamic emit) async {
+      UserPreferencesEvent event, Emitter<UserPreferencesState> emit) async {
     if (event is UserPreferencesLoad) {
       try {
         final failureOrPreferences = await getUserPreferences(NoParams());
@@ -43,10 +43,8 @@ class UserPreferencesBloc
     }
     if (event is ChangeUserPreferences) {
       final failureOrUpdatedPreferences = await updateUserPreferences(
-          UserPreferencesParams(userPrefernces: event.value));
+          UserPreferencesParams(userPreferences: event.value));
       emit(_eitherUpdateOrErrorState(failureOrUpdatedPreferences));
-
-      add(const UserPreferencesLoad());
     }
   }
 
@@ -62,7 +60,7 @@ class UserPreferencesBloc
     return failureOrUpdatedPreferences.fold(
         (failure) =>
             UserPreferencesFailure(message: _mapFailureToMessage(failure)),
-        (unit) => UserPreferencesLoading());
+        (unit) => UserPreferencesUpdated());
   }
 
   String _mapFailureToMessage(Failure failure) {

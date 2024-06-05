@@ -26,21 +26,30 @@ class UserPreferencesPage extends StatelessWidget {
         bloc.add(const UserPreferencesLoad());
         return bloc;
       },
-      child: BlocBuilder<UserPreferencesBloc, UserPreferencesState>(
+      child: BlocConsumer<UserPreferencesBloc, UserPreferencesState>(
+        listener: (context, state) {
+          if (state is UserPreferencesUpdated) {
+            bloc.add(const UserPreferencesLoad());
+          }
+        },
         builder: (context, state) {
-          if (state is UserPreferencesLoaded) {
-            return UserPreferencesListView(
-                userPreferences: state.userPreferences);
-          }
-          if (state is UserPreferencesFailure) {
-            return FailureMessage(
-              message: state.message,
-              onRetry: () {
-                bloc.add(const UserPreferencesLoad());
-              },
-            );
-          }
-          return const LoadingWidget();
+          return BlocBuilder<UserPreferencesBloc, UserPreferencesState>(
+            builder: (context, state) {
+              if (state is UserPreferencesLoaded) {
+                return UserPreferencesListView(
+                    userPreferences: state.userPreferences);
+              }
+              if (state is UserPreferencesFailure) {
+                return FailureMessage(
+                  message: state.message,
+                  onRetry: () {
+                    bloc.add(const UserPreferencesLoad());
+                  },
+                );
+              }
+              return const LoadingWidget();
+            },
+          );
         },
       ),
     );

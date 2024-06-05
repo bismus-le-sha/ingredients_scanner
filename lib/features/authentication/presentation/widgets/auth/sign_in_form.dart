@@ -45,12 +45,7 @@ class _LoginFormState extends State<LoginForm> {
             ),
             const SizedBox(height: 20),
             BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
-              if (state is SignedInState) {
-                BlocProvider.of<AuthBloc>(context).add(CheckLoggingInEvent());
-              } else if (state is SignedInPageState ||
-                  state is GoogleSignInState) {
-                AutoRouter.of(context).replace(const HomeNavigationRoute());
-              } else if (state is VerifyEmailPageState) {
+              if (state is VerifyEmailPageState) {
                 AutoRouter.of(context)
                     .push(VerifyEmailRoute(email: _emailController.text));
                 BlocProvider.of<AuthBloc>(context)

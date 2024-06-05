@@ -10,7 +10,7 @@ import '../../domain/usecases/params/text_recognition_params.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/resources/auth_failures_list.dart';
+import '../../../../core/resources/failures_list.dart';
 import '../../../../injection_container.dart';
 import '../../../../core/util/gallery_controller/domain/usecases/get_from_gallery.dart';
 import '../../domain/usecases/get_recognized_text_usecase.dart';
@@ -31,7 +31,7 @@ class TextRecognitionBloc
   }
 
   Future<void> _textRecognizerMapEventToState(
-      dynamic event, dynamic emit) async {
+      TextRecognitionEvent event, Emitter<TextRecognitionState> emit) async {
     if (event is TakeRecognizedTextFromCamera) {
       emit(TextRecognitionLoading());
       final failureOrRecognizedText =

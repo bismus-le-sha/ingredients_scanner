@@ -15,3 +15,5 @@ class NotLoggedInFailure extends Failure {}
 class EmailVerifiedFailure extends Failure {}
 
 class TooManyRequestsFailure extends Failure {}
+
+class UserNotAuthenticatedFailure extends Failure {}

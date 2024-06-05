@@ -9,3 +9,5 @@ class NoUserException implements Exception {}
 class WrongPasswordException implements Exception {}
 
 class TooManyRequestsException implements Exception {}
+
+class UserNotAuthenticatedException implements Exception {}

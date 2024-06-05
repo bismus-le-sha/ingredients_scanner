@@ -20,6 +20,8 @@ class FoodPreferencesLoaded extends FoodPreferencesState {
   List<Object?> get props => [foodPreferences];
 }
 
+class FoodPreferencesUpdated extends FoodPreferencesState {}
+
 class FoodPreferencesFailure extends FoodPreferencesState {
   final String message;
 

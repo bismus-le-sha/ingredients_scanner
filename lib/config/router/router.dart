@@ -13,7 +13,7 @@ import '../../features/text_recognition/presentation/pages/result_pafe.dart';
 import '../../features/other/page/home/scanner_page.dart';
 import '../../features/text_recognition/domain/entities/text_recognition_entity.dart';
 import '../../features/camera_controller/presentation/page/camera_page.dart';
-import '../../features/other/page/menu/profile_page.dart';
+import '../../features/user_data/presentation/pages/profile_page.dart';
 import '../../features/other/page/menu/user_menu_page.dart';
 import '../../features/user_preferences/presentation/page/user_preferences_page.dart';
 

@@ -17,3 +17,5 @@ class OfflineFailure extends Failure {}
 class ServerFailure extends Failure {}
 
 class DatabaseFailure extends Failure {}
+
+class DataNotFoundFailure extends Failure {}

@@ -6,4 +6,6 @@ class ServerException implements Exception {}
 
 class OfflineException implements Exception {}
 
-class LocalDatabaseException implements Exception {}
+class CacheException implements Exception {}
+
+class DataNotFoundExcaption implements Exception {}

@@ -24,7 +24,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   @override
   Widget build(BuildContext context) {
     final String email = widget.email;
-    return SafeArea(
+    return Center(
       child: Scaffold(
         appBar: AppBar(),
         body: Center(

@@ -12,6 +12,6 @@ class UpdateUserPreferences implements UseCase<Unit, UserPreferencesParams> {
 
   @override
   Future<Either<Failure, Unit>> call(UserPreferencesParams params) async {
-    return await repository.updateUserPreferences(params.userPrefernces);
+    return await repository.updateUserPreferences(params.userPreferences);
   }
 }
