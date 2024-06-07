@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dartz/dartz.dart';
 import 'package:ingredients_scanner/features/authentication/domain/usecases/check_verification_usecase.dart';
+import 'package:ingredients_scanner/features/authentication/domain/usecases/params/check_verification_params.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -24,7 +25,8 @@ void main() {
     when(repository.checkEmailVerification(testCompleter))
         .thenAnswer((_) async => const Right(unit));
     //act
-    final result = await useCase(testCompleter);
+    final result =
+        await useCase(CheckVerificationParams(completer: testCompleter));
     //assert
     expect(result, const Right(unit));
     verify(repository.checkEmailVerification(testCompleter));

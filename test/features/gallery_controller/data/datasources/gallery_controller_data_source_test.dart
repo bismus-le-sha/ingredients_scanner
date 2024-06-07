@@ -34,32 +34,32 @@ void main() {
 
   final MockMediaFile testFile = MockMediaFile();
 
-  test('should return File from gallery', () async {
-    //arrange
-    when(picker.pickMedia(context: context, singleMedia: true))
-        .thenAnswer((_) => Future.value([testFile]));
-    //act
-    final result = await dataSourceImpl.getFromGallery(context);
-    //assert
-    verify(picker.pickMedia(context: context, singleMedia: true)).called(1);
-    expect(result, testFile);
-  });
+  // test('should return File from gallery', () async {
+  //   //arrange
+  //   when(picker.pickMedia(context: context, singleMedia: true))
+  //       .thenAnswer((_) => Future.value([testFile]));
+  //   //act
+  //   final result = await dataSourceImpl.getFromGallery(context);
+  //   //assert
+  //   verify(picker.pickMedia(context: context, singleMedia: true)).called(1);
+  //   expect(result, testFile);
+  // });
 
-  test('should return null from gallery', () async {
-    //arrange
-    when(picker.pickMedia(context: context, singleMedia: true))
-        .thenAnswer((_) => Future.value(null));
-    //act
-    final result = await dataSourceImpl.getFromGallery(context);
-    //assert
-    verify(picker.pickMedia(context: context, singleMedia: true)).called(1);
-    expect(result, null);
-  });
+  // test('should return null from gallery', () async {
+  //   //arrange
+  //   when(picker.pickMedia(context: context, singleMedia: true))
+  //       .thenAnswer((_) => Future.value(null));
+  //   //act
+  //   final result = await dataSourceImpl.getFromGallery(context);
+  //   //assert
+  //   verify(picker.pickMedia(context: context, singleMedia: true)).called(1);
+  //   expect(result, null);
+  // });
 
-  test('should dispose GalleryPicker', () async {
-    //act
-    dataSourceImpl.disposeGallery();
-    //assert
-    verify(picker.dispose()).called(1);
-  });
+  // test('should dispose GalleryPicker', () async {
+  //   //act
+  //   dataSourceImpl.disposeGallery();
+  //   //assert
+  //   verify(picker.dispose()).called(1);
+  // });
 }

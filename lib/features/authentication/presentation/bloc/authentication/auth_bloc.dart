@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:ingredients_scanner/features/authentication/domain/usecases/params/check_verification_params.dart';
+import 'package:ingredients_scanner/features/authentication/domain/usecases/params/sign_in_params.dart';
+import 'package:ingredients_scanner/features/authentication/domain/usecases/params/sign_up_params.dart';
 import '../../../../../core/usecase/usecase.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
@@ -48,19 +51,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _authMapEventToState(
       AuthEvent event, Emitter<AuthState> emit) async {
     if (event is CheckLoggingInEvent) {
-      final theFirstPage = firstPage();
-      if (theFirstPage.isLoggedIn) {
-        emit(SignedInPageState());
-      } else if (theFirstPage.isVerifyingEmail) {
-        emit(VerifyEmailPageState());
-      }
+      final failureOrFirstPage = await firstPage(NoParams());
+      failureOrFirstPage.fold(
+          (failure) => ErrorAuthState(message: _mapFailureToMessage(failure)),
+          (firstPage) {
+        if (firstPage.isLoggedIn) {
+          emit(SignedInPageState());
+        } else if (firstPage.isVerifyingEmail) {
+          emit(VerifyEmailPageState());
+        }
+      });
     } else if (event is SignInEvent) {
       emit(LoadingState());
-      final failureOrUserCredential = await signInUseCase(event.signInEntity);
+      final failureOrUserCredential =
+          await signInUseCase(SignInParams(signInEntity: event.signInEntity));
       emit(_eitherToState(failureOrUserCredential, SignedInState()));
     } else if (event is SignUpEvent) {
       emit(LoadingState());
-      final failureOrUserCredential = await signUpUseCase(event.signUpEntity);
+      final failureOrUserCredential =
+          await signUpUseCase(SignUpParams(signUpEntity: event.signUpEntity));
       emit(_eitherToState(failureOrUserCredential, SignedUpState()));
     } else if (event is SendEmailVerificationEvent) {
       final failureOrSentEmail = await verifyEmailUseCase(NoParams());
@@ -70,7 +79,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         completer.complete();
         completer = Completer<void>();
       }
-      final failureOrEmailVerified = await checkVerificationUseCase(completer);
+      final failureOrEmailVerified = await checkVerificationUseCase(
+          CheckVerificationParams(completer: completer));
       emit(_eitherToState(failureOrEmailVerified, EmailIsVerifiedState()));
     } else if (event is LogOutEvent) {
       final failureOrLogOut = await logOutUseCase(NoParams());

@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ingredients_scanner/features/authentication/domain/entities/sign_in_entity.dart';
+import 'package:ingredients_scanner/features/authentication/domain/usecases/params/sign_in_params.dart';
 import 'package:ingredients_scanner/features/authentication/presentation/bloc/authentication/auth_bloc.dart';
 import 'package:mockito/mockito.dart';
 
@@ -55,7 +56,8 @@ void main() {
       act: (bloc) => bloc.add(SignInEvent(signInEntity: testSignIn)),
       wait: const Duration(milliseconds: 500),
       verify: (_) {
-        verify(signInUseCase(testSignIn)).called(1);
+        verify(signInUseCase(const SignInParams(signInEntity: testSignIn)))
+            .called(1);
       },
     );
   });

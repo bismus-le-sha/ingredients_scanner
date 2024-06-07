@@ -99,7 +99,7 @@ void main() {
     );
 
     blocTest(
-      'should emit [FoodPreferencesLoading, FoodPreferencesLoaded] when ChangeFoodPreferences event is added',
+      'should emit [FoodPreferencesUpdated] when ChangeFoodPreferences event is added',
       build: () {
         when(updateFoodPreferences(any))
             .thenAnswer((_) async => const Right(unit));
@@ -108,8 +108,7 @@ void main() {
         return bloc..on<ChangeFoodPreferences>((event, emit) {});
       },
       act: (bloc) => bloc.add(ChangeFoodPreferences(testFoodPreferencesModel)),
-      expect: () =>
-          [isA<FoodPreferencesLoading>(), isA<FoodPreferencesLoaded>()],
+      expect: () => [isA<FoodPreferencesUpdated>()],
     );
 
     blocTest<FoodPreferencesBloc, FoodPreferencesState>(

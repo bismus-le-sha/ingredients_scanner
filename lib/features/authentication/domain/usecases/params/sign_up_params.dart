@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 import '../../entities/sign_up_entity.dart';
 
 class SignUpParams extends Equatable {

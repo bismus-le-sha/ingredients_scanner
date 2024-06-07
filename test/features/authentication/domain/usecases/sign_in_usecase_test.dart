@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:ingredients_scanner/features/authentication/domain/entities/sign_in_entity.dart';
+import 'package:ingredients_scanner/features/authentication/domain/usecases/params/sign_in_params.dart';
 import 'package:ingredients_scanner/features/authentication/domain/usecases/sign_in_usecase.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -24,7 +25,7 @@ void main() {
     when(repository.signIn(testSignIn))
         .thenAnswer((_) async => Right(testCredential));
     //act
-    final result = await useCase(testSignIn);
+    final result = await useCase(const SignInParams(signInEntity: testSignIn));
     //assert
     expect(result, Right(testCredential));
     verify(repository.signIn(testSignIn));

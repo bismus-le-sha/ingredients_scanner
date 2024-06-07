@@ -91,7 +91,7 @@ void main() {
             .called(1));
 
     blocTest<UserPreferencesBloc, UserPreferencesState>(
-      'should emit [UserPreferencesLoading, UserPreferencesLoaded] when ChangeUserPreferences event is added',
+      'should emit [UserPreferencesUpdated] when ChangeUserPreferences event is added',
       build: () {
         when(updateUserPreferences(any))
             .thenAnswer((_) async => const Right(unit));
@@ -100,8 +100,7 @@ void main() {
         return bloc..on<ChangeUserPreferences>((event, emit) {});
       },
       act: (bloc) => bloc.add(ChangeUserPreferences(testUserPreferencesModel)),
-      expect: () =>
-          [isA<UserPreferencesLoading>(), isA<UserPreferencesLoaded>()],
+      expect: () => [isA<UserPreferencesUpdated>()],
     );
 
     blocTest<UserPreferencesBloc, UserPreferencesState>(

@@ -3,16 +3,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../../../core/usecase/usecase.dart';
 
 import '../../../../core/error/failures.dart';
-import '../entities/sign_up_entity.dart';
 import '../repositories/authentication_repository.dart';
+import 'params/sign_up_params.dart';
 
-class SignUpUseCase implements UseCase<UserCredential, SignUpEntity> {
+class SignUpUseCase implements UseCase<UserCredential, SignUpParams> {
   final AuthenticationRepository repository;
 
   SignUpUseCase(this.repository);
 
   @override
-  Future<Either<Failure, UserCredential>> call(SignUpEntity signup) async {
-    return await repository.signUp(signup);
+  Future<Either<Failure, UserCredential>> call(SignUpParams params) async {
+    return await repository.signUp(params.signUpEntity);
   }
 }

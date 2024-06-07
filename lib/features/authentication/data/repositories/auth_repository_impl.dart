@@ -70,14 +70,17 @@ class AuthenticationRepositoryImp implements AuthenticationRepository {
   }
 
   @override
-  FirstPageModel firstPage() {
+  Future<Either<Failure, FirstPageModel>> firstPage() async {
     final userCredential = FirebaseAuth.instance.currentUser;
     if (userCredential != null && userCredential.emailVerified) {
-      return const FirstPageModel(isVerifyingEmail: false, isLoggedIn: true);
+      return const Right(
+          FirstPageModel(isVerifyingEmail: false, isLoggedIn: true));
     } else if (userCredential != null) {
-      return const FirstPageModel(isVerifyingEmail: true, isLoggedIn: false);
+      return const Right(
+          FirstPageModel(isVerifyingEmail: true, isLoggedIn: false));
     } else {
-      return const FirstPageModel(isVerifyingEmail: false, isLoggedIn: false);
+      return const Right(
+          FirstPageModel(isVerifyingEmail: false, isLoggedIn: false));
     }
   }
 

@@ -1,0 +1,31 @@
+workflows:
+  flutter-workflow:
+    name: Flutter Workflow
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      java: 8
+      vars:
+        LCOV_PATH: coverage/lcov.info
+    scripts:
+      - name: Install dependencies
+        script: |
+          flutter pub get
+      - name: Run tests with coverage
+        script: |
+          flutter test --coverage
+      - name: Generate coverage report
+        script: |
+          sudo apt-get install lcov
+          genhtml coverage/lcov.info -o coverage/html
+    artifacts:
+      - coverage/html
+    publishing:
+      email:
+        recipients:
+          - alexeybismus@gmail.com
+        notify:
+          on_success: true
+          on_failure: true
