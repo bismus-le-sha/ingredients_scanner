@@ -1,3 +1,5 @@
+<a href='https://coveralls.io/github/spermobak/ingredients_scanner'><img src='https://coveralls.io/repos/github/spermobak/ingredients_scanner/badge.svg' alt='Coverage Status' /></a>
+
 # Ingredients Scanner
 
 ## Overview
