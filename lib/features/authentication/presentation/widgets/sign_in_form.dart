@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-import '../../../../../config/router/router.dart';
-import '../../../domain/entities/sign_in_entity.dart';
-import '../../bloc/authentication/auth_bloc.dart';
+import '../../../../config/router/router.dart';
+import '../../domain/entities/sign_in_entity.dart';
+import '../bloc/auth_bloc.dart';
 import 'auth_buttons.dart';
 import 'auth_fields.dart';
 import 'helpers.dart';

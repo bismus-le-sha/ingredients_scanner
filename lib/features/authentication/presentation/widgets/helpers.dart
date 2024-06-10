@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../config/router/router.dart';
+import '../../../../config/router/router.dart';
 
 class CustomDivider extends StatelessWidget {
   const CustomDivider({super.key});

@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ingredients_scanner/features/user_data/domain/entities/user_data_entity.dart';
 
-import '../../../authentication/presentation/bloc/authentication/auth_bloc.dart';
+import '../../../authentication/presentation/bloc/auth_bloc.dart';
 
 class ProfileDisplay extends StatefulWidget {
-  // final UserDataEntity userData;
+  final UserDataEntity userData;
   const ProfileDisplay({
     super.key,
+    required this.userData,
   });
 
   @override
@@ -47,24 +48,28 @@ class _ProfileDisplayState extends State<ProfileDisplay> {
           height: size.height * .05,
         ),
         //profil pic
-        Icon(
-          Icons.person,
-          size: size.height * .2,
+        Image.network(
+          widget.userData.avatar,
+          height: size.height * .2,
         ),
+        // Icon(
+        //   Icons.person,
+        //   size: size.height * .2,
+        // ),
         SizedBox(
           height: size.height * .02,
         ),
         //user name
-        const Text(
-          'name',
+        Text(
+          widget.userData.userName,
           textAlign: TextAlign.center,
         ),
         SizedBox(
           height: size.height * .02,
         ),
         //user email
-        const Text(
-          'email',
+        Text(
+          widget.userData.email,
           textAlign: TextAlign.center,
         ),
         SizedBox(

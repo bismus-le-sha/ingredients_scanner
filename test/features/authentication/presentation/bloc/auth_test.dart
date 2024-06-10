@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ingredients_scanner/features/authentication/domain/entities/sign_in_entity.dart';
 import 'package:ingredients_scanner/features/authentication/domain/usecases/params/sign_in_params.dart';
-import 'package:ingredients_scanner/features/authentication/presentation/bloc/authentication/auth_bloc.dart';
+import 'package:ingredients_scanner/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../../helper/test_helper.mocks.dart';
@@ -30,7 +30,7 @@ void main() {
     bloc = AuthBloc(
         signInUseCase: signInUseCase,
         signUpUseCase: signUpUseCase,
-        firstPage: firstPageUseCase,
+        firstPageUseCase: firstPageUseCase,
         verifyEmailUseCase: verifyEmailUseCase,
         checkVerificationUseCase: checkVerificationUseCase,
         logOutUseCase: logOutUseCase,

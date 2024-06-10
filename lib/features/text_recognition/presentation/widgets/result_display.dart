@@ -57,9 +57,9 @@ class ResultDisplay extends StatelessWidget {
     for (String word in result) {
       matchSet.contains(word)
           ? text.add(TextSpan(
-              text: '$word ', style: const TextStyle(color: Colors.red)))
+              text: '$word, ', style: const TextStyle(color: Colors.red)))
           : text.add(TextSpan(
-              text: '$word ', style: const TextStyle(color: Colors.black)));
+              text: '$word, ', style: const TextStyle(color: Colors.black)));
     }
     return Text.rich(TextSpan(children: text));
   }

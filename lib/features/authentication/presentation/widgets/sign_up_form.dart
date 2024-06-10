@@ -2,9 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../config/router/router.dart';
-import '../../../domain/entities/sign_up_entity.dart';
-import '../../bloc/authentication/auth_bloc.dart';
+import '../../../../config/router/router.dart';
+import '../../domain/entities/sign_up_entity.dart';
+
+import '../bloc/auth_bloc.dart';
 import 'auth_fields.dart';
 
 import 'auth_buttons.dart';
@@ -62,11 +63,11 @@ class _SignUpFormState extends State<SignUpForm> {
             const SizedBox(height: 20),
             BlocConsumer<AuthBloc, AuthState>(listener: (_, state) {
               if (state is SignedUpState) {
+                BlocProvider.of<AuthBloc>(context)
+                    .add(SendEmailVerificationEvent());
                 AutoRouter.of(context).replace(
                   VerifyEmailRoute(email: entity.email),
                 );
-                BlocProvider.of<AuthBloc>(context)
-                    .add(SendEmailVerificationEvent());
               }
             }, builder: (context, state) {
               if (state is LoadingState) {
@@ -86,14 +87,14 @@ class _SignUpFormState extends State<SignUpForm> {
                     AuthButton(
                         formKey: _formKey,
                         buttonText: 'Signup',
-                        onSubmit: _onFormSubmit(entity))
+                        onSubmit: () => _onFormSubmit(entity))
                   ],
                 );
               }
               return AuthButton(
                   formKey: _formKey,
                   buttonText: 'Signup',
-                  onSubmit: _onFormSubmit(entity));
+                  onSubmit: () => _onFormSubmit(entity));
             }),
             const SizedBox(height: 20),
             const CustomDivider(),

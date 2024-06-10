@@ -2,9 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../config/router/router.dart';
-import '../../bloc/authentication/auth_bloc.dart';
-import '../../widgets/auth/sign_in_form.dart';
+import '../../../../config/router/router.dart';
+
+import '../bloc/auth_bloc.dart';
+import '../widgets/sign_in_form.dart';
 
 @RoutePage()
 class SignInPage extends StatefulWidget {

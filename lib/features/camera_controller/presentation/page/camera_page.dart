@@ -51,6 +51,7 @@ class _CameraPageState extends State<CameraPage> {
             if (state is CameraControllerChangeFlash) {
               userPreferencesBloc.add(ChangeUserPreferences(userPreferencesModel
                   .copyWith(cameraFlash: !userPreferencesModel.cameraFlash)));
+              userPreferencesBloc.add(const UserPreferencesLoad());
             }
           }),
           BlocListener<TextRecognitionBloc, TextRecognitionState>(

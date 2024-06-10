@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ingredients_scanner/features/authentication/presentation/bloc/authentication/auth_bloc.dart';
 import 'package:ingredients_scanner/features/user_data/presentation/bloc/user_data_bloc.dart';
 
-import '../../../../../config/router/router.dart';
-import '../../widgets/auth/sign_up_form.dart';
+import '../../../../config/router/router.dart';
+import '../../../../core/constants/user_consts.dart';
+import '../../../user_data/data/models/user_data_model.dart';
+import '../bloc/auth_bloc.dart';
+import '../widgets/sign_up_form.dart';
 
 @RoutePage()
 class SignUpPage extends StatefulWidget {
@@ -24,7 +26,13 @@ class _SignUpPageState extends State<SignUpPage> {
             BlocProvider.of<UserDataBloc>(context).add(GoogleAddUserData());
             context.navigateTo(const HomeNavigationRoute());
           }
-          if (state is SignedInPageState) {}
+          if (state is SignedUpState) {
+            BlocProvider.of<UserDataBloc>(context).add(AddChangeUserData(
+                userData: UserDataModel(
+                    userName: state.signUpEntity.name,
+                    email: state.signUpEntity.email,
+                    avatar: DEFAULT_AVATAR_URL)));
+          }
         },
         child: Scaffold(
           body: ListView(

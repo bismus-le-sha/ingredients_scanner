@@ -7,6 +7,8 @@ import 'package:ingredients_scanner/features/camera_controller/domain/usecase/ch
 import 'package:ingredients_scanner/features/user_data/domain/usecases/add_google_user_data.dart';
 import 'package:ingredients_scanner/features/user_data/domain/usecases/get_user_data.dart';
 import 'package:ingredients_scanner/features/user_data/domain/usecases/add_update_user_data.dart';
+import 'package:talker_flutter/talker_flutter.dart';
+import 'features/authentication/presentation/bloc/auth_bloc.dart';
 import 'features/camera_controller/data/datasource/camera_controller_data_source.dart';
 import 'features/camera_controller/domain/usecase/dispose_camera_controller.dart';
 import 'core/util/gallery_controller/data/datasources/gallery_controller_data_source.dart';
@@ -42,7 +44,6 @@ import 'features/user_preferences/domain/usecases/get_user_preference.dart';
 import 'features/user_preferences/presentation/bloc/user_preferences_bloc.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:talker_flutter/talker_flutter.dart';
 
 import 'config/router/router.dart';
 import 'core/util/network/network_info.dart';
@@ -56,7 +57,6 @@ import 'features/authentication/domain/usecases/logout_usecase.dart';
 import 'features/authentication/domain/usecases/sign_in_usecase.dart';
 import 'features/authentication/domain/usecases/sign_up_usecase.dart';
 import 'features/authentication/domain/usecases/verifiy_email_usecase.dart';
-import 'features/authentication/presentation/bloc/authentication/auth_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'features/user_preferences/domain/usecases/update_user_preferences.dart';
 
@@ -69,7 +69,7 @@ Future<void> init() async {
   sl.registerFactory(() => AuthBloc(
       signInUseCase: sl(),
       signUpUseCase: sl(),
-      firstPage: sl(),
+      firstPageUseCase: sl(),
       verifyEmailUseCase: sl(),
       checkVerificationUseCase: sl(),
       logOutUseCase: sl(),
@@ -224,13 +224,13 @@ Future<void> init() async {
 
   //SharedPreferences
   final sharedPreferences = await SharedPreferences.getInstance();
-  sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
+  sl.registerSingleton<SharedPreferences>(sharedPreferences);
 
   //IntnetConnection
   sl.registerLazySingleton<InternetConnection>(() => InternetConnection());
 
   //TextRecognizer
-  sl.registerSingleton<TextRecognizer>(TextRecognizer());
+  sl.registerLazySingleton<TextRecognizer>(() => TextRecognizer());
 
 //! Config
 

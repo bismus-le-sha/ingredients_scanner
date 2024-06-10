@@ -21,13 +21,22 @@ class LoggedOutState extends AuthState {}
 
 class SignedInState extends AuthState {}
 
-class SignedUpState extends AuthState {}
+class SignedUpState extends AuthState {
+  final SignUpEntity signUpEntity;
+
+  SignedUpState({required this.signUpEntity});
+
+  @override
+  List<Object?> get props => [signUpEntity];
+}
 
 class GoogleSignInState extends AuthState {}
 
 class ErrorAuthState extends AuthState {
   final String message;
+
   ErrorAuthState({required this.message});
+
   @override
   List<Object?> get props => [message];
 }
