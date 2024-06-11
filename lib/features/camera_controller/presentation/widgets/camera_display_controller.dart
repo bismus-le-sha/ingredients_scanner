@@ -6,7 +6,7 @@ import '../../../../core/widgets/loading_widget.dart';
 import '../bloc/camera_controller_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../text_recognition/presentation/bloc/text_recognition_bloc.dart';
+import '../../../text_recognition/presentation/bloc/text_recognition/text_recognition_bloc.dart';
 import 'camera_failure_display.dart';
 
 class CameraDisplayController extends StatefulWidget {

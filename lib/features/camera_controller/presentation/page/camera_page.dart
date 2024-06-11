@@ -5,7 +5,7 @@ import 'package:ingredients_scanner/features/camera_controller/presentation/widg
 import 'package:ingredients_scanner/features/user_preferences/data/models/user_preferences_model.dart';
 import 'package:ingredients_scanner/features/user_preferences/presentation/bloc/user_preferences_bloc.dart';
 import '../../../../core/widgets/loading_widget.dart';
-import '../../../text_recognition/presentation/bloc/text_recognition_bloc.dart';
+import '../../../text_recognition/presentation/bloc/text_recognition/text_recognition_bloc.dart';
 
 import '../../../../config/router/router.dart';
 import '../bloc/camera_controller_bloc.dart';

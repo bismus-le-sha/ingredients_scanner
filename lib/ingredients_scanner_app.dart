@@ -29,7 +29,7 @@ class _IngredientsSannerAppState extends State<IngredientsSannerApp> {
                 navigatorObservers: () =>
                     [TalkerRouteObserver(di.sl<Talker>())],
                 routes: (_) => [
-                      (state is SignedInPageState)
+                      (state is! SignedInPageState)
                           ? const HomeNavigationRoute()
                           : const AuthNavigationRoute()
                     ]),

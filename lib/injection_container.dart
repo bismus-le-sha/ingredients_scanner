@@ -19,7 +19,7 @@ import 'features/text_recognition/data/datasources/text_recognition_data_source.
 import 'features/text_recognition/data/repositories/text_recognition_repository_impl.dart';
 import 'features/text_recognition/domain/repositories/text_recognition_repository.dart';
 import 'features/text_recognition/domain/usecases/get_recognized_text_usecase.dart';
-import 'features/text_recognition/presentation/bloc/text_recognition_bloc.dart';
+import 'features/text_recognition/presentation/bloc/text_recognition/text_recognition_bloc.dart';
 import 'features/camera_controller/data/repository/camera_controller_repository_impl.dart';
 import 'features/camera_controller/domain/repository/camera_controller_repository.dart';
 import 'features/camera_controller/domain/usecase/init_camera_controller.dart';

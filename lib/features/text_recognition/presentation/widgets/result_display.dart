@@ -1,66 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/util/diet_controller/diet_dictionary.dart';
-
-import '../../../../core/widgets/loading_widget.dart';
-import '../../../food_preferences/presentation/bloc/food_preferences_bloc.dart';
-import '../../../../injection_container.dart';
+import 'package:ingredients_scanner/features/food_preferences/domain/entities/food_preferences_entity.dart';
+import '../../../../core/util/recognized_text_processor/text_processor.dart';
 
 class ResultDisplay extends StatelessWidget {
   final String resultText;
+  final FoodPreferencesEntity foodPreferences;
 
   const ResultDisplay({
     super.key,
     required this.resultText,
+    required this.foodPreferences,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(padding: const EdgeInsets.all(30.0), child: _buildBody());
-  }
+    final textProcessor =
+        TextProcessor(foodPreferences: foodPreferences, onlyComposition: true);
 
-  BlocProvider<FoodPreferencesBloc> _buildBody() {
-    final bloc = sl<FoodPreferencesBloc>();
-
-    return BlocProvider(
-      create: (_) {
-        bloc.add(const FoodPreferencesLoad());
-        return bloc;
-      },
-      child: BlocBuilder<FoodPreferencesBloc, FoodPreferencesState>(
-        builder: (context, state) {
-          List<String> resulTextWords =
-              resultText.toLowerCase().split(RegExp(r'[^a-zA-Zа-яА-Я\-]+'));
-          if (state is FoodPreferencesLoaded) {
-            return _findMatch(
-                _matchSet(
-                    resulTextWords,
-                    DietDictionary()
-                        .fromFoodModelToDiets(state.foodPreferences)),
-                resulTextWords);
-          }
-          if (state is FoodPreferencesFailure) {}
-          return const LoadingWidget();
-        },
+    return SingleChildScrollView(
+      child: Container(
+        padding: const EdgeInsets.all(30.0),
+        child: RichText(
+          text: TextSpan(
+            style: DefaultTextStyle.of(context).style,
+            children:
+                textProcessor.processComposition(resultText.toLowerCase()),
+          ),
+        ),
       ),
     );
-  }
-
-  Set<String> _matchSet(List<String> words, List<Diets> dietsList) {
-    Set<String> toSetList = words.toSet();
-    return toSetList
-        .intersection(DietDictionary().getDietDictionary(dietsList));
-  }
-
-  Text _findMatch(Set<String> matchSet, List<String> result) {
-    List<TextSpan> text = [];
-    for (String word in result) {
-      matchSet.contains(word)
-          ? text.add(TextSpan(
-              text: '$word, ', style: const TextStyle(color: Colors.red)))
-          : text.add(TextSpan(
-              text: '$word, ', style: const TextStyle(color: Colors.black)));
-    }
-    return Text.rich(TextSpan(children: text));
   }
 }

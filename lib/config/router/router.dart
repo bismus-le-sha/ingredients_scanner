@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:ingredients_scanner/config/router/guard/auth_guard.dart';
 import 'package:ingredients_scanner/features/other/page/app_wrapper_page.dart';
 
 import '../../features/authentication/presentation/pages/auth_navigation_screen.dart';
@@ -29,7 +28,6 @@ class AppRouter extends _$AppRouter {
           AutoRoute(
             page: HomeNavigationRoute.page,
             initial: true,
-            // guards: [AuthGuard()],
             children: [
               AutoRoute(
                   path: 'menu',

@@ -10,7 +10,7 @@ enum Diets {
 }
 
 class DietDictionary {
-  final Set<String> _sugarFree = {'sugar'};
+  final Set<String> _sugarFree = {'sugar', 'white sugar'};
   final Set<String> _lactoseFree = {'milk', 'lactose'};
   final Set<String> _glutenFree = {'gluten', 'wheat'};
   final Set<String> _withoutNuts = {'nuts'};

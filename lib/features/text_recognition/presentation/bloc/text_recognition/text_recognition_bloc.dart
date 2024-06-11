@@ -4,16 +4,16 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/util/gallery_controller/domain/usecases/params/gallery_controller_params.dart';
-import '../../domain/entities/text_recognition_entity.dart';
-import '../../domain/usecases/params/text_recognition_params.dart';
+import '../../../../../core/util/gallery_controller/domain/usecases/params/gallery_controller_params.dart';
+import '../../../domain/entities/text_recognition_entity.dart';
+import '../../../domain/usecases/params/text_recognition_params.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
-import '../../../../core/error/failures.dart';
-import '../../../../core/resources/failures_list.dart';
-import '../../../../injection_container.dart';
-import '../../../../core/util/gallery_controller/domain/usecases/get_from_gallery.dart';
-import '../../domain/usecases/get_recognized_text_usecase.dart';
+import '../../../../../core/error/failures.dart';
+import '../../../../../core/resources/failures_list.dart';
+import '../../../../../injection_container.dart';
+import '../../../../../core/util/gallery_controller/domain/usecases/get_from_gallery.dart';
+import '../../../domain/usecases/get_recognized_text_usecase.dart';
 
 part 'text_recognition_event.dart';
 part 'text_recognition_state.dart';
