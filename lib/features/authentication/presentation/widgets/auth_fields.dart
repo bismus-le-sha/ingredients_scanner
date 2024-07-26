@@ -86,7 +86,7 @@ class PasswordField extends StatelessWidget {
         controller: controller,
         obscureText: !isVisible,
         decoration: InputDecoration(
-          labelText: 'Create password',
+          labelText: 'Password',
           prefixIcon: const Icon(
             Iconsax.key,
             size: 18,

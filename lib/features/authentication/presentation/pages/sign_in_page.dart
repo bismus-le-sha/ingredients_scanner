@@ -23,7 +23,7 @@ class _SignInPageState extends State<SignInPage> {
         if (state is SignedInState) {
           BlocProvider.of<AuthBloc>(context).add(CheckLoggingInEvent());
         } else if (state is SignedInPageState || state is GoogleSignInState) {
-          context.replaceRoute(const HomeNavigationRoute());
+          context.navigateTo(const ProfileRoute());
         }
       },
       child: Scaffold(

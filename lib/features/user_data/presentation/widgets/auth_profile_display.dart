@@ -4,23 +4,23 @@ import 'package:ingredients_scanner/features/user_data/domain/entities/user_data
 
 import '../../../authentication/presentation/bloc/auth_bloc.dart';
 
-class ProfileDisplay extends StatefulWidget {
+class AuthProfileDisplay extends StatefulWidget {
   final UserDataEntity userData;
-  const ProfileDisplay({
+  const AuthProfileDisplay({
     super.key,
     required this.userData,
   });
 
   @override
-  State<ProfileDisplay> createState() => _ProfileDisplayState();
+  State<AuthProfileDisplay> createState() => _AuthProfileDisplayState();
 }
 
-class _ProfileDisplayState extends State<ProfileDisplay> {
+class _AuthProfileDisplayState extends State<AuthProfileDisplay> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile Screen')),
+      appBar: AppBar(title: const Text('Profile Page')),
       body: _list(size),
     );
   }
@@ -47,15 +47,16 @@ class _ProfileDisplayState extends State<ProfileDisplay> {
         SizedBox(
           height: size.height * .05,
         ),
-        //profil pic
-        Image.network(
-          widget.userData.avatar,
-          height: size.height * .2,
-        ),
-        // Icon(
-        //   Icons.person,
-        //   size: size.height * .2,
-        // ),
+        // profil pic
+        widget.userData.avatar != null
+            ? Image.network(
+                widget.userData.avatar!,
+                height: size.height * .2,
+              )
+            : Icon(
+                Icons.person,
+                size: size.height * .2,
+              ),
         SizedBox(
           height: size.height * .02,
         ),

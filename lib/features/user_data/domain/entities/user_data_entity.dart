@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 class UserDataEntity extends Equatable {
   final String userName;
   final String email;
-  final String avatar;
+  final String? avatar;
 
   const UserDataEntity({
     required this.userName,

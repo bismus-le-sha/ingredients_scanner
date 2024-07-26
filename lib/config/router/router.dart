@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:ingredients_scanner/features/other/page/app_wrapper_page.dart';
 
 import '../../features/authentication/presentation/pages/auth_navigation_screen.dart';
 import '../../features/authentication/presentation/pages/sign_in_page.dart';
@@ -24,40 +23,35 @@ part 'router.gr.dart';
 class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: AppWrapperRoute.page, initial: true, children: [
-          AutoRoute(
-            page: HomeNavigationRoute.page,
-            initial: true,
-            children: [
+        AutoRoute(
+          page: HomeNavigationRoute.page,
+          initial: true,
+          children: [
+            AutoRoute(path: 'menu', page: MenuNavigationRoute.page, children: [
+              AutoRoute(page: UserMenuRoute.page, initial: true),
+              AutoRoute(page: FoodPreferencesRoute.page),
+              AutoRoute(page: ProfileRoute.page),
+              AutoRoute(page: UserPreferencesRoute.page),
               AutoRoute(
-                  path: 'menu',
-                  page: MenuNavigationRoute.page,
-                  children: [
-                    AutoRoute(page: UserMenuRoute.page, initial: true),
-                    AutoRoute(page: FoodPreferencesRoute.page),
-                    AutoRoute(page: ProfileRoute.page),
-                    AutoRoute(page: UserPreferencesRoute.page),
-                  ]),
-              AutoRoute(
-                  path: 'scann',
-                  page: ScannerNavigationRoute.page,
-                  children: [
-                    AutoRoute(
-                        path: 'scanner', page: CameraRoute.page, initial: true),
-                    AutoRoute(path: 'result', page: ResultRoute.page),
-                  ]),
-              AutoRoute(path: 'home', page: HomeRoute.page, initial: true),
-            ],
-          ),
-          AutoRoute(
-            page: AuthNavigationRoute.page,
-            keepHistory: false,
-            children: [
-              AutoRoute(page: VerifyEmailRoute.page),
-              AutoRoute(page: SignInRoute.page, initial: true),
-              AutoRoute(page: SignUpRoute.page),
-            ],
-          ),
-        ])
+                page: AuthNavigationRoute.page,
+                keepHistory: false,
+                children: [
+                  AutoRoute(page: VerifyEmailRoute.page),
+                  AutoRoute(page: SignInRoute.page, initial: true),
+                  AutoRoute(page: SignUpRoute.page),
+                ],
+              ),
+            ]),
+            AutoRoute(
+                path: 'scann',
+                page: ScannerNavigationRoute.page,
+                children: [
+                  AutoRoute(
+                      path: 'scanner', page: CameraRoute.page, initial: true),
+                  AutoRoute(path: 'result', page: ResultRoute.page),
+                ]),
+            AutoRoute(path: 'home', page: HomeRoute.page, initial: true),
+          ],
+        ),
       ];
 }

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ingredients_scanner/core/constants/core_consts.dart';
 import 'package:ingredients_scanner/features/food_preferences/data/datasources/remote/remote_food_preference_data_source.dart';
 import 'package:ingredients_scanner/features/food_preferences/data/models/food_preferences_model.dart';
 import 'package:mockito/mockito.dart';

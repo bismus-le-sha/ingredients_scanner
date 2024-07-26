@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ingredients_scanner/core/constants/user_consts.dart';
 import 'package:ingredients_scanner/core/error/exceptions.dart';
 
 import '../../../../../core/constants/core_consts.dart';
@@ -56,7 +55,7 @@ class RemoteUserDataDataSourceImpl implements RemoteUserDataDataSource {
       final userDataModel = UserDataModel(
         userName: user.displayName ?? 'Anonymous',
         email: user.email!,
-        avatar: user.photoURL ?? DEFAULT_AVATAR_URL,
+        avatar: user.photoURL,
       );
       await addUpdateUserData(userDataModel);
       return unit;

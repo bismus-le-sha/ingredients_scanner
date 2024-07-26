@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,8 @@ import 'package:ingredients_scanner/features/authentication/domain/usecases/logo
 import 'package:ingredients_scanner/features/authentication/domain/usecases/sign_in_usecase.dart';
 import 'package:ingredients_scanner/features/authentication/domain/usecases/sign_up_usecase.dart';
 import 'package:ingredients_scanner/features/authentication/domain/usecases/verifiy_email_usecase.dart';
+import 'package:ingredients_scanner/features/camera_controller/data/datasource/camera_controller_data_source.dart';
+import 'package:ingredients_scanner/features/camera_controller/domain/repository/camera_controller_repository.dart';
 import 'package:ingredients_scanner/features/food_preferences/data/datasources/local/local_food_preferences_data_source.dart';
 import 'package:ingredients_scanner/features/food_preferences/data/datasources/remote/remote_food_preference_data_source.dart';
 import 'package:ingredients_scanner/features/food_preferences/domain/repositories/food_preferences_repository.dart';
@@ -72,6 +75,10 @@ import 'package:shared_preferences/shared_preferences.dart';
   BuildContext,
   MediaFile,
   //internet_connection_checker_plus
-  InternetConnection
+  InternetConnection,
+  //camera_controller
+  CameraControllerRepository,
+  CameraControllerDataSource,
+  CameraController
 ])
 void main() {}

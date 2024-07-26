@@ -15,12 +15,6 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    AppWrapperRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const AppWrapperPage(),
-      );
-    },
     AuthNavigationRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -114,20 +108,6 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
-}
-
-/// generated route for
-/// [AppWrapperPage]
-class AppWrapperRoute extends PageRouteInfo<void> {
-  const AppWrapperRoute({List<PageRouteInfo>? children})
-      : super(
-          AppWrapperRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'AppWrapperRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

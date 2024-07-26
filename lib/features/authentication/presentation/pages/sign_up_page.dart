@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ingredients_scanner/features/user_data/presentation/bloc/user_data_bloc.dart';
 
 import '../../../../config/router/router.dart';
-import '../../../../core/constants/user_consts.dart';
 import '../../../user_data/data/models/user_data_model.dart';
 import '../bloc/auth_bloc.dart';
 import '../widgets/sign_up_form.dart';
@@ -31,7 +30,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 userData: UserDataModel(
                     userName: state.signUpEntity.name,
                     email: state.signUpEntity.email,
-                    avatar: DEFAULT_AVATAR_URL)));
+                    avatar: null)));
           }
         },
         child: Scaffold(
